@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Playful Theme V3 - Modified with darker header/logo colors */
+    --playful-page-background: 30 50% 98%;
+    --playful-content-text-color: 210 15% 25%;
+
+    /* Updated: Darker Header Background */
+    --playful-header-background: 215 50% 20%;
+    /* Dark Navy Blue */
+    --playful-header-text-color: 0 0% 90%;
+    /* Light Gray (almost white) */
+
+    --playful-sider-background: 200 65% 93%;
+    --playful-sider-text-color: 205 40% 35%;
+
+    /* Updated: Darker Logo Background */
+    --playful-sider-logo-background: 220 60% 30%;
+    /* Dark Blue */
+    --playful-sider-logo-text-color: 0 0% 100%;
+    /* White */
+
+    --playful-menu-item-hover-background: 200 60% 86%;
+    --playful-menu-item-hover-text-color: 205 50% 25%;
+
+    --playful-menu-item-selected-background: 175 55% 70%;
+    --playful-menu-item-selected-text-color: 175 40% 20%;
+
+    --playful-card-background: 0 0% 100%;
+    --playful-card-border-color: 210 20% 88%;
+
+    --playful-button-primary-background: 185 50% 55%;
+    --playful-button-primary-text-color: 0 0% 100%;
+    --playful-button-primary-hover-background: 185 50% 45%;
+
+    --playful-link-text-color: 190 60% 50%;
+    --playful-link-hover-text-color: 190 60% 40%;
+
+    --playful-focus-ring-color: 185 55% 60%;
+    --playful-input-background: 0 0% 97%;
+    --playful-input-placeholder-color: 210 15% 55%;
+  }
+
+  .dark {
+    /* Dark mode for sidebar - we are not focusing on dark mode for playful theme for now */
+    /* TODO: Define dark mode playful colors if needed in future */
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%
+  }
+}
+
+@layer components {
+
+  /* Playful Sider Menu Styles */
+  .playful-sider .ant-menu-light {
+    background: transparent !important;
+  }
+
+  .playful-sider .ant-menu-item {
+    transition: transform 0.2s ease-out;
+    /* Smooth lift animation */
+  }
+
+  .playful-sider .ant-menu-item:hover {
+    transform: translateY(-3px) scale(1.05);
+    /* Lift and slightly scale on hover */
+  }
+
+  .playful-sider .ant-menu-item a,
+  .playful-sider .ant-menu-item .ant-menu-item-icon,
+  /* Target icon wrapper */
+  .playful-sider .ant-menu-item .anticon
+
+  /* Target anticon directly if needed */
+    {
+    color: hsl(var(--playful-sider-text-color)) !important;
+    transition: color 0.3s ease;
+    /* Removed background-color transition from here */
+  }
+
+  .playful-sider .ant-menu-item span[role="img"] {
+    /* Target the emoji span specifically */
+    color: hsl(var(--playful-sider-text-color)) !important;
+    transition: color 0.3s ease;
+  }
+
+  /* Hover styles for text/icon color - transform is handled by .ant-menu-item:hover */
+  .playful-sider .ant-menu-item:hover a,
+  .playful-sider .ant-menu-item:hover .ant-menu-item-icon,
+  .playful-sider .ant-menu-item:hover .anticon {
+    color: hsl(var(--playful-menu-item-hover-text-color)) !important;
+  }
+
+  .playful-sider .ant-menu-item:hover span[role="img"] {
+    color: hsl(var(--playful-menu-item-hover-text-color)) !important;
+  }
+
+  .playful-sider .ant-menu-item-selected {
+    /* Apply hover background also to selected for consistency, or use a specific selected background */
+    background-color: hsl(var(--playful-menu-item-selected-background)) !important;
+    border-radius: var(--radius);
+    /* Optional: add some rounding */
+  }
+
+  .playful-sider .ant-menu-item:hover {
+    background-color: hsl(var(--playful-menu-item-hover-background)) !important;
+    /* Add hover background */
+    transform: translateY(-3px) scale(1.05);
+    /* Lift and slightly scale on hover */
+  }
+
+  .playful-sider .ant-menu-item-selected a,
+  .playful-sider .ant-menu-item-selected .ant-menu-item-icon,
+  .playful-sider .ant-menu-item-selected .anticon {
+    color: hsl(var(--playful-menu-item-selected-text-color)) !important;
+  }
+
+  .playful-sider .ant-menu-item-selected span[role="img"] {
+    color: hsl(var(--playful-menu-item-selected-text-color)) !important;
+  }
+
+  /* Ensure the :after pseudo-element for selected item border is not shown or styled appropriately if desired */
+  .playful-sider .ant-menu-item-selected::after {
+    border-right: none !important;
+  }
+
+  /* Playful Dropdown Menu Styles */
+  .ant-dropdown-menu {
+    background-color: hsl(var(--playful-card-background)) !important;
+    border-radius: var(--radius) !important;
+    border: 1px solid hsl(var(--playful-card-border-color)) !important;
+    box-shadow: 0 4px 12px hsla(var(--playful-content-text-color), 0.1) !important;
+    padding: 4px !important;
+    /* Antd default is 4px, can adjust if needed */
+  }
+
+  .ant-dropdown-menu-item {
+    color: hsl(var(--playful-content-text-color)) !important;
+    border-radius: calc(var(--radius) - 2px) !important;
+    /* Slightly smaller radius for items */
+  }
+
+  .ant-dropdown-menu-item a {
+    color: hsl(var(--playful-content-text-color)) !important;
+  }
+
+  .ant-dropdown-menu-item:hover,
+  .ant-dropdown-menu-item-active {
+    /* :active is used by antd for keyboard navigation */
+    background-color: hsl(var(--playful-menu-item-hover-background)) !important;
+    /* Re-using sider hover for consistency */
+    color: hsl(var(--playful-menu-item-hover-text-color)) !important;
+  }
+
+  .ant-dropdown-menu-item:hover a,
+  .ant-dropdown-menu-item-active a {
+    color: hsl(var(--playful-menu-item-hover-text-color)) !important;
+  }
+
+  .ant-dropdown-menu-item-divider {
+    background-color: hsl(var(--playful-card-border-color)) !important;
+  }
+}
