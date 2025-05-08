@@ -350,13 +350,30 @@ SidebarInput.displayName = "SidebarInput"
 
 const SidebarHeader = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div">
->(({ className, ...props }, ref) => {
+  React.ComponentProps<"div"> & {
+    /**
+     * Variant of the header
+     * - default: Standard header styling
+     * - logo: Special styling for wrapping the site logo with playful theme colors
+     */
+    variant?: "default" | "logo"
+  }
+>(({ className, variant = "default", ...props }, ref) => {
   return (
     <div
       ref={ref}
       data-sidebar="header"
-      className={cn("flex flex-col gap-2 p-2", className)}
+      className={cn(
+        "flex gap-2 p-2",
+        variant === "default" && "flex-col",
+        variant === "logo" && [
+          "bg-[hsl(var(--playful-sider-logo-background))]",
+          "text-[hsl(var(--playful-sider-logo-text-color))]",
+          "rounded-md",
+          "items-center justify-center"
+        ],
+        className
+      )}
       {...props}
     />
   )

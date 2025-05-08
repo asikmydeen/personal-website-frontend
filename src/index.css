@@ -18,20 +18,20 @@
     --playful-page-background: 30 50% 98%;
     --playful-content-text-color: 210 15% 25%;
 
-    /* Updated: Darker Header Background */
-    --playful-header-background: 215 50% 20%;
-    /* Dark Navy Blue */
-    --playful-header-text-color: 0 0% 90%;
-    /* Light Gray (almost white) */
-
-    --playful-sider-background: 215 65% 20%;
-    --playful-sider-text-color: 0 0% 90%;
-
-    /* Updated: Darker Logo Background */
-    --playful-sider-logo-background: 220 70% 40%;
-    /* Brighter Blue */
-    --playful-sider-logo-text-color: 0 0% 100%;
+    /* Updated: White Header Background */
+    --playful-header-background: 0 0% 100%;
     /* White */
+    --playful-header-text-color: 210 15% 25%;
+    /* Dark Gray */
+
+    --playful-sider-background: 0 0% 100%;
+    --playful-sider-text-color: 210 15% 25%;
+
+    /* Updated: Light Gray Logo Background */
+    --playful-sider-logo-background: 0 0% 97%;
+    /* Light Gray */
+    --playful-sider-logo-text-color: 210 15% 25%;
+    /* Dark Gray */
 
     --playful-menu-item-hover-background: 215 70% 35%;
     --playful-menu-item-hover-text-color: 0 0% 100%;
@@ -72,7 +72,7 @@
 @layer components {
   /* Base sidebar menu styling with consistent text coloring */
   .sidebar-menu.ant-menu {
-    color: white !important;
+    color: hsl(var(--playful-sider-text-color)) !important;
     background: transparent !important;
   }
 
@@ -85,7 +85,7 @@
   .sidebar-menu.ant-menu .ant-menu-item-icon,
   .sidebar-menu.ant-menu .anticon,
   .sidebar-menu.ant-menu span[role="img"] {
-    color: white !important;
+    color: hsl(var(--playful-sider-text-color)) !important;
   }
 
   /* Playful Sider Menu Styles */
@@ -193,5 +193,158 @@
 
   .ant-dropdown-menu-item-divider {
     background-color: hsl(var(--playful-card-border-color)) !important;
+  }
+
+  /* Style for the Ant Design sidebar collapse trigger */
+  .playful-sider .ant-layout-sider-zero-width-trigger {
+    background: hsl(var(--playful-sider-background)) !important;
+    color: hsl(var(--playful-sider-text-color)) !important;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Style the expand/collapse trigger when the Sider is expanded */
+  .playful-sider .ant-layout-sider-trigger {
+    background: hsl(var(--playful-sider-background)) !important;
+    color: hsl(var(--playful-sider-text-color)) !important;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Sidebar menu styling - consistent with collapsed state */
+  .playful-sider .sidebar-menu {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 150px); /* Match collapsed state height */
+    padding: 20px 0; /* Match collapsed state padding */
+    justify-content: space-evenly;
+  }
+
+  /* Menu items styling in expanded sidebar */
+  .playful-sider .sidebar-menu .ant-menu-item {
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    padding-left: 20px; /* Add left padding for better alignment */
+  }
+
+  /* Add hover effect for expanded sidebar items - consistent with collapsed state */
+  .playful-sider .sidebar-menu .ant-menu-item:hover {
+    background-color: hsl(var(--playful-menu-item-hover-background)) !important;
+    transform: scale(1.02);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+  }
+
+  /* Simplified collapsed sidebar menu with centered icons and proper spacing */
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: calc(100vh - 150px); /* Fixed height to ensure vertical centering */
+    padding: 20px 0;
+    margin: 0 auto;
+  }
+
+  /* Make menu items appropriately sized and centered in collapsed sidebar */
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item {
+    margin: 8px 0;
+    padding: 0;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    position: relative;
+    left: 0;
+    transform: none;
+  }
+
+  /* Make icons larger in collapsed sidebar but not too big */
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item span[role="img"],
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu span[role="img"] {
+    font-size: 28px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin-right: 0;
+    pointer-events: none; /* This ensures clicks pass through to the link */
+  }
+
+  /* Add clear hover effect for icons in collapsed sidebar */
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item:hover {
+    background-color: hsl(var(--playful-menu-item-hover-background)) !important;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Make selected item clearly visible */
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item-selected {
+    background-color: hsl(var(--playful-menu-item-selected-background)) !important;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transform: none;
+  }
+
+  /* Normal state icon styling - consistent alignment */
+  .sidebar-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  /* Normal state icon size - matching collapsed state */
+  .sidebar-icon-link span[role="img"] {
+    font-size: 28px !important; /* Match collapsed state icon size */
+    margin-right: 16px;
+  }
+
+  /* Make selected item clearly visible in expanded state - consistent with collapsed state */
+  .playful-sider .sidebar-menu .ant-menu-item-selected {
+    background-color: hsl(var(--playful-menu-item-selected-background)) !important;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Normal state menu item layout - consistent with collapsed state */
+  .playful-sider .ant-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the left */
+    height: 50px; /* Match collapsed state height */
+    padding: 0 16px;
+    margin: 8px 0; /* Match collapsed state margin */
+  }
+
+  /* Ensure text is visible and properly aligned with icons in expanded mode */
+  .playful-sider .sidebar-text-link {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    height: 100%;
+  }
+
+  /* Hide the text label in collapsed mode but keep icon links visible */
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item .sidebar-text-link {
+    display: none;
+  }
+
+  /* Ensure icon links are clickable and take full space in collapsed mode */
+  .playful-sider.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item .sidebar-icon-link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    margin-right: 0;
   }
 }

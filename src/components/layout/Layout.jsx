@@ -151,7 +151,7 @@ const LayoutComponent = ({ children }) => {
         collapsed={collapsed}
         onCollapse={setCollapsed}
         breakpoint="lg"
-        collapsedWidth={screens.lg ? 80 : 0}
+        collapsedWidth={screens.lg ? 100 : 0}
         zeroWidthTriggerStyle={{ top: 12 }}
         style={{
           background: 'hsl(var(--playful-sider-background))',
@@ -165,10 +165,11 @@ const LayoutComponent = ({ children }) => {
       >
         <div
           style={{
-            height: 64,
-            margin: 16,
-            background: 'hsl(var(--playful-sider-logo-background))',
-            borderRadius: 6,
+            height: 80,
+            margin: 12,
+            marginBottom: '1.5rem',
+            backgroundColor: 'transparent',
+            borderRadius: 8,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -181,10 +182,10 @@ const LayoutComponent = ({ children }) => {
             alt="PersonalPod Logo"
             preview={false}
             style={{
-              maxHeight: collapsed ? '40px' : '50px',
-              maxWidth: '100%',
+              width: '100%',
+              height: '100%',
               objectFit: 'contain',
-              transition: 'max-height 0.2s'
+              transition: 'width 0.4s, height 0.4s'
             }}
           />
         </div>
@@ -197,14 +198,20 @@ const LayoutComponent = ({ children }) => {
           className="sidebar-menu"
           items={navigation.map(item => ({
             key: item.key,
-            icon: <span role="img" aria-label={item.label}>{item.icon}</span>,
-            label: <Link to={item.to} style={{ fontWeight: 'bold' }}>{item.label}</Link>,
+            icon: collapsed ? (
+              <Link to={item.to} className="sidebar-icon-link">
+                <span role="img" aria-label={item.label}>{item.icon}</span>
+              </Link>
+            ) : (
+              <span role="img" aria-label={item.label}>{item.icon}</span>
+            ),
+            label: <Link to={item.to} className="sidebar-text-link" style={{ fontWeight: 'bold' }}>{item.label}</Link>
           }))}
         />
       </Sider>
       <Layout
         style={{
-          marginLeft: collapsed ? (screens.lg ? '80px' : '0px') : '200px',
+          marginLeft: collapsed ? (screens.lg ? '100px' : '0px') : '200px',
           transition: 'margin-left 0.2s',
           display: 'flex',
           flexDirection: 'column',
