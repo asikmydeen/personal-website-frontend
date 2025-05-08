@@ -1,201 +1,382 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { listBookmarks, addBookmark, updateBookmark, deleteBookmark } from '../../services/bookmarkService'; // Adjust path
+import React, { useState, useEffect } from 'react';
+import useStore from '../../store/useStore';
+import { Search, Plus, ExternalLink, Star, Trash2, Edit, Filter } from 'lucide-react';
+import { Button } from '../../components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../../components/ui/card';
+import { Badge } from '../../components/ui/badge';
+import { Tooltip } from '../../components/ui/tooltip';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '../../components/ui/dropdown-menu';
+import { addBookmark, updateBookmark, deleteBookmark } from '../../services/bookmarkService';
 
 const BookmarkManagerPage = () => {
-  const [bookmarks, setBookmarks] = useState([]);
+  const { bookmarks, fetchBookmarks, setBookmarks } = useStore();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
-  // Form state for adding/editing bookmarks
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentBookmark, setCurrentBookmark] = useState({ id: null, url: '', title: '', description: '', tags: '' });
-  const [showFormModal, setShowFormModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTag, setActiveTag] = useState('');
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [currentBookmark, setCurrentBookmark] = useState(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    url: '',
+    tags: ''
+  });
 
-  const fetchBookmarks = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const response = await listBookmarks();
-      if (response.success && response.data.bookmarks) {
-        setBookmarks(response.data.bookmarks);
-      } else {
-        setError(response.error || 'Failed to load bookmarks.');
-        setBookmarks([]);
-      }
-    } catch (err) {
-      setError('An unexpected error occurred while fetching bookmarks.');
-      console.error('Fetch bookmarks error:', err);
-      setBookmarks([]);
-    }
-    setLoading(false);
-  }, []);
+  // Extract unique tags for filter dropdown
+  const allTags = [...new Set((bookmarks || []).flatMap(bookmark => bookmark?.tags || []))];
 
   useEffect(() => {
-    fetchBookmarks();
+    const loadBookmarks = async () => {
+      setLoading(true);
+      try {
+        await fetchBookmarks();
+      } catch (err) {
+        setError('Failed to load bookmarks. Please try again.');
+        console.error('Error fetching bookmarks:', err);
+      }
+      setLoading(false);
+    };
+
+    loadBookmarks();
   }, [fetchBookmarks]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentBookmark(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmitBookmark = async (e) => {
+  const handleAddBookmark = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
     try {
-      const bookmarkData = {
-        url: currentBookmark.url,
-        title: currentBookmark.title,
-        description: currentBookmark.description,
-        tags: currentBookmark.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
-      };
+      // Convert tags from comma-separated string to array
+      const tagsArray = formData.tags.split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag !== '');
 
-      let response;
-      if (isEditing && currentBookmark.id) {
-        response = await updateBookmark(currentBookmark.id, bookmarkData);
-      } else {
-        response = await addBookmark(bookmarkData);
-      }
+      const response = await addBookmark({
+        title: formData.title,
+        url: formData.url,
+        tags: tagsArray
+      });
 
-      if (response.success && response.data.bookmark) {
-        fetchBookmarks(); // Refresh the list
-        setShowFormModal(false);
-        resetForm();
+      if (response.success && response.data) {
+        setBookmarks([...(bookmarks || []), response.data]);
+        setIsAddDialogOpen(false);
+        setFormData({ title: '', url: '', tags: '' });
       } else {
-        setError(response.error || `Failed to ${isEditing ? 'update' : 'add'} bookmark.`);
+        setError('Failed to add bookmark: ' + response.error);
       }
     } catch (err) {
-      setError(`An unexpected error occurred.`);
-      console.error('Save bookmark error:', err);
+      setError('An error occurred while adding the bookmark.');
+      console.error('Add bookmark error:', err);
     }
     setLoading(false);
   };
 
-  const handleEdit = (bookmark) => {
-    setIsEditing(true);
-    setCurrentBookmark({
-        id: bookmark.id,
-        url: bookmark.url || '',
-        title: bookmark.title || '',
-        description: bookmark.description || '',
-        tags: Array.isArray(bookmark.tags) ? bookmark.tags.join(', ') : ''
-    });
-    setShowFormModal(true);
+  const handleEditBookmark = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const tagsArray = formData.tags.split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag !== '');
+
+      const response = await updateBookmark(currentBookmark.id, {
+        title: formData.title,
+        url: formData.url,
+        tags: tagsArray
+      });
+
+      if (response.success && response.data) {
+        // Update the bookmark in the local state
+        setBookmarks((bookmarks || []).map(b =>
+          b && b.id === currentBookmark?.id ? response.data : b
+        ));
+        setIsEditDialogOpen(false);
+      } else {
+        setError('Failed to update bookmark: ' + response.error);
+      }
+    } catch (err) {
+      setError('An error occurred while updating the bookmark.');
+      console.error('Edit bookmark error:', err);
+    }
+    setLoading(false);
   };
 
-  const handleDelete = async (bookmarkId) => {
+  const handleDeleteBookmark = async (bookmarkId) => {
     if (window.confirm('Are you sure you want to delete this bookmark?')) {
       setLoading(true);
-      setError('');
       try {
         const response = await deleteBookmark(bookmarkId);
         if (response.success) {
-          fetchBookmarks(); // Refresh list
+          setBookmarks((bookmarks || []).filter(b => b && b.id !== bookmarkId));
         } else {
-          setError(response.error || 'Failed to delete bookmark.');
+          setError('Failed to delete bookmark: ' + response.error);
         }
       } catch (err) {
-        setError('An unexpected error occurred while deleting.');
+        setError('An error occurred while deleting the bookmark.');
         console.error('Delete bookmark error:', err);
       }
       setLoading(false);
     }
   };
-  
-  const resetForm = () => {
-    setIsEditing(false);
-    setCurrentBookmark({ id: null, url: '', title: '', description: '', tags: '' });
+
+  const openEditDialog = (bookmark) => {
+    setCurrentBookmark(bookmark);
+    setFormData({
+      title: bookmark.title || '',
+      url: bookmark.url || '',
+      tags: (bookmark.tags || []).join(', ')
+    });
+    setIsEditDialogOpen(true);
   };
 
-  const openAddModal = () => {
-    resetForm();
-    setShowFormModal(true);
-  };
+  // Filter bookmarks based on search query and active tag
+  const filteredBookmarks = (bookmarks || []).filter(bookmark => {
+    if (!bookmark) return false;
 
-  if (loading && bookmarks.length === 0) {
-    return <div className="p-4 text-center">Loading bookmarks...</div>;
-  }
+    const matchesSearch = !searchQuery ||
+      (bookmark.title && bookmark.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (bookmark.url && bookmark.url.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const matchesTag = !activeTag ||
+      (bookmark.tags && bookmark.tags.includes(activeTag));
+
+    return matchesSearch && matchesTag;
+  });
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Bookmark Manager</h1>
-        <button 
-          onClick={openAddModal}
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+    <div className="container mx-auto p-4 max-w-6xl">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <h1 className="text-3xl font-bold text-gray-800">Bookmarks</h1>
+        <Button
+          className="bg-indigo-600 hover:bg-indigo-700 flex items-center gap-2"
+          onClick={() => {
+            setFormData({ title: '', url: '', tags: '' });
+            setIsAddDialogOpen(true);
+          }}
         >
+          <Plus size={16} />
           Add Bookmark
-        </button>
+        </Button>
       </div>
 
-      {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">Error: {error}</div>}
+      {/* Search and filter bar */}
+      <div className="bg-white p-4 rounded-lg shadow-sm mb-6 flex flex-col md:flex-row gap-4">
+        <div className="relative flex-grow">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search bookmarks..."
+            className="pl-10 pr-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
 
-      {showFormModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
-          <div className="bg-white p-5 rounded-lg shadow-xl w-full max-w-lg">
-            <form onSubmit={handleSubmitBookmark} className="space-y-4">
-              <h2 className="text-xl font-semibold mb-3">{isEditing ? 'Edit' : 'Add New'} Bookmark</h2>
-              <div>
-                <label htmlFor="url" className="block text-sm font-medium text-gray-700">URL*</label>
-                <input type="url" name="url" id="url" value={currentBookmark.url} onChange={handleInputChange} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="https://example.com" />
-              </div>
-              <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
-                <input type="text" name="title" id="title" value={currentBookmark.title} onChange={handleInputChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Bookmark Title (optional, will try to fetch if empty)" />
-              </div>
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                <textarea name="description" id="description" value={currentBookmark.description} onChange={handleInputChange} rows="3" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Short description (optional)"></textarea>
-              </div>
-              <div>
-                <label htmlFor="tags" className="block text-sm font-medium text-gray-700">Tags (comma-separated)</label>
-                <input type="text" name="tags" id="tags" value={currentBookmark.tags} onChange={handleInputChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="e.g., tech, news, articles" />
-              </div>
-              <div className="flex justify-end space-x-3 pt-3">
-                <button type="button" onClick={() => { setShowFormModal(false); resetForm(); }} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Cancel</button>
-                <button type="submit" disabled={loading} className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:opacity-50">
-                  {loading ? 'Saving...' : (isEditing ? 'Save Changes' : 'Add Bookmark')}
-                </button>
-              </div>
-            </form>
-          </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="flex items-center gap-2">
+              <Filter size={16} />
+              {activeTag ? `Tag: ${activeTag}` : 'Filter by Tag'}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={() => setActiveTag('')}>
+              All Bookmarks
+            </DropdownMenuItem>
+            {allTags.map(tag => (
+              <DropdownMenuItem key={tag} onClick={() => setActiveTag(tag)}>
+                {tag}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      {/* Error message */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md">
+          {error}
         </div>
       )}
 
-      {bookmarks.length > 0 ? (
-        <div className="space-y-4">
-          {bookmarks.map(bm => (
-            <div key={bm.id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow">
-              <div className="flex justify-between items-start">
-                <div>
-                  <a href={bm.url} target="_blank" rel="noopener noreferrer" className="text-xl font-semibold text-indigo-600 hover:text-indigo-800 hover:underline break-all">
-                    {bm.title || bm.url}
-                  </a>
-                  {bm.title && <p className="text-sm text-gray-500 break-all">{bm.url}</p>}
-                  {bm.description && <p className="text-gray-700 mt-1 text-sm">{bm.description}</p>}
-                </div>
-                <div className="flex-shrink-0 ml-4 space-x-2">
-                  <button onClick={() => handleEdit(bm)} className="text-sm text-blue-500 hover:text-blue-700">Edit</button>
-                  <button onClick={() => handleDelete(bm.id)} className="text-sm text-red-500 hover:text-red-700">Delete</button>
-                </div>
-              </div>
-              {bm.tags && bm.tags.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {bm.tags.map(tag => (
-                    <span key={tag} className="px-2 py-0.5 bg-gray-200 text-gray-600 text-xs rounded-full">{tag}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+      {/* Bookmarks list */}
+      {loading && (!bookmarks || bookmarks.length === 0) ? (
+        <div className="text-center py-10">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Loading bookmarks...</p>
+        </div>
+      ) : filteredBookmarks.length === 0 ? (
+        <div className="text-center py-10 bg-gray-50 rounded-lg">
+          <p className="text-gray-600 mb-4">
+            {searchQuery || activeTag ? 'No bookmarks match your filters' : 'No bookmarks yet'}
+          </p>
+          <Button
+            variant="outline"
+            className="border-indigo-500 text-indigo-600 hover:bg-indigo-50"
+            onClick={() => {
+              setFormData({ title: '', url: '', tags: '' });
+              setIsAddDialogOpen(true);
+            }}
+          >
+            Add your first bookmark
+          </Button>
         </div>
       ) : (
-        !loading && <p className="text-center text-gray-500 py-5">No bookmarks saved yet. Click "Add Bookmark" to get started!</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredBookmarks.map(bookmark => (
+            <Card key={bookmark.id} className="hover:shadow-md transition-all">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg font-bold truncate flex items-start justify-between">
+                  <span>{bookmark.title}</span>
+                  <div className="flex space-x-1">
+                    <button
+                      onClick={() => openEditDialog(bookmark)}
+                      className="text-gray-500 hover:text-indigo-600 p-1"
+                      aria-label="Edit bookmark"
+                    >
+                      <Edit size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteBookmark(bookmark.id)}
+                      className="text-gray-500 hover:text-red-600 p-1"
+                      aria-label="Delete bookmark"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="py-2">
+                <a
+                  href={bookmark.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 hover:underline flex items-center truncate"
+                >
+                  {bookmark.url}
+                  <ExternalLink size={14} className="ml-1 inline" />
+                </a>
+              </CardContent>
+              <CardFooter className="pt-2 flex flex-wrap gap-2">
+                {bookmark.tags && bookmark.tags.map(tag => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className="bg-blue-50 cursor-pointer"
+                    onClick={() => setActiveTag(tag)}
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       )}
+
+      {/* Add Bookmark Dialog */}
+      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Bookmark</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddBookmark}>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Title</Label>
+                <Input
+                  id="title"
+                  placeholder="Website Title"
+                  value={formData.title}
+                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="url">URL</Label>
+                <Input
+                  id="url"
+                  placeholder="https://example.com"
+                  value={formData.url}
+                  onChange={(e) => setFormData({...formData, url: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tags">Tags (comma separated)</Label>
+                <Input
+                  id="tags"
+                  placeholder="work, reference, important"
+                  value={formData.tags}
+                  onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? 'Adding...' : 'Add Bookmark'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Bookmark Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Bookmark</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleEditBookmark}>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-title">Title</Label>
+                <Input
+                  id="edit-title"
+                  placeholder="Website Title"
+                  value={formData.title}
+                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-url">URL</Label>
+                <Input
+                  id="edit-url"
+                  placeholder="https://example.com"
+                  value={formData.url}
+                  onChange={(e) => setFormData({...formData, url: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-tags">Tags (comma separated)</Label>
+                <Input
+                  id="edit-tags"
+                  placeholder="work, reference, important"
+                  value={formData.tags}
+                  onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? 'Updating...' : 'Update Bookmark'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
 
 export default BookmarkManagerPage;
-

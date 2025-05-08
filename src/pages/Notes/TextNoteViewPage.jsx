@@ -17,8 +17,8 @@ const TextNoteViewPage = () => {
     const fetchNote = async () => {
       try {
         const response = await getNote(noteId);
-        if (response.success && response.data.note) {
-          setNote(response.data.note);
+        if (response.success && response.data) {
+          setNote(response.data);
         } else {
           setError(response.error || 'Failed to load note.');
         }
@@ -68,14 +68,14 @@ const TextNoteViewPage = () => {
       <div className="mb-6 flex justify-between items-center">
         <Link to="/notes" className="text-indigo-600 hover:text-indigo-800">&larr; Back to Notes List</Link>
         <div>
-          <Link 
-            to={`/notes/edit/${noteId}`} 
+          <Link
+            to={`/notes/edit/${noteId}`}
             className="mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm"
           >
             Edit Note
           </Link>
-          <button 
-            onClick={handleDelete} 
+          <button
+            onClick={handleDelete}
             disabled={loading}
             className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm disabled:opacity-50"
           >
@@ -86,7 +86,7 @@ const TextNoteViewPage = () => {
 
       <div className="bg-white shadow-lg rounded-lg p-6 md:p-8">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 break-words">{note.title}</h1>
-        
+
         {note.tags && note.tags.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-2">
             {note.tags.map(tag => (
@@ -112,4 +112,3 @@ const TextNoteViewPage = () => {
 };
 
 export default TextNoteViewPage;
-

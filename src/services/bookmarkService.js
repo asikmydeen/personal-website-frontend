@@ -1,59 +1,99 @@
 // /src/services/bookmarkService.js
 
-const API_BASE_URL = "/api/v1"; // Or process.env.REACT_APP_API_URL
+import { get, post, put, del } from './apiService';
 
 /**
- * Placeholder for listing bookmarks
+ * List bookmarks with optional filters
  * @param {object} filters (optional, e.g., tags, category)
- * @returns {Promise<object>} - { success: boolean, data: { bookmarks: [] } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
  */
-export const listBookmarks = async (filters) => {
+export const listBookmarks = async (filters = {}) => {
   console.log("[BookmarkService] Listing bookmarks with filters:", filters);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return {
-    success: true,
-    data: {
-      bookmarks: [
-        { id: "bm1", title: "React Documentation", url: "https://reactjs.org", tags: ["react", "javascript", "frontend"] },
-        { id: "bm2", title: "Tailwind CSS", url: "https://tailwindcss.com", tags: ["css", "frontend", "design"] },
-      ]
-    }
-  };
+
+  // Convert filters to query parameters if needed
+  const queryParams = {};
+
+  if (filters.tags) {
+    queryParams.tags_like = filters.tags;
+  }
+
+  if (filters.category) {
+    queryParams.category = filters.category;
+  }
+
+  if (filters.query) {
+    queryParams.q = filters.query;
+  }
+
+  return get('bookmarks', queryParams);
 };
 
 /**
- * Placeholder for adding a new bookmark
+ * Add a new bookmark
  * @param {object} bookmarkData - { url, title (optional), description (optional), tags (optional) }
- * @returns {Promise<object>} - { success: boolean, data: { bookmark: {} } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: {} | error: string }
  */
 export const addBookmark = async (bookmarkData) => {
   console.log("[BookmarkService] Adding bookmark:", bookmarkData);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Simulate fetching title if not provided
-  const title = bookmarkData.title || `Title for ${bookmarkData.url}`;
-  return { success: true, data: { bookmark: { id: "newBm123", ...bookmarkData, title, createdAt: new Date().toISOString() } } };
+
+  // Add required fields if not provided
+  const bookmark = {
+    ...bookmarkData,
+    userId: bookmarkData.userId || 'user1', // Default to user1 for testing
+    title: bookmarkData.title || `Bookmark for ${bookmarkData.url}`,
+    createdAt: new Date().toISOString()
+  };
+
+  return post('bookmarks', bookmark);
 };
 
 /**
- * Placeholder for updating an existing bookmark
+ * Update an existing bookmark
  * @param {string} bookmarkId
  * @param {object} updateData - { url (optional), title (optional), description (optional), tags (optional) }
- * @returns {Promise<object>} - { success: boolean, data: { bookmark: {} } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: {} | error: string }
  */
 export const updateBookmark = async (bookmarkId, updateData) => {
   console.log("[BookmarkService] Updating bookmark:", bookmarkId, "Data:", updateData);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, data: { bookmark: { id: bookmarkId, ...updateData, updatedAt: new Date().toISOString() } } };
+  return put(`bookmarks/${bookmarkId}`, updateData);
 };
 
 /**
- * Placeholder for deleting a bookmark
+ * Delete a bookmark
  * @param {string} bookmarkId
  * @returns {Promise<object>} - { success: boolean | error: string }
  */
 export const deleteBookmark = async (bookmarkId) => {
   console.log("[BookmarkService] Deleting bookmark:", bookmarkId);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true };
+  return del(`bookmarks/${bookmarkId}`);
 };
 
+/**
+ * Get a specific bookmark
+ * @param {string} bookmarkId
+ * @returns {Promise<object>} - { success: boolean, data: {} | error: string }
+ */
+export const getBookmark = async (bookmarkId) => {
+  console.log("[BookmarkService] Getting bookmark:", bookmarkId);
+  return get(`bookmarks/${bookmarkId}`);
+};
+
+/**
+ * Search bookmarks
+ * @param {string} query (search term for title, url, or description)
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
+ */
+export const searchBookmarks = async (query) => {
+  console.log("[BookmarkService] Searching bookmarks with query:", query);
+  return get(`bookmarks/search`, { query });
+};
+
+/**
+ * Get bookmarks by tag
+ * @param {string} tag
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
+ */
+export const getBookmarksByTag = async (tag) => {
+  console.log("[BookmarkService] Getting bookmarks by tag:", tag);
+  return get(`bookmarks/tags`, { tag });
+};

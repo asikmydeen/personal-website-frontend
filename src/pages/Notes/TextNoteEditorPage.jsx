@@ -19,8 +19,8 @@ const TextNoteEditorPage = () => {
       const fetchNoteData = async () => {
         try {
           const response = await getNote(noteId);
-          if (response.success && response.data.note) {
-            const { note } = response.data;
+          if (response.success && response.data) {
+            const note = response.data;
             setTitle(note.title || '');
             setContent(note.content || '');
             setTags(Array.isArray(note.tags) ? note.tags.join(', ') : '');
@@ -61,9 +61,9 @@ const TextNoteEditorPage = () => {
         response = await updateNote(noteId, noteData);
       }
 
-      if (response.success && response.data.note) {
+      if (response.success && response.data) {
         // Navigate to the note view page or notes list
-        navigate(isNewNote ? `/notes/${response.data.note.id}` : `/notes/${noteId}`); 
+        navigate(isNewNote ? `/notes/${response.data.id}` : `/notes/${noteId}`);
       } else {
         setError(response.error || `Failed to ${isNewNote ? 'create' : 'update'} note.`);
       }
@@ -142,4 +142,3 @@ const TextNoteEditorPage = () => {
 };
 
 export default TextNoteEditorPage;
-

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getVoiceMemoDetails } from "../../../services/voiceMemoService"; // Adjust path
+import { getVoiceMemoDetails } from "../../services/voiceMemoService";
 
 const VoiceMemoPlaybackComponent = ({ memo, onClose }) => {
   const [memoDetails, setMemoDetails] = useState(memo);
@@ -69,9 +69,9 @@ const VoiceMemoPlaybackComponent = ({ memo, onClose }) => {
         )}
 
         <div className="flex justify-end pt-3">
-          <button 
-            type="button" 
-            onClick={onClose} 
+          <button
+            type="button"
+            onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Close
@@ -83,4 +83,3 @@ const VoiceMemoPlaybackComponent = ({ memo, onClose }) => {
 };
 
 export default VoiceMemoPlaybackComponent;
-

@@ -24,20 +24,20 @@
     --playful-header-text-color: 0 0% 90%;
     /* Light Gray (almost white) */
 
-    --playful-sider-background: 200 65% 93%;
-    --playful-sider-text-color: 205 40% 35%;
+    --playful-sider-background: 215 65% 20%;
+    --playful-sider-text-color: 0 0% 90%;
 
     /* Updated: Darker Logo Background */
-    --playful-sider-logo-background: 220 60% 30%;
-    /* Dark Blue */
+    --playful-sider-logo-background: 220 70% 40%;
+    /* Brighter Blue */
     --playful-sider-logo-text-color: 0 0% 100%;
     /* White */
 
-    --playful-menu-item-hover-background: 200 60% 86%;
-    --playful-menu-item-hover-text-color: 205 50% 25%;
+    --playful-menu-item-hover-background: 215 70% 35%;
+    --playful-menu-item-hover-text-color: 0 0% 100%;
 
-    --playful-menu-item-selected-background: 175 55% 70%;
-    --playful-menu-item-selected-text-color: 175 40% 20%;
+    --playful-menu-item-selected-background: 190 70% 50%;
+    --playful-menu-item-selected-text-color: 0 0% 100%;
 
     --playful-card-background: 0 0% 100%;
     --playful-card-border-color: 210 20% 88%;
@@ -70,6 +70,23 @@
 }
 
 @layer components {
+  /* Base sidebar menu styling with consistent text coloring */
+  .sidebar-menu.ant-menu {
+    color: white !important;
+    background: transparent !important;
+  }
+
+  .sidebar-menu.ant-menu .ant-menu-item {
+    margin: 4px 8px;
+    border-radius: var(--radius);
+  }
+
+  .sidebar-menu.ant-menu .ant-menu-item a,
+  .sidebar-menu.ant-menu .ant-menu-item-icon,
+  .sidebar-menu.ant-menu .anticon,
+  .sidebar-menu.ant-menu span[role="img"] {
+    color: white !important;
+  }
 
   /* Playful Sider Menu Styles */
   .playful-sider .ant-menu-light {
@@ -77,22 +94,18 @@
   }
 
   .playful-sider .ant-menu-item {
-    transition: transform 0.2s ease-out;
-    /* Smooth lift animation */
-  }
-
-  .playful-sider .ant-menu-item:hover {
-    transform: translateY(-3px) scale(1.05);
-    /* Lift and slightly scale on hover */
+    margin: 5px 8px;
+    position: relative;
+    transition: transform 0.2s ease-out, background-color 0.3s ease;
+    border-radius: var(--radius);
   }
 
   .playful-sider .ant-menu-item a,
   .playful-sider .ant-menu-item .ant-menu-item-icon,
   /* Target icon wrapper */
   .playful-sider .ant-menu-item .anticon
-
   /* Target anticon directly if needed */
-    {
+  {
     color: hsl(var(--playful-sider-text-color)) !important;
     transition: color 0.3s ease;
     /* Removed background-color transition from here */
@@ -125,8 +138,9 @@
   .playful-sider .ant-menu-item:hover {
     background-color: hsl(var(--playful-menu-item-hover-background)) !important;
     /* Add hover background */
-    transform: translateY(-3px) scale(1.05);
-    /* Lift and slightly scale on hover */
+    transform: translateY(-2px) scale(1.02);
+    /* Reduced lift and scale to prevent overlap */
+    z-index: 1; /* Ensure hover item stays on top */
   }
 
   .playful-sider .ant-menu-item-selected a,

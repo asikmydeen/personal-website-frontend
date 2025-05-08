@@ -1,115 +1,200 @@
 // /src/services/passwordService.js
 
-const API_BASE_URL = "/api/v1"; // Or process.env.REACT_APP_API_URL
+import { get, post, put, del } from './apiService';
 
 /**
- * Placeholder for listing stored passwords (encrypted identifiers/titles)
- * @returns {Promise<object>} - { success: boolean, data: { passwords: [] } | error: string }
+ * List stored passwords
+ * @param {object} filters (optional, e.g., category, search term)
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
  */
-export const listPasswords = async () => {
-  console.log("[PasswordService] Listing passwords");
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Actual passwords are not returned, only metadata
-  return {
-    success: true,
-    data: {
-      passwords: [
-        { id: "pwd1", serviceName: "Google", username: "user@example.com", lastUpdated: "2023-02-15" },
-        { id: "pwd2", serviceName: "AWS Console", username: "aws-user", lastUpdated: "2023-03-01" },
-      ]
-    }
-  };
+export const listPasswords = async (filters = {}) => {
+  console.log("[PasswordService] Listing passwords with filters:", filters);
+
+  // Convert filters to query parameters if needed
+  const queryParams = {};
+
+  if (filters.category) {
+    queryParams.category = filters.category;
+  }
+
+  if (filters.query) {
+    queryParams.q = filters.query;
+  }
+
+  return get('passwords', queryParams);
 };
 
 /**
- * Placeholder for getting decrypted password details (requires strong auth, e.g., master password)
+ * Get password details
  * @param {string} passwordId
  * @param {string} masterPasswordOrToken - For decryption key derivation
  * @returns {Promise<object>} - { success: boolean, data: { passwordDetails: {} } | error: string }
  */
 export const getPasswordDetails = async (passwordId, masterPasswordOrToken) => {
-  console.log("[PasswordService] Getting details for password:", passwordId, "(Auth token provided)");
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Simulate decryption process - backend handles actual decryption
+  console.log("[PasswordService] Getting details for password:", passwordId);
+
+  // In a real app, the master password would be used for server-side decryption
+  // For demo purposes, we'll use it for auth with correct-master-password
   if (masterPasswordOrToken === "correct-master-password") {
-    return { success: true, data: { passwordDetails: { id: passwordId, serviceName: "Google", username: "user@example.com", password: "decrypted_password_value", notes: "Security questions answere here" } } };
+    try {
+      const response = await get(`passwords/${passwordId}`);
+      if (response.success) {
+        return {
+          success: true,
+          data: {
+            passwordDetails: {
+              ...response.data,
+              // In a real app, the password would be decrypted server-side
+              // For this demo, we'll pretend it's decrypted
+              password: "decrypted_password_value"
+            }
+          }
+        };
+      }
+      return response;
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || "Failed to get password details"
+      };
+    }
   }
-  return { success: false, error: "Decryption failed or invalid master password" };
+
+  return {
+    success: false,
+    error: "Invalid master password or decryption failed"
+  };
 };
 
 /**
- * Placeholder for adding a new password (will be encrypted by backend)
- * @param {object} passwordData - { serviceName, username, password, notes (optional), url (optional) }
+ * Add a new password
+ * @param {object} passwordData - { serviceName, username, password, notes (optional), website (optional) }
  * @param {string} masterPasswordOrToken - For encryption key derivation
  * @returns {Promise<object>} - { success: boolean, data: { password: {} } | error: string }
  */
 export const addPassword = async (passwordData, masterPasswordOrToken) => {
-  console.log("[PasswordService] Adding password for:", passwordData.serviceName, "(Auth token provided for encryption)");
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Backend handles encryption using key derived from masterPasswordOrToken
-  return { success: true, data: { password: { id: "newPwd789", serviceName: passwordData.serviceName, username: passwordData.username, lastUpdated: new Date().toISOString() } } };
+  console.log("[PasswordService] Adding password for:", passwordData.serviceName);
+
+  // In a real app, the master password would be used for server-side encryption
+  // For demo purposes, we'll add default fields and save to API
+  const payload = {
+    ...passwordData,
+    userId: 'user1', // Default user
+    lastUsed: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    isFavorite: false,
+  };
+
+  try {
+    return post('passwords', payload);
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message || "Failed to add password"
+    };
+  }
 };
 
 /**
- * Placeholder for updating an existing password (will be re-encrypted by backend)
+ * Update an existing password
  * @param {string} passwordId
  * @param {object} updateData - { serviceName (optional), username (optional), password (optional), notes (optional) }
  * @param {string} masterPasswordOrToken - For re-encryption
  * @returns {Promise<object>} - { success: boolean, data: { password: {} } | error: string }
  */
 export const updatePassword = async (passwordId, updateData, masterPasswordOrToken) => {
-  console.log("[PasswordService] Updating password:", passwordId, "Data:", updateData, "(Auth token provided for re-encryption)");
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, data: { password: { id: passwordId, ...updateData, lastUpdated: new Date().toISOString() } } };
+  console.log("[PasswordService] Updating password:", passwordId, "Data:", updateData);
+
+  // Add updated timestamp
+  const payload = {
+    ...updateData,
+    updatedAt: new Date().toISOString()
+  };
+
+  try {
+    return put(`passwords/${passwordId}`, payload);
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message || "Failed to update password"
+    };
+  }
 };
 
 /**
- * Placeholder for deleting a password
+ * Delete a password
  * @param {string} passwordId
  * @returns {Promise<object>} - { success: boolean | error: string }
  */
 export const deletePassword = async (passwordId) => {
   console.log("[PasswordService] Deleting password:", passwordId);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true };
+  try {
+    return del(`passwords/${passwordId}`);
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message || "Failed to delete password"
+    };
+  }
 };
 
 /**
- * Placeholder for generating a strong password
+ * Generate a strong password
  * @param {object} options - { length, includeUppercase, includeNumbers, includeSymbols }
  * @returns {Promise<object>} - { success: boolean, data: { generatedPassword: string } | error: string }
  */
-export const generateStrongPassword = async (options) => {
+export const generateStrongPassword = async (options = {}) => {
   console.log("[PasswordService] Generating strong password with options:", options);
-  await new Promise(resolve => setTimeout(resolve, 500));
-  // Basic password generation simulation
-  let chars = "abcdefghijklmnopqrstuvwxyz";
-  if (options.includeUppercase) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  if (options.includeNumbers) chars += "0123456789";
-  if (options.includeSymbols) chars += "!@#$%^&*()_+-=[]{};':\",./<>?";
+
+  // Default options
+  const length = options.length || 16;
+  const includeUppercase = options.includeUppercase !== false; // default to true
+  const includeLowercase = options.includeLowercase !== false; // default to true
+  const includeNumbers = options.includeNumbers !== false; // default to true
+  const includeSymbols = options.includeSymbols !== false; // default to true
+
+  // Basic password generation - this could also be an API call
+  let chars = "";
+  if (includeLowercase) chars += "abcdefghijklmnopqrstuvwxyz";
+  if (includeUppercase) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  if (includeNumbers) chars += "0123456789";
+  if (includeSymbols) chars += "!@#$%^&*()_+-=[]{};':\",./<>?";
+
+  if (chars === "") {
+    return {
+      success: false,
+      error: "At least one character type must be selected"
+    };
+  }
+
   let password = "";
-  for (let i = 0; i < (options.length || 12); i++) {
+  for (let i = 0; i < length; i++) {
     password += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  return { success: true, data: { generatedPassword: password } };
-};
 
-/**
- * Placeholder for fetching audit trails (password access history)
- * @param {string} passwordId (optional, for a specific password)
- * @returns {Promise<object>} - { success: boolean, data: { auditLog: [] } | error: string }
- */
-export const getPasswordAuditTrail = async (passwordId) => {
-  console.log("[PasswordService] Fetching audit trail for password:", passwordId || "all");
-  await new Promise(resolve => setTimeout(resolve, 1000));
   return {
     success: true,
-    data: {
-      auditLog: [
-        { timestamp: "2023-05-01T10:00:00Z", action: "Viewed", passwordId: "pwd1", userId: "user123" },
-        { timestamp: "2023-05-02T11:30:00Z", action: "Updated", passwordId: "pwd2", userId: "user123" },
-      ]
-    }
+    data: { generatedPassword: password }
   };
 };
 
+/**
+ * Search passwords
+ * @param {string} query
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
+ */
+export const searchPasswords = async (query) => {
+  console.log("[PasswordService] Searching passwords with query:", query);
+  return get(`passwords/search`, { query });
+};
+
+/**
+ * Get passwords by category
+ * @param {string} category
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
+ */
+export const getPasswordsByCategory = async (category) => {
+  console.log("[PasswordService] Getting passwords by category:", category);
+  return get(`passwords/category/${category}`);
+};

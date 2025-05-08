@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const PasswordGeneratorComponent = ({ onPasswordGenerated, onClose }) => {
+const PasswordGeneratorComponent = ({ onPasswordGenerated, onClose, onUsePassword }) => {
   const [length, setLength] = useState(16);
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeLowercase, setIncludeLowercase] = useState(true);
@@ -12,7 +12,7 @@ const PasswordGeneratorComponent = ({ onPasswordGenerated, onClose }) => {
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
     const numberChars = "0123456789";
-    const symbolChars = "!@#$%^&*()_+-=[]{};
+    const symbolChars = "!@#$%^&*()_+-=[]{};:'\",.<>/?|\\";
 
     let charPool = "";
     if (includeUppercase) charPool += uppercaseChars;
@@ -36,6 +36,11 @@ const PasswordGeneratorComponent = ({ onPasswordGenerated, onClose }) => {
   const handleUsePassword = () => {
     if (generatedPassword && !generatedPassword.startsWith("Please select")) {
       onPasswordGenerated(generatedPassword);
+      if (typeof onUsePassword === 'function') {
+        onUsePassword(generatedPassword);
+      }
+      // Log for debugging
+      console.log("Password used:", generatedPassword);
     }
   };
 
@@ -50,23 +55,17 @@ const PasswordGeneratorComponent = ({ onPasswordGenerated, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-[60]">
-      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-gray-800">Password Generator</h3>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-        </div>
-
+    <div className="space-y-4">
         <div className="space-y-3">
           <div>
             <label htmlFor="length" className="block text-sm font-medium text-gray-700">Password Length: {length}</label>
-            <input 
-              type="range" 
-              id="length" 
-              min="8" 
-              max="64" 
-              value={length} 
-              onChange={(e) => setLength(parseInt(e.target.value))} 
+            <input
+              type="range"
+              id="length"
+              min="8"
+              max="64"
+              value={length}
+              onChange={(e) => setLength(parseInt(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
             />
           </div>
@@ -90,8 +89,8 @@ const PasswordGeneratorComponent = ({ onPasswordGenerated, onClose }) => {
           </div>
         </div>
 
-        <button 
-          onClick={generatePassword} 
+        <button
+          onClick={generatePassword}
           className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Generate Password
@@ -104,20 +103,17 @@ const PasswordGeneratorComponent = ({ onPasswordGenerated, onClose }) => {
         )}
 
         <div className="flex justify-end space-x-3 pt-2">
-          <button type="button" onClick={onClose} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Close</button>
-          <button 
-            type="button" 
-            onClick={handleUsePassword} 
+          <button
+            type="button"
+            onClick={handleUsePassword}
             disabled={!generatedPassword || generatedPassword.startsWith("Please select")}
             className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:opacity-50"
           >
             Use This Password
           </button>
         </div>
-      </div>
     </div>
   );
 };
 
 export default PasswordGeneratorComponent;
-

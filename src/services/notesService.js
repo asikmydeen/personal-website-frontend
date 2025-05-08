@@ -1,87 +1,107 @@
 // /src/services/notesService.js
 
-const API_BASE_URL = "/api/v1"; // Or process.env.REACT_APP_API_URL
+import { get, post, put, del } from './apiService';
 
 /**
- * Placeholder for listing text notes
+ * List text notes with optional filters
  * @param {object} filters (optional, e.g., tags, date range)
- * @returns {Promise<object>} - { success: boolean, data: { notes: [] } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
  */
-export const listNotes = async (filters) => {
+export const listNotes = async (filters = {}) => {
   console.log("[NotesService] Listing notes with filters:", filters);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return {
-    success: true,
-    data: {
-      notes: [
-        { id: "note1", title: "Meeting Summary", lastModified: "2023-04-01", tags: ["work", "meeting"] },
-        { id: "note2", title: "Grocery List", lastModified: "2023-04-05", tags: ["personal"] },
-      ]
-    }
-  };
+
+  // Convert filters to query parameters if needed
+  const queryParams = {};
+
+  if (filters.tags) {
+    queryParams.tags_like = filters.tags;
+  }
+
+  if (filters.query) {
+    queryParams.q = filters.query;
+  }
+
+  return get('notes', queryParams);
 };
 
 /**
- * Placeholder for getting a specific text note
+ * Get a specific text note
  * @param {string} noteId
- * @returns {Promise<object>} - { success: boolean, data: { note: {} } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: {} | error: string }
  */
 export const getNote = async (noteId) => {
   console.log("[NotesService] Getting note:", noteId);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, data: { note: { id: noteId, title: "Meeting Summary", content: "Detailed notes from the meeting...", tags: ["work", "meeting"], createdAt: "2023-04-01" } } };
+  return get(`notes/${noteId}`);
 };
 
 /**
- * Placeholder for creating a new text note
+ * Create a new text note
  * @param {object} noteData - { title, content, tags (optional) }
- * @returns {Promise<object>} - { success: boolean, data: { note: {} } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: {} | error: string }
  */
 export const createNote = async (noteData) => {
   console.log("[NotesService] Creating note:", noteData);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, data: { note: { id: "newNote789", ...noteData, lastModified: new Date().toISOString() } } };
+
+  // Add required fields if not provided
+  const note = {
+    ...noteData,
+    userId: noteData.userId || 'user1', // Default to user1 for testing
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    isPinned: noteData.isPinned || false,
+    isTrashed: false,
+  };
+
+  return post('notes', note);
 };
 
 /**
- * Placeholder for updating an existing text note
+ * Update an existing text note
  * @param {string} noteId
  * @param {object} updateData - { title (optional), content (optional), tags (optional) }
- * @returns {Promise<object>} - { success: boolean, data: { note: {} } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: {} | error: string }
  */
 export const updateNote = async (noteId, updateData) => {
   console.log("[NotesService] Updating note:", noteId, "Data:", updateData);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, data: { note: { id: noteId, ...updateData, lastModified: new Date().toISOString() } } };
+
+  // Add updated timestamp
+  const updates = {
+    ...updateData,
+    updatedAt: new Date().toISOString()
+  };
+
+  return put(`notes/${noteId}`, updates);
 };
 
 /**
- * Placeholder for deleting a text note
+ * Delete a text note
  * @param {string} noteId
  * @returns {Promise<object>} - { success: boolean | error: string }
  */
 export const deleteNote = async (noteId) => {
   console.log("[NotesService] Deleting note:", noteId);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true };
+  return del(`notes/${noteId}`);
 };
 
 /**
- * Placeholder for searching text notes
+ * Search text notes
  * @param {string} query (search term for title or content)
  * @param {object} filters (optional, e.g., tags)
- * @returns {Promise<object>} - { success: boolean, data: { results: [] } | error: string }
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
  */
-export const searchNotes = async (query, filters) => {
+export const searchNotes = async (query, filters = {}) => {
   console.log("[NotesService] Searching notes with query:", query, "Filters:", filters);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return {
-    success: true,
-    data: {
-      results: [
-        { id: "note1", title: "Meeting Summary", snippet: "...summary of the meeting...", tags: ["work"] }
-      ]
-    }
-  };
+
+  // Use the search endpoint from routes.json
+  return get(`notes/search`, { query });
 };
 
+/**
+ * Get notes by tag
+ * @param {string} tag
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
+ */
+export const getNotesByTag = async (tag) => {
+  console.log("[NotesService] Getting notes by tag:", tag);
+  return get(`notes/tags`, { tag });
+};

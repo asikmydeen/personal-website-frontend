@@ -1,0 +1,1028 @@
+{
+  "users": [
+    {
+      "id": "user1",
+      "email": "user@example.com",
+      "password": "$2a$10$encrypted_password_hash",
+      "name": "Test User",
+      "bio": "A test user bio",
+      "profilePicture": "https://randomuser.me/api/portraits/men/1.jpg",
+      "createdAt": "2023-01-15T08:30:00.000Z",
+      "lastLogin": "2023-04-01T10:25:00.000Z",
+      "settings": {
+        "theme": "light",
+        "notifications": true,
+        "twoFactorEnabled": false
+      }
+    },
+    {
+      "id": "user2",
+      "email": "jane@example.com",
+      "password": "$2a$10$another_encrypted_password",
+      "name": "Jane Smith",
+      "bio": "UX Designer and hobbyist photographer",
+      "profilePicture": "https://randomuser.me/api/portraits/women/2.jpg",
+      "createdAt": "2023-02-20T14:15:00.000Z",
+      "lastLogin": "2023-04-02T09:15:00.000Z",
+      "settings": {
+        "theme": "dark",
+        "notifications": false,
+        "twoFactorEnabled": true
+      }
+    }
+  ],
+  "authTokens": [
+    {
+      "id": "token1",
+      "userId": "user1",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example_token",
+      "expires": "2023-05-01T00:00:00.000Z",
+      "ipAddress": "192.168.1.1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+      "createdAt": "2023-04-01T10:25:00.000Z"
+    },
+    {
+      "email": "user@example.com",
+      "password": "password123",
+      "id": "ztOJyQ0"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123",
+      "id": "OBvEicT"
+    }
+  ],
+  "passwordResetTokens": [
+    {
+      "id": "reset1",
+      "userId": "user2",
+      "token": "unique_reset_token_hash",
+      "expires": "2023-04-05T00:00:00.000Z",
+      "used": false,
+      "createdAt": "2023-04-04T08:30:00.000Z"
+    }
+  ],
+  "notes": [
+    {
+      "id": "note1",
+      "userId": "user1",
+      "title": "Meeting Summary",
+      "content": "Detailed notes from the meeting with the design team...",
+      "tags": [
+        "work",
+        "meeting"
+      ],
+      "color": "#FFEB3B",
+      "isPinned": true,
+      "isTrashed": false,
+      "createdAt": "2023-04-01T14:30:00.000Z",
+      "updatedAt": "2023-04-01T15:45:00.000Z"
+    },
+    {
+      "id": "note2",
+      "userId": "user1",
+      "title": "Grocery List",
+      "content": "- Milk\n- Eggs\n- Bread\n- Cheese",
+      "tags": [
+        "personal"
+      ],
+      "color": "#4CAF50",
+      "isPinned": false,
+      "isTrashed": false,
+      "createdAt": "2023-04-05T09:20:00.000Z",
+      "updatedAt": "2023-04-05T09:20:00.000Z"
+    },
+    {
+      "id": "note3",
+      "userId": "user2",
+      "title": "Project Ideas",
+      "content": "1. Mobile app for plant care\n2. Recipe organization tool\n3. Habit tracker",
+      "tags": [
+        "ideas",
+        "projects",
+        "personal"
+      ],
+      "color": "#2196F3",
+      "isPinned": true,
+      "isTrashed": false,
+      "createdAt": "2023-03-15T20:45:00.000Z",
+      "updatedAt": "2023-03-18T10:30:00.000Z"
+    },
+    {
+      "title": "test",
+      "content": "tests",
+      "tags": [
+        "tstst"
+      ],
+      "userId": "user1",
+      "createdAt": "2025-05-08T00:56:51.601Z",
+      "updatedAt": "2025-05-08T00:56:51.601Z",
+      "isPinned": false,
+      "isTrashed": false,
+      "id": "S_G3REZ"
+    },
+    {
+      "title": "test",
+      "content": "test",
+      "tags": [
+        "tetse"
+      ],
+      "userId": "user1",
+      "createdAt": "2025-05-08T00:57:55.812Z",
+      "updatedAt": "2025-05-08T00:57:55.812Z",
+      "isPinned": false,
+      "isTrashed": false,
+      "id": "uLSC-sj"
+    },
+    {
+      "title": "adad",
+      "content": "adad",
+      "tags": [
+        "adad"
+      ],
+      "userId": "user1",
+      "createdAt": "2025-05-08T00:58:43.147Z",
+      "updatedAt": "2025-05-08T00:58:43.147Z",
+      "isPinned": false,
+      "isTrashed": false,
+      "id": "ds2ZhvI"
+    },
+    {
+      "title": "aadad",
+      "content": "adadad",
+      "tags": [
+        "adad"
+      ],
+      "userId": "user1",
+      "createdAt": "2025-05-08T00:59:19.626Z",
+      "updatedAt": "2025-05-08T00:59:19.626Z",
+      "isPinned": false,
+      "isTrashed": false,
+      "id": "wkv4Ip_"
+    },
+    {
+      "title": "sfasf",
+      "content": "sfsfsf",
+      "tags": [
+        "sfsf"
+      ],
+      "userId": "user1",
+      "createdAt": "2025-05-08T01:01:11.231Z",
+      "updatedAt": "2025-05-08T01:01:11.231Z",
+      "isPinned": false,
+      "isTrashed": false,
+      "id": "YFxOjno"
+    }
+  ],
+  "bookmarks": [
+    {
+      "id": "bm1",
+      "userId": "user1",
+      "title": "React Documentation",
+      "url": "https://reactjs.org",
+      "description": "Official React documentation",
+      "favicon": "https://reactjs.org/favicon.ico",
+      "tags": [
+        "react",
+        "javascript",
+        "frontend"
+      ],
+      "category": "Development",
+      "createdAt": "2023-03-10T08:15:00.000Z"
+    },
+    {
+      "id": "bm2",
+      "userId": "user1",
+      "title": "Tailwind CSS",
+      "url": "https://tailwindcss.com",
+      "description": "A utility-first CSS framework",
+      "favicon": "https://tailwindcss.com/favicon.ico",
+      "tags": [
+        "css",
+        "frontend",
+        "design"
+      ],
+      "category": "Design",
+      "createdAt": "2023-02-25T15:30:00.000Z"
+    },
+    {
+      "id": "bm3",
+      "userId": "user2",
+      "title": "UX Design Patterns",
+      "url": "https://uxplanet.org/popular-design-patterns-103c65d0d2c2",
+      "description": "Common UX design patterns and when to use them",
+      "favicon": "https://uxplanet.org/favicon.ico",
+      "tags": [
+        "ux",
+        "design",
+        "patterns"
+      ],
+      "category": "Design",
+      "createdAt": "2023-03-05T11:45:00.000Z"
+    },
+    {
+      "title": "aad",
+      "url": "adad",
+      "tags": [
+        "aadd"
+      ],
+      "userId": "user1",
+      "createdAt": "2025-05-08T02:01:36.093Z",
+      "id": "uhOHIa7"
+    }
+  ],
+  "bookmarkFolders": [
+    {
+      "id": "folder1",
+      "userId": "user1",
+      "name": "Development Resources",
+      "description": "Helpful links for web development",
+      "parentFolderId": null,
+      "color": "#9C27B0",
+      "createdAt": "2023-02-01T09:30:00.000Z"
+    },
+    {
+      "id": "folder2",
+      "userId": "user1",
+      "name": "Design Inspiration",
+      "description": "Design resources and inspiration",
+      "parentFolderId": null,
+      "color": "#E91E63",
+      "createdAt": "2023-02-02T14:45:00.000Z"
+    }
+  ],
+  "bookmarkFolderItems": [
+    {
+      "id": "folderitem1",
+      "bookmarkId": "bm1",
+      "folderId": "folder1",
+      "addedAt": "2023-03-10T08:15:00.000Z"
+    },
+    {
+      "id": "folderitem2",
+      "bookmarkId": "bm2",
+      "folderId": "folder2",
+      "addedAt": "2023-02-25T15:30:00.000Z"
+    }
+  ],
+  "passwords": [
+    {
+      "id": "pwd1",
+      "userId": "user1",
+      "name": "Personal Email",
+      "username": "user@gmail.com",
+      "password": "encrypted_password_data",
+      "website": "https://gmail.com",
+      "notes": "Personal Google account",
+      "category": "Email",
+      "isFavorite": true,
+      "lastUsed": "2023-04-01T08:30:00.000Z",
+      "createdAt": "2022-10-15T14:20:00.000Z",
+      "updatedAt": "2023-01-05T11:15:00.000Z"
+    },
+    {
+      "id": "pwd2",
+      "userId": "user1",
+      "name": "Netflix",
+      "username": "user@example.com",
+      "password": "encrypted_password_data",
+      "website": "https://netflix.com",
+      "notes": "Shared with family",
+      "category": "Entertainment",
+      "isFavorite": false,
+      "lastUsed": "2023-03-28T20:45:00.000Z",
+      "createdAt": "2022-09-20T17:30:00.000Z",
+      "updatedAt": "2022-09-20T17:30:00.000Z"
+    },
+    {
+      "serviceName": "ad",
+      "website": "https://ad",
+      "username": "ad",
+      "password": "ad",
+      "notes": "ad",
+      "userId": "user1",
+      "lastUsed": "2025-05-08T02:32:19.463Z",
+      "createdAt": "2025-05-08T02:32:19.463Z",
+      "updatedAt": "2025-05-08T02:32:19.463Z",
+      "isFavorite": false,
+      "id": "JLipm83"
+    },
+    {
+      "serviceName": "adad",
+      "website": "https://adad",
+      "username": "adad",
+      "password": "adad",
+      "notes": "adad",
+      "userId": "user1",
+      "lastUsed": "2025-05-08T02:33:35.410Z",
+      "createdAt": "2025-05-08T02:33:35.410Z",
+      "updatedAt": "2025-05-08T02:33:35.410Z",
+      "isFavorite": false,
+      "id": "4eCaRnM"
+    },
+    {
+      "serviceName": "adad",
+      "website": "https://adad",
+      "username": "adad",
+      "password": "adada",
+      "notes": "dad",
+      "userId": "user1",
+      "lastUsed": "2025-05-08T02:36:43.069Z",
+      "createdAt": "2025-05-08T02:36:43.069Z",
+      "updatedAt": "2025-05-08T02:36:43.069Z",
+      "isFavorite": false,
+      "id": "3ZIXl7W"
+    },
+    {
+      "serviceName": "adad",
+      "website": "https://adada",
+      "username": "dadad",
+      "password": "adadada",
+      "notes": "dadad",
+      "userId": "user1",
+      "lastUsed": "2025-05-08T02:38:33.021Z",
+      "createdAt": "2025-05-08T02:38:33.021Z",
+      "updatedAt": "2025-05-08T02:38:33.021Z",
+      "isFavorite": false,
+      "id": "GSyDscN"
+    },
+    {
+      "serviceName": "adad",
+      "website": "https://adad",
+      "username": "adad",
+      "password": "adada",
+      "notes": "dad",
+      "userId": "user1",
+      "lastUsed": "2025-05-08T02:39:01.022Z",
+      "createdAt": "2025-05-08T02:39:01.022Z",
+      "updatedAt": "2025-05-08T02:39:01.022Z",
+      "isFavorite": false,
+      "id": "VpfT3Lr"
+    },
+    {
+      "serviceName": "adad",
+      "website": "https://adad",
+      "username": "adad",
+      "password": "adada",
+      "notes": "dad",
+      "userId": "user1",
+      "lastUsed": "2025-05-08T02:40:36.364Z",
+      "createdAt": "2025-05-08T02:40:36.364Z",
+      "updatedAt": "2025-05-08T02:40:36.364Z",
+      "isFavorite": false,
+      "id": "SnwF_7l"
+    },
+    {
+      "serviceName": "adada",
+      "website": "https://dada",
+      "username": "dad",
+      "password": "adada",
+      "notes": "dad",
+      "userId": "user1",
+      "lastUsed": "2025-05-08T02:40:59.206Z",
+      "createdAt": "2025-05-08T02:40:59.206Z",
+      "updatedAt": "2025-05-08T02:40:59.206Z",
+      "isFavorite": false,
+      "id": "qmBTLe3"
+    }
+  ],
+  "walletCards": [
+    {
+      "id": "card1",
+      "userId": "user1",
+      "type": "credit",
+      "issuer": "Visa",
+      "name": "Main Credit Card",
+      "cardNumber": "encrypted_card_number",
+      "cardholderName": "TEST USER",
+      "expiryMonth": 12,
+      "expiryYear": 2025,
+      "cvv": "encrypted_cvv",
+      "billingAddress": {
+        "line1": "123 Main St",
+        "line2": "Apt 456",
+        "city": "San Francisco",
+        "state": "CA",
+        "postalCode": "94103",
+        "country": "United States"
+      },
+      "color": "#FF5722",
+      "isFavorite": true,
+      "createdAt": "2023-01-10T10:30:00.000Z",
+      "updatedAt": "2023-03-15T14:45:00.000Z"
+    },
+    {
+      "id": "card2",
+      "userId": "user1",
+      "type": "debit",
+      "issuer": "Mastercard",
+      "name": "Checking Account",
+      "cardNumber": "encrypted_card_number",
+      "cardholderName": "TEST USER",
+      "expiryMonth": 9,
+      "expiryYear": 2024,
+      "cvv": "encrypted_cvv",
+      "billingAddress": {
+        "line1": "123 Main St",
+        "line2": "Apt 456",
+        "city": "San Francisco",
+        "state": "CA",
+        "postalCode": "94103",
+        "country": "United States"
+      },
+      "color": "#3F51B5",
+      "isFavorite": false,
+      "createdAt": "2022-12-05T09:15:00.000Z",
+      "updatedAt": "2022-12-05T09:15:00.000Z"
+    },
+    {
+      "userId": "user1",
+      "type": "visa",
+      "issuer": "Visa",
+      "name": "Visa Card",
+      "cardNumber": "encrypted_1212121212121",
+      "cardholderName": "adad",
+      "expiryMonth": 1,
+      "expiryYear": 2022,
+      "cvv": "encrypted_121",
+      "color": "#FF5722",
+      "isFavorite": false,
+      "createdAt": "2025-05-08T03:17:36.552Z",
+      "updatedAt": "2025-05-08T03:17:36.552Z",
+      "billingAddress": {
+        "line1": "1212",
+        "city": "Unknown",
+        "state": "Unknown",
+        "postalCode": "00000",
+        "country": "United States"
+      },
+      "id": "JHkqR32"
+    }
+  ],
+  "voiceMemos": [
+    {
+      "id": "vm1",
+      "userId": "user1",
+      "title": "Meeting Ideas",
+      "description": "Brainstorming session for new project",
+      "fileUrl": "/media/voicememos/vm1.mp3",
+      "duration": 145,
+      "transcription": "I think we should focus on the user experience first and then...",
+      "tags": [
+        "work",
+        "ideas",
+        "project"
+      ],
+      "createdAt": "2023-03-25T15:30:00.000Z"
+    },
+    {
+      "id": "vm2",
+      "userId": "user1",
+      "title": "Shopping List",
+      "description": "Things to buy this weekend",
+      "fileUrl": "/media/voicememos/vm2.mp3",
+      "duration": 62,
+      "transcription": "Remember to buy milk, eggs, bread, and cheese for the weekend...",
+      "tags": [
+        "personal",
+        "shopping"
+      ],
+      "createdAt": "2023-04-02T09:15:00.000Z"
+    }
+  ],
+  "files": [
+    {
+      "id": "file1",
+      "userId": "user1",
+      "name": "Project Presentation.pptx",
+      "type": "presentation",
+      "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "size": 2500000,
+      "url": "/media/files/project_presentation_user1.pptx",
+      "thumbnailUrl": "/media/thumbnails/project_presentation_user1.jpg",
+      "folderId": "folder1",
+      "tags": [
+        "work",
+        "presentation"
+      ],
+      "isFavorite": true,
+      "isArchived": false,
+      "createdAt": "2023-03-15T14:30:00.000Z",
+      "updatedAt": "2023-03-15T14:30:00.000Z"
+    },
+    {
+      "id": "file2",
+      "userId": "user1",
+      "name": "Budget 2023.xlsx",
+      "type": "spreadsheet",
+      "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "size": 1800000,
+      "url": "/media/files/budget_2023_user1.xlsx",
+      "thumbnailUrl": "/media/thumbnails/budget_2023_user1.jpg",
+      "folderId": "folder2",
+      "tags": [
+        "finance",
+        "budget"
+      ],
+      "isFavorite": false,
+      "isArchived": false,
+      "createdAt": "2023-02-10T11:20:00.000Z",
+      "updatedAt": "2023-03-01T09:45:00.000Z"
+    }
+  ],
+  "folders": [
+    {
+      "id": "folder1",
+      "userId": "user1",
+      "name": "Work Documents",
+      "description": "Professional documents and presentations",
+      "parentFolderId": null,
+      "color": "#2196F3",
+      "createdAt": "2023-01-15T10:30:00.000Z",
+      "updatedAt": "2023-01-15T10:30:00.000Z"
+    },
+    {
+      "id": "folder2",
+      "userId": "user1",
+      "name": "Personal Finance",
+      "description": "Budget and financial planning documents",
+      "parentFolderId": null,
+      "color": "#4CAF50",
+      "createdAt": "2023-01-20T14:15:00.000Z",
+      "updatedAt": "2023-01-20T14:15:00.000Z"
+    },
+    {
+      "id": "folder3",
+      "userId": "user1",
+      "name": "2023 Projects",
+      "description": "Current year projects",
+      "parentFolderId": "folder1",
+      "color": "#03A9F4",
+      "createdAt": "2023-02-05T09:45:00.000Z",
+      "updatedAt": "2023-02-05T09:45:00.000Z"
+    }
+  ],
+  "photos": [
+    {
+      "id": "photo1",
+      "userId": "user1",
+      "title": "Vacation Sunset",
+      "description": "Beautiful sunset from my summer vacation",
+      "url": "/media/photos/vacation_sunset_user1.jpg",
+      "thumbnailUrl": "/media/thumbnails/vacation_sunset_user1.jpg",
+      "albumId": "album1",
+      "width": 1920,
+      "height": 1080,
+      "size": 2500000,
+      "mimeType": "image/jpeg",
+      "tags": [
+        "vacation",
+        "sunset",
+        "beach"
+      ],
+      "location": {
+        "latitude": 36.7783,
+        "longitude": -119.4179,
+        "name": "Malibu Beach"
+      },
+      "isFavorite": true,
+      "createdAt": "2023-02-15T18:30:00.000Z",
+      "takenAt": "2023-02-14T17:45:00.000Z"
+    },
+    {
+      "id": "photo2",
+      "userId": "user1",
+      "title": "Family Gathering",
+      "description": "Annual family reunion",
+      "url": "/media/photos/family_gathering_user1.jpg",
+      "thumbnailUrl": "/media/thumbnails/family_gathering_user1.jpg",
+      "albumId": "album2",
+      "width": 1280,
+      "height": 720,
+      "size": 1800000,
+      "mimeType": "image/jpeg",
+      "tags": [
+        "family",
+        "gathering",
+        "holiday"
+      ],
+      "location": {
+        "latitude": 37.7749,
+        "longitude": -122.4194,
+        "name": "Home"
+      },
+      "isFavorite": false,
+      "createdAt": "2023-01-05T12:15:00.000Z",
+      "takenAt": "2023-01-01T14:30:00.000Z"
+    },
+    {
+      "userId": "user1",
+      "title": "passport",
+      "description": "Passport photo",
+      "url": "/media/photos/asik_passport_updated.jpeg",
+      "thumbnailUrl": "/media/thumbnails/asik_passport_updated.jpeg",
+      "albumId": null,
+      "width": 1920,
+      "height": 1080,
+      "size": 431918,
+      "mimeType": "image/jpeg",
+      "tags": [
+        "personal passport"
+      ],
+      "location": null,
+      "isFavorite": false,
+      "createdAt": "2025-05-08T04:04:05.734Z",
+      "takenAt": "2025-05-08T04:04:05.734Z",
+      "id": "UrX1rjt"
+    },
+    {
+      "userId": "user1",
+      "title": "passport",
+      "description": "pass",
+      "url": "/media/photos/asik_passport_updated.jpeg",
+      "thumbnailUrl": "/media/thumbnails/asik_passport_updated.jpeg",
+      "albumId": null,
+      "width": 1920,
+      "height": 1080,
+      "size": 431918,
+      "mimeType": "image/jpeg",
+      "tags": [
+        "pass"
+      ],
+      "location": null,
+      "isFavorite": false,
+      "createdAt": "2025-05-08T04:07:59.057Z",
+      "takenAt": "2025-05-08T04:07:59.057Z",
+      "id": "EiHtnbl"
+    },
+    {
+      "userId": "user1",
+      "title": "asik_passport_updated.jpeg",
+      "description": "",
+      "url": "/media/photos/asik_passport_updated.jpeg",
+      "thumbnailUrl": "/media/thumbnails/asik_passport_updated.jpeg",
+      "albumId": null,
+      "width": 1920,
+      "height": 1080,
+      "size": 431918,
+      "mimeType": "image/jpeg",
+      "tags": [],
+      "location": null,
+      "isFavorite": false,
+      "createdAt": "2025-05-08T04:09:13.053Z",
+      "takenAt": "2025-05-08T04:09:13.053Z",
+      "id": "d3yMtGs"
+    },
+    {
+      "title": "asik_passport_updated.jpeg",
+      "description": "adad",
+      "tags": [
+        "adad"
+      ],
+      "id": "3qmO1wl"
+    }
+  ],
+  "albums": [
+    {
+      "id": "album1",
+      "userId": "user1",
+      "name": "Summer Vacation 2023",
+      "description": "Photos from my trip to Hawaii",
+      "coverPhotoId": "photo1",
+      "createdAt": "2023-02-10T09:30:00.000Z",
+      "updatedAt": "2023-02-16T14:45:00.000Z"
+    },
+    {
+      "id": "album2",
+      "userId": "user1",
+      "name": "Family Events",
+      "description": "Family gatherings and celebrations",
+      "coverPhotoId": "photo2",
+      "createdAt": "2023-01-02T11:20:00.000Z",
+      "updatedAt": "2023-01-05T12:30:00.000Z"
+    }
+  ],
+  "photoAlbumItems": [
+    {
+      "id": "albumitem1",
+      "photoId": "photo1",
+      "albumId": "album1",
+      "addedAt": "2023-02-15T18:30:00.000Z"
+    },
+    {
+      "id": "albumitem2",
+      "photoId": "photo2",
+      "albumId": "album2",
+      "addedAt": "2023-01-05T12:15:00.000Z"
+    }
+  ],
+  "resume": [
+    {
+      "id": "resume1",
+      "userId": "user1",
+      "title": "Software Developer Resume",
+      "isDefault": true,
+      "basics": {
+        "name": "Test User",
+        "label": "Software Developer",
+        "image": "https://randomuser.me/api/portraits/men/1.jpg",
+        "email": "user@example.com",
+        "phone": "(555) 123-4567",
+        "url": "https://testuser.dev",
+        "summary": "Experienced software developer with a focus on web technologies and user experience.",
+        "location": {
+          "address": "123 Main St",
+          "postalCode": "94103",
+          "city": "San Francisco",
+          "region": "CA",
+          "countryCode": "US"
+        },
+        "profiles": [
+          {
+            "network": "LinkedIn",
+            "username": "testuser",
+            "url": "https://linkedin.com/in/testuser"
+          },
+          {
+            "network": "GitHub",
+            "username": "testuser",
+            "url": "https://github.com/testuser"
+          }
+        ]
+      },
+      "work": [
+        {
+          "company": "Tech Solutions Inc.",
+          "position": "Senior Developer",
+          "website": "https://techsolutions.example.com",
+          "startDate": "2020-01-15",
+          "endDate": null,
+          "summary": "Lead developer for client-facing web applications",
+          "highlights": [
+            "Developed responsive web applications using React",
+            "Implemented CI/CD pipeline reducing deployment time by 50%",
+            "Mentored junior developers on best practices"
+          ]
+        },
+        {
+          "company": "Digital Innovations",
+          "position": "Web Developer",
+          "website": "https://digitalinnovations.example.com",
+          "startDate": "2017-03-01",
+          "endDate": "2019-12-31",
+          "summary": "Worked on various frontend projects",
+          "highlights": [
+            "Built interactive UI components with Vue.js",
+            "Optimized application performance",
+            "Collaborated with design team on UI/UX improvements"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "institution": "University of Technology",
+          "area": "Computer Science",
+          "studyType": "Bachelor",
+          "startDate": "2013-09-01",
+          "endDate": "2017-05-15",
+          "gpa": "3.8",
+          "courses": [
+            "Data Structures and Algorithms",
+            "Web Development",
+            "Database Systems"
+          ]
+        }
+      ],
+      "skills": [
+        {
+          "name": "Frontend Development",
+          "level": "Advanced",
+          "keywords": [
+            "JavaScript",
+            "React",
+            "Vue",
+            "HTML",
+            "CSS",
+            "Tailwind"
+          ]
+        },
+        {
+          "name": "Backend Development",
+          "level": "Intermediate",
+          "keywords": [
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "SQL"
+          ]
+        },
+        {
+          "name": "DevOps",
+          "level": "Basic",
+          "keywords": [
+            "Git",
+            "Docker",
+            "GitHub Actions",
+            "AWS"
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "name": "Personal Portfolio",
+          "description": "Responsive portfolio website showcasing projects and skills",
+          "highlights": [
+            "Built with React and Tailwind CSS",
+            "Includes dark/light theme toggle",
+            "Fully responsive design"
+          ],
+          "keywords": [
+            "React",
+            "Tailwind",
+            "Portfolio"
+          ],
+          "startDate": "2022-06-01",
+          "endDate": "2022-07-15",
+          "url": "https://testuser.dev",
+          "roles": [
+            "Designer",
+            "Developer"
+          ],
+          "entity": "Personal Project",
+          "type": "Web Application"
+        }
+      ],
+      "createdAt": "2023-01-20T10:15:00.000Z",
+      "updatedAt": "2023-03-12T14:30:00.000Z"
+    }
+  ],
+  "sharingLinks": [
+    {
+      "id": "share1",
+      "userId": "user1",
+      "resourceType": "note",
+      "resourceId": "note1",
+      "token": "unique_share_token_1",
+      "expiresAt": "2023-06-01T00:00:00.000Z",
+      "password": null,
+      "accessType": "view",
+      "allowsComments": false,
+      "viewCount": 5,
+      "lastViewed": "2023-04-02T15:20:00.000Z",
+      "createdAt": "2023-04-01T14:45:00.000Z"
+    },
+    {
+      "id": "share2",
+      "userId": "user1",
+      "resourceType": "file",
+      "resourceId": "file1",
+      "token": "unique_share_token_2",
+      "expiresAt": null,
+      "password": "encrypted_password_hash",
+      "accessType": "edit",
+      "allowsComments": true,
+      "viewCount": 2,
+      "lastViewed": "2023-04-01T09:30:00.000Z",
+      "createdAt": "2023-03-25T11:20:00.000Z"
+    }
+  ],
+  "userPermissions": [
+    {
+      "id": "perm1",
+      "userId": "user2",
+      "resourceOwnerId": "user1",
+      "resourceType": "note",
+      "resourceId": "note1",
+      "permissionType": "view",
+      "allowsComments": true,
+      "createdAt": "2023-04-02T10:15:00.000Z",
+      "createdBy": "user1"
+    },
+    {
+      "id": "perm2",
+      "userId": "user2",
+      "resourceOwnerId": "user1",
+      "resourceType": "file",
+      "resourceId": "file1",
+      "permissionType": "edit",
+      "allowsComments": true,
+      "createdAt": "2023-03-28T14:30:00.000Z",
+      "createdBy": "user1"
+    }
+  ],
+  "comments": [
+    {
+      "id": "comment1",
+      "resourceType": "note",
+      "resourceId": "note1",
+      "userId": "user2",
+      "content": "Great summary of the meeting!",
+      "createdAt": "2023-04-02T11:30:00.000Z",
+      "updatedAt": null,
+      "parentCommentId": null
+    },
+    {
+      "id": "comment2",
+      "resourceType": "file",
+      "resourceId": "file1",
+      "userId": "user2",
+      "content": "I made some minor edits to slide 5. Please review.",
+      "createdAt": "2023-03-30T09:15:00.000Z",
+      "updatedAt": null,
+      "parentCommentId": null
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif1",
+      "userId": "user1",
+      "title": "New comment",
+      "message": "Jane Smith commented on your meeting notes",
+      "type": "comment",
+      "resourceType": "note",
+      "resourceId": "note1",
+      "isRead": false,
+      "createdAt": "2023-04-02T11:30:00.000Z"
+    },
+    {
+      "id": "notif2",
+      "userId": "user1",
+      "title": "Shared file edited",
+      "message": "Jane Smith made changes to Project Presentation",
+      "type": "edit",
+      "resourceType": "file",
+      "resourceId": "file1",
+      "isRead": true,
+      "createdAt": "2023-03-30T09:15:00.000Z"
+    }
+  ],
+  "tags": [
+    {
+      "id": "tag1",
+      "userId": "user1",
+      "name": "work",
+      "color": "#FF5722",
+      "createdAt": "2023-01-15T09:30:00.000Z"
+    },
+    {
+      "id": "tag2",
+      "userId": "user1",
+      "name": "personal",
+      "color": "#4CAF50",
+      "createdAt": "2023-01-15T09:31:00.000Z"
+    },
+    {
+      "id": "tag3",
+      "userId": "user1",
+      "name": "meeting",
+      "color": "#2196F3",
+      "createdAt": "2023-01-15T09:32:00.000Z"
+    },
+    {
+      "id": "tag4",
+      "userId": "user1",
+      "name": "ideas",
+      "color": "#9C27B0",
+      "createdAt": "2023-02-20T14:15:00.000Z"
+    }
+  ],
+  "activities": [
+    {
+      "id": "activity1",
+      "userId": "user1",
+      "action": "create",
+      "resourceType": "note",
+      "resourceId": "note1",
+      "details": {
+        "title": "Meeting Summary"
+      },
+      "timestamp": "2023-04-01T14:30:00.000Z",
+      "ipAddress": "192.168.1.1"
+    },
+    {
+      "id": "activity2",
+      "userId": "user1",
+      "action": "share",
+      "resourceType": "note",
+      "resourceId": "note1",
+      "details": {
+        "sharedWith": "user2",
+        "permissionType": "view"
+      },
+      "timestamp": "2023-04-02T10:15:00.000Z",
+      "ipAddress": "192.168.1.1"
+    },
+    {
+      "id": "activity3",
+      "userId": "user2",
+      "action": "comment",
+      "resourceType": "note",
+      "resourceId": "note1",
+      "details": {
+        "commentId": "comment1"
+      },
+      "timestamp": "2023-04-02T11:30:00.000Z",
+      "ipAddress": "192.168.1.2"
+    }
+  ]
+}

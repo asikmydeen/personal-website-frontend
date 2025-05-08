@@ -18,11 +18,14 @@ const PhotoDetailViewComponent = () => {
 
   useEffect(() => {
     if (!photoId) return;
+
     const fetchPhoto = async () => {
       setLoading(true);
       setError('');
+
       try {
         const response = await getPhotoDetails(photoId);
+
         if (response.success && response.data.photo) {
           setPhoto(response.data.photo);
           setEditData({
@@ -31,14 +34,21 @@ const PhotoDetailViewComponent = () => {
             tags: Array.isArray(response.data.photo.tags) ? response.data.photo.tags.join(', ') : ''
           });
         } else {
+          console.error('Failed to load photo:', response.error || 'Unknown error');
           setError(response.error || `Failed to load photo ${photoId}.`);
+          // Set photo to null to ensure proper error display
+          setPhoto(null);
         }
       } catch (err) {
-        setError('An unexpected error occurred while fetching photo details.');
         console.error('Fetch photo details error:', err);
+        setError('An unexpected error occurred while fetching photo details.');
+        // Set photo to null to ensure proper error display
+        setPhoto(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
+
     fetchPhoto();
   }, [photoId]);
 
@@ -54,7 +64,7 @@ const PhotoDetailViewComponent = () => {
     try {
       const tagsArray = editData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
       const updatePayload = { ...editData, tags: tagsArray };
-      
+
       const response = await updatePhotoDetails(photoId, updatePayload);
       if (response.success && response.data.photo) {
         setPhoto(response.data.photo);
@@ -128,7 +138,7 @@ const PhotoDetailViewComponent = () => {
 
       <div className="bg-white shadow-lg rounded-lg overflow-hidden md:flex">
         <div className="md:w-1/2">
-          <img 
+          <img
             src={photo.url || `https://via.placeholder.com/600x400?text=${encodeURIComponent(photo.title)}`}
             alt={photo.title}
             className="w-full h-auto object-contain max-h-[70vh] bg-gray-100"
@@ -153,29 +163,29 @@ const PhotoDetailViewComponent = () => {
               </div>
               {photo.location && <p className="text-sm text-gray-500 mb-1"><strong>Location:</strong> {photo.location}</p>}
               {photo.takenAt && <p className="text-sm text-gray-500 mb-4"><strong>Taken on:</strong> {new Date(photo.takenAt).toLocaleDateString()}</p>}
-              
+
               <div className="space-y-3">
-                <button 
-                  onClick={() => setEditing(true)} 
+                <button
+                  onClick={() => setEditing(true)}
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-150"
                 >
                   Edit Details
                 </button>
-                <button 
-                  onClick={handleGenerateShareLink} 
+                <button
+                  onClick={handleGenerateShareLink}
                   className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-150"
                 >
                   Generate Share Link
                 </button>
-                {shareLink && 
+                {shareLink &&
                     <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded">
                         <p className="text-sm text-green-700">Shareable Link:</p>
                         <input type="text" readOnly value={shareLink} className="w-full p-1 border rounded bg-white text-xs" onClick={(e) => e.target.select()} />
                     </div>
                 }
                 {shareError && <p className="text-red-500 text-xs mt-1">{shareError}</p>}
-                <button 
-                  onClick={handleDeletePhoto} 
+                <button
+                  onClick={handleDeletePhoto}
                   disabled={loading}
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-150 disabled:opacity-50"
                 >
@@ -216,4 +226,3 @@ const PhotoDetailViewComponent = () => {
 };
 
 export default PhotoDetailViewComponent;
-

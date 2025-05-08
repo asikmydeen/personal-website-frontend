@@ -80,7 +80,7 @@ const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
     }
     setUploading(false);
     setFiles([]); // Clear files after attempting upload
-    // onClose(); // Optionally close modal after upload attempt
+    onClose(); // Close modal after upload attempt
   };
 
   const thumbs = files.map(file => (
@@ -88,8 +88,8 @@ const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
       <div className="flex flex-col items-center">
         <img src={file.preview} alt={file.name} className="w-24 h-24 object-cover rounded" onLoad={() => URL.revokeObjectURL(file.preview)} />
         <p className="text-xs mt-1 truncate w-24" title={file.name}>{file.name}</p>
-        <button 
-          onClick={() => handleRemoveFile(file.name)} 
+        <button
+          onClick={() => handleRemoveFile(file.name)}
           className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
           title="Remove file"
         >
@@ -103,7 +103,7 @@ const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
     <div className="p-4 bg-white rounded-lg shadow-lg w-full max-w-lg mx-auto">
       <h3 className="text-lg font-semibold mb-4">Upload Photos</h3>
       {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
-      
+
       <div {...getRootProps()} className={`p-6 border-2 border-dashed rounded-md cursor-pointer ${isDragActive ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}>
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -138,16 +138,16 @@ const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
       )}
 
       <div className="mt-6 flex justify-end space-x-3">
-        <button 
+        <button
           type="button"
-          onClick={onClose} 
+          onClick={onClose}
           className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Cancel
         </button>
-        <button 
+        <button
           type="button"
-          onClick={handleUpload} 
+          onClick={handleUpload}
           disabled={uploading || files.length === 0}
           className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
         >
@@ -164,4 +164,3 @@ const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
 };
 
 export default PhotoUploadComponent;
-

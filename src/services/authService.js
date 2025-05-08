@@ -1,111 +1,151 @@
 // /src/services/authService.js
 
-// Placeholder API base URL - replace with actual backend URL
-const API_BASE_URL = "/api/v1"; // Or process.env.REACT_APP_API_URL
+import { get, post, put, del } from './apiService';
 
 /**
- * Placeholder for user login
+ * User login
  * @param {object} credentials - { email, password }
  * @returns {Promise<object>} - { success: boolean, data: { user, token } | error: string }
  */
 export const login = async (credentials) => {
   console.log("[AuthService] Logging in with:", credentials);
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  if (credentials.email === "user@example.com" && credentials.password === "password") {
-    return { success: true, data: { user: { id: "1", name: "Test User", email: "user@example.com" }, token: "fake-jwt-token" } };
+
+  try {
+    const response = await post('auth/login', credentials);
+
+    if (response.success) {
+      // Store the token in localStorage for future API calls
+      if (response.data && response.data.token) {
+        localStorage.setItem('authToken', response.data.token);
+      }
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Login error:", error);
+    return { success: false, error: error.message || "Login failed" };
   }
-  return { success: false, error: "Invalid credentials" };
 };
 
 /**
- * Placeholder for user registration
+ * User registration
  * @param {object} userData - { name, email, password }
  * @returns {Promise<object>} - { success: boolean, data: { user } | error: string }
  */
 export const register = async (userData) => {
   console.log("[AuthService] Registering user:", userData);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Simulate successful registration
-  return { success: true, data: { user: { id: "2", ...userData } } };
+  return post('auth/register', userData);
 };
 
 /**
- * Placeholder for user logout
+ * User logout
  * @returns {Promise<object>} - { success: boolean }
  */
 export const logout = async () => {
   console.log("[AuthService] Logging out user");
-  await new Promise(resolve => setTimeout(resolve, 500));
+
+  // Get the stored token
+  const token = localStorage.getItem('authToken');
+
+  // Remove the token from localStorage
+  localStorage.removeItem('authToken');
+
+  // Call the logout endpoint if we have a token
+  if (token) {
+    return post('auth/logout', { token });
+  }
+
   return { success: true };
 };
 
 /**
- * Placeholder for password reset request
+ * Password reset request
  * @param {string} email
  * @returns {Promise<object>} - { success: boolean, message: string | error: string }
  */
 export const requestPasswordReset = async (email) => {
   console.log("[AuthService] Requesting password reset for:", email);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, message: "Password reset link sent to your email." };
+  return post('auth/password-reset', { email });
 };
 
 /**
- * Placeholder for resetting password with a token
+ * Reset password with a token
  * @param {string} token
  * @param {string} newPassword
  * @returns {Promise<object>} - { success: boolean, message: string | error: string }
  */
 export const resetPassword = async (token, newPassword) => {
-  console.log("[AuthService] Resetting password with token:", token, "New password:", newPassword);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, message: "Password has been reset successfully." };
+  console.log("[AuthService] Resetting password with token");
+  return post(`auth/password-reset/${token}`, { newPassword });
 };
 
 /**
- * Placeholder for fetching user profile
- * @param {string} userId
+ * Verify authentication token
  * @param {string} token
+ * @returns {Promise<object>} - { success: boolean, data: { isValid, user } | error: string }
+ */
+export const verifyToken = async (token) => {
+  console.log("[AuthService] Verifying token");
+  return post('auth/verify-token', { token });
+};
+
+/**
+ * Get user profile
+ * @param {string} userId
  * @returns {Promise<object>} - { success: boolean, data: { user } | error: string }
  */
-export const getUserProfile = async (userId, token) => {
-  console.log("[AuthService] Fetching profile for user:", userId, "with token:", token);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Simulate fetching data
-  return { success: true, data: { user: { id: userId, name: "Test User", email: "user@example.com", bio: "A test user bio." } } };
+export const getUserProfile = async (userId) => {
+  console.log("[AuthService] Fetching profile for user:", userId);
+
+  // Use the token from localStorage if it exists
+  const token = localStorage.getItem('authToken');
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  return get(`users/profile`, { id: userId }, headers);
 };
 
 /**
- * Placeholder for updating user profile
+ * Update user profile
  * @param {string} userId
  * @param {object} profileData
- * @param {string} token
  * @returns {Promise<object>} - { success: boolean, data: { user } | error: string }
  */
-export const updateUserProfile = async (userId, profileData, token) => {
-  console.log("[AuthService] Updating profile for user:", userId, "Data:", profileData, "Token:", token);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, data: { user: { id: userId, ...profileData } } };
+export const updateUserProfile = async (userId, profileData) => {
+  console.log("[AuthService] Updating profile for user:", userId, "Data:", profileData);
+
+  // Use the token from localStorage if it exists
+  const token = localStorage.getItem('authToken');
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  return put(`users/profile`, { id: userId, ...profileData }, headers);
 };
 
-// Example of how API calls might look with a base URL and fetch
-// const fetchApi = async (endpoint, options = {}) => {
-//   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-//     ...options,
-//     headers: {
-//       'Content-Type': 'application/json',
-//       ...options.headers,
-//     },
-//   });
-//   if (!response.ok) {
-//     const errorData = await response.json().catch(() => ({ message: response.statusText }));
-//     throw new Error(errorData.message || 'API request failed');
-//   }
-//   return response.json();
-// };
+/**
+ * Update user settings
+ * @param {string} userId
+ * @param {object} settingsData
+ * @returns {Promise<object>} - { success: boolean, data: { settings } | error: string }
+ */
+export const updateUserSettings = async (userId, settingsData) => {
+  console.log("[AuthService] Updating settings for user:", userId, "Data:", settingsData);
 
-// export const login = async (credentials) => {
-//   return fetchApi('/auth/login', { method: 'POST', body: JSON.stringify(credentials) });
-// };
+  // Use the token from localStorage if it exists
+  const token = localStorage.getItem('authToken');
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
+  return put(`users/settings`, { id: userId, ...settingsData }, headers);
+};
+
+/**
+ * Get current user from token
+ * @returns {Promise<object>} - { success: boolean, data: { user } | error: string }
+ */
+export const getCurrentUser = async () => {
+  const token = localStorage.getItem('authToken');
+
+  if (!token) {
+    return { success: false, error: "No authentication token found" };
+  }
+
+  return verifyToken(token);
+};

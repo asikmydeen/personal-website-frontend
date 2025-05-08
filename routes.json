@@ -1,0 +1,78 @@
+{
+  "/api/v1/auth/login": "/authTokens?_expand=user",
+  "/api/v1/auth/register": "/users",
+  "/api/v1/auth/logout": "/authTokens",
+  "/api/v1/auth/password-reset": "/passwordResetTokens",
+  "/api/v1/auth/password-reset/:token": "/passwordResetTokens/:token",
+  "/api/v1/auth/verify-token": "/authTokens",
+  "/api/v1/users/profile": "/users/:id",
+  "/api/v1/users/settings": "/users/:id/settings",
+
+  "/notes/new": "/notes?_expand=user",
+  "/api/v1/notes": "/notes?_expand=user",
+  "/api/v1/notes/:id": "/notes/:id?_expand=user",
+  "/api/v1/notes/search": "/notes?q=:query&_expand=user",
+  "/api/v1/notes/tags": "/notes?tags_like=:tag&_expand=user",
+
+  "/api/v1/bookmarks": "/bookmarks?_expand=user",
+  "/api/v1/bookmarks/:id": "/bookmarks/:id?_expand=user",
+  "/api/v1/bookmarks/search": "/bookmarks?q=:query&_expand=user",
+  "/api/v1/bookmarks/tags": "/bookmarks?tags_like=:tag&_expand=user",
+
+  "/api/v1/bookmark-folders": "/bookmarkFolders?_expand=user",
+  "/api/v1/bookmark-folders/:id": "/bookmarkFolders/:id?_expand=user",
+  "/api/v1/bookmark-folders/:id/bookmarks": "/bookmarkFolders/:id/bookmarks",
+
+  "/api/v1/passwords": "/passwords?_expand=user",
+  "/api/v1/passwords/:id": "/passwords/:id?_expand=user",
+  "/api/v1/passwords/search": "/passwords?q=:query&_expand=user",
+  "/api/v1/passwords/category/:category": "/passwords?category=:category&_expand=user",
+
+  "/api/v1/wallet/cards": "/walletCards?_expand=user",
+  "/api/v1/wallet/cards/:id": "/walletCards/:id?_expand=user",
+
+  "/api/v1/voice-memos": "/voiceMemos?_expand=user",
+  "/api/v1/voice-memos/:id": "/voiceMemos/:id?_expand=user",
+  "/api/v1/voice-memos/search": "/voiceMemos?q=:query&_expand=user",
+  "/api/v1/voice-memos/tags": "/voiceMemos?tags_like=:tag&_expand=user",
+
+  "/api/v1/files": "/files?_expand=user",
+  "/api/v1/files/:id": "/files/:id?_expand=user",
+  "/api/v1/files/search": "/files?q=:query&_expand=user",
+  "/api/v1/files/tags": "/files?tags_like=:tag&_expand=user",
+
+  "/api/v1/folders": "/folders?_expand=user",
+  "/api/v1/folders/:id": "/folders/:id?_expand=user",
+  "/api/v1/folders/:id/files": "/folders/:id/files",
+
+  "/api/v1/photos": "/photos?_expand=user",
+  "/api/v1/photos/:id": "/photos/:id?_expand=user",
+  "/api/v1/photos/search": "/photos?q=:query&_expand=user",
+  "/api/v1/photos/tags": "/photos?tags_like=:tag&_expand=user",
+
+  "/api/v1/albums": "/albums?_expand=user",
+  "/api/v1/albums/:id": "/albums/:id?_expand=user",
+  "/api/v1/albums/:id/photos": "/albums/:id/photos",
+
+  "/api/v1/resume": "/resume?_expand=user",
+  "/api/v1/resume/:id": "/resume/:id?_expand=user",
+
+  "/api/v1/sharing/links": "/sharingLinks?_expand=user",
+  "/api/v1/sharing/links/:token": "/sharingLinks?token=:token",
+  "/api/v1/sharing/permissions": "/userPermissions?_expand=user",
+  "/api/v1/sharing/permissions/:id": "/userPermissions/:id?_expand=user",
+
+  "/api/v1/comments": "/comments?_expand=user",
+  "/api/v1/comments/:id": "/comments/:id?_expand=user",
+  "/api/v1/comments/resource/:type/:id": "/comments?resourceType=:type&resourceId=:id&_expand=user",
+
+  "/api/v1/notifications": "/notifications?_expand=user",
+  "/api/v1/notifications/:id": "/notifications/:id?_expand=user",
+  "/api/v1/notifications/unread": "/notifications?isRead=false&_expand=user",
+
+  "/api/v1/tags": "/tags?_expand=user",
+  "/api/v1/tags/:id": "/tags/:id?_expand=user",
+
+  "/api/v1/activities": "/activities?_expand=user",
+  "/api/v1/activities/user/:userId": "/activities?userId=:userId&_expand=user"
+}

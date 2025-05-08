@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { uploadVoiceMemo } from "../../../services/voiceMemoService"; // Adjust path
+import { uploadVoiceMemo } from "../../services/voiceMemoService";
 
-const VoiceMemoRecordComponent = ({ onClose, onRecordingComplete }) => {
+const VoiceMemoRecordComponent = ({ onClose, onMemoRecorded }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioURL, setAudioURL] = useState("");
   const [audioBlob, setAudioBlob] = useState(null);
@@ -82,9 +82,9 @@ const VoiceMemoRecordComponent = ({ onClose, onRecordingComplete }) => {
     setError("");
     try {
       const memoTitle = title || `Voice Memo ${new Date().toLocaleString()}`;
-      const response = await uploadVoiceMemo(audioBlob, memoTitle);
-      if (response.success && response.data.voiceMemo) {
-        onRecordingComplete(response.data.voiceMemo);
+      const response = await uploadVoiceMemo(audioBlob, { title: memoTitle });
+      if (response.success && response.data.memo) {
+        onMemoRecorded(response.data.memo);
       } else {
         setError(response.error || "Failed to upload voice memo.");
       }
@@ -113,8 +113,8 @@ const VoiceMemoRecordComponent = ({ onClose, onRecordingComplete }) => {
 
         <div className="text-center">
           {!isRecording && !audioURL && (
-            <button 
-              onClick={startRecording} 
+            <button
+              onClick={startRecording}
               className="w-20 h-20 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center mx-auto shadow-lg transition-transform hover:scale-105"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
@@ -123,8 +123,8 @@ const VoiceMemoRecordComponent = ({ onClose, onRecordingComplete }) => {
             </button>
           )}
           {isRecording && (
-            <button 
-              onClick={stopRecording} 
+            <button
+              onClick={stopRecording}
               className="w-20 h-20 bg-gray-700 hover:bg-gray-800 text-white rounded-full flex items-center justify-center mx-auto shadow-lg transition-transform hover:scale-105"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -143,23 +143,23 @@ const VoiceMemoRecordComponent = ({ onClose, onRecordingComplete }) => {
             <audio src={audioURL} controls className="w-full" />
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title (Optional)</label>
-              <input 
-                type="text" 
-                id="title" 
-                value={title} 
-                onChange={(e) => setTitle(e.target.value)} 
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder={`Voice Memo ${new Date().toLocaleDateString()}`}
               />
             </div>
-            <button 
-              onClick={handleUpload} 
+            <button
+              onClick={handleUpload}
               disabled={uploading}
               className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
             >
               {uploading ? "Uploading..." : "Upload Recording"}
             </button>
-            <button 
+            <button
               onClick={startRecording} // Allow re-recording
               className="w-full px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
@@ -169,9 +169,9 @@ const VoiceMemoRecordComponent = ({ onClose, onRecordingComplete }) => {
         )}
 
         <div className="flex justify-end pt-2">
-          <button 
-            type="button" 
-            onClick={onClose} 
+          <button
+            type="button"
+            onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             Close
@@ -183,4 +183,3 @@ const VoiceMemoRecordComponent = ({ onClose, onRecordingComplete }) => {
 };
 
 export default VoiceMemoRecordComponent;
-
