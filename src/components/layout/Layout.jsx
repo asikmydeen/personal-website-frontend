@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip, Image } from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -59,7 +59,18 @@ const FooterStatus = () => {
             )}
           </span>
         </Tooltip>
-        <strong>Abode</strong>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Image
+            src="/logo.png"
+            alt="PersonalPod Logo"
+            preview={false}
+            style={{
+              height: '20px',
+              marginRight: '8px'
+            }}
+          />
+          <strong>PersonalPod</strong>
+        </div>
       </div>
 
       <div className="footer-center" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -160,15 +171,22 @@ const LayoutComponent = ({ children }) => {
             borderRadius: 6,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: collapsed ? 'center' : 'flex-start',
-            paddingLeft: collapsed ? 0 : 16,
+            justifyContent: 'center',
             color: 'hsl(var(--playful-sider-logo-text-color))',
-            fontWeight: 'bold',
-            fontSize: 18,
             userSelect: 'none',
           }}
         >
-          {!collapsed ? 'Abode' : '🏠'}
+          <Image
+            src="/logo.png"
+            alt="PersonalPod Logo"
+            preview={false}
+            style={{
+              maxHeight: collapsed ? '40px' : '50px',
+              maxWidth: '100%',
+              objectFit: 'contain',
+              transition: 'max-height 0.2s'
+            }}
+          />
         </div>
         <Menu
           mode="inline"
@@ -229,7 +247,7 @@ const LayoutComponent = ({ children }) => {
               }[location.pathname] || 'Home'}
             </Title>
           </div>
-          <Dropdown overlay={userMenu} placement="bottomRight" arrow>
+          <Dropdown menu={{ items: userMenu }} placement="bottomRight" arrow>
             <Avatar size="large" style={{ cursor: 'pointer', backgroundColor: 'hsl(var(--playful-sider-logo-background))', color: 'hsl(var(--playful-sider-logo-text-color))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span role="img" aria-label="User Menu" style={{ fontSize: '24px' }}>👤</span>
             </Avatar>

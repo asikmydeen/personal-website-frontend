@@ -198,14 +198,14 @@ const VoiceMemoListPage = () => {
   });
 
   // Format duration string (e.g. "2:30")
-  const formatDuration = (durationStr) => {
-    if (!durationStr) return '--:--';
+  const formatDuration = (durationValue) => {
+    if (!durationValue && durationValue !== 0) return '--:--';
 
     // If already in mm:ss format, return as is
-    if (durationStr.includes(':')) return durationStr;
+    if (typeof durationValue === 'string' && durationValue.includes(':')) return durationValue;
 
     // If it's a number (seconds), format it
-    const totalSeconds = parseFloat(durationStr);
+    const totalSeconds = typeof durationValue === 'string' ? parseFloat(durationValue) : durationValue;
     if (isNaN(totalSeconds)) return '--:--';
 
     const minutes = Math.floor(totalSeconds / 60);
@@ -353,7 +353,7 @@ const VoiceMemoListPage = () => {
                       {/* Hidden audio element for playback */}
                       <audio
                         ref={el => { audioRefs.current[memo.id] = el; }}
-                        src={`${memo.audioUrl || `https://example.com/memos/${memo.id}.mp3`}`}
+                        src={memo.audioUrl || memo.fileUrl || `/media/voicememos/${memo.id}.mp3`}
                         onTimeUpdate={(e) => handleTimeUpdate(memo.id, e)}
                         onEnded={() => setIsPlaying(prev => ({ ...prev, [memo.id]: false }))}
                         preload="metadata"

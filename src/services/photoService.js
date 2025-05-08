@@ -3,6 +3,25 @@
 import { get, post, put, del } from './apiService';
 
 /**
+ * List all photos
+ * @returns {Promise<object>} - { success: boolean, data: [] | error: string }
+ */
+export const listPhotos = async () => {
+  console.log("[PhotoService] Listing all photos");
+
+  try {
+    const response = await get('photos');
+    return response;
+  } catch (err) {
+    console.error('[PhotoService] Error listing photos:', err);
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred"
+    };
+  }
+};
+
+/**
  * List albums
  * @returns {Promise<object>} - { success: boolean, data: { albums: [] } | error: string }
  */

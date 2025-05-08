@@ -7,6 +7,7 @@ import MainDashboardPage from './pages/Dashboard/MainDashboardPage';
 import PhotoGalleryPage from './pages/Photos/PhotoGalleryPage';
 import FileManagerPage from './pages/Files/FileManagerPage';
 import ResumeViewPage from './pages/Resume/ResumeViewPage';
+import ResumeEditPage from './pages/Resume/ResumeEditPage';
 import LoginPage from './pages/Auth/LoginPage';
 import NotesListPage from './pages/Notes/NotesListPage';
 import TextNoteEditorPage from './pages/Notes/TextNoteEditorPage';
@@ -75,6 +76,14 @@ function App() {
             element={
               <PrivateRoute>
                 <ResumeViewPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/resume/edit"
+            element={
+              <PrivateRoute>
+                <ResumeEditPage />
               </PrivateRoute>
             }
           />

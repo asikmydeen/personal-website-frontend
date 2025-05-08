@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-// Placeholder: Import services to fetch counts or recent items for dashboard widgets
-// import { getPhotoCount, getRecentPhotos } from '../../services/photoService';
-// import { getFileCount } from '../../services/fileService';
-// import { getNoteCount } from '../../services/notesService';
-// import { getBookmarkCount } from '../../services/bookmarkService';
-// import { getPasswordCount } from '../../services/passwordService';
-// import { getCardCount } from '../../services/digitalWalletService';
-// import { getVoiceMemoCount } from '../../services/voiceMemoService';
+import { listPhotos } from '../../services/photoService';
+import { listDirectoryContents } from '../../services/fileService';
+import { listNotes } from '../../services/notesService';
+import { listCards } from '../../services/digitalWalletService';
+import { listVoiceMemos } from '../../services/voiceMemoService';
+import { get } from '../../services/apiService';
+import useStore from '../../store/useStore';
 
 // Placeholder data structure for dashboard items
 const initialDashboardStats = {
@@ -51,33 +50,109 @@ const MainDashboardPage = () => {
   const [error, setError] = useState('');
   const [userName, setUserName] = useState('User'); // Placeholder, fetch from auth context/service
 
+  const user = useStore(state => state.user);
+
   const fetchDashboardData = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
-      // Placeholder: Simulate fetching data from various services
-      // In a real app, these would be actual API calls
-      // const photoData = await getPhotoCount(); // and getRecentPhotos()
-      // const fileData = await getFileCount();
-      // ... and so on for other services
+      // Fetch data from various services in parallel
+      const [photosResponse, filesResponse, notesResponse, bookmarksResponse, passwordsResponse, cardsResponse, voiceMemosResponse, resumeResponse] = await Promise.all([
+        listPhotos(),
+        listDirectoryContents(),
+        listNotes(),
+        get('bookmarks'),
+        get('passwords'),
+        listCards(),
+        listVoiceMemos(),
+        get('resume')
+      ]);
 
-      // Simulate API responses
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+      // Process photos data
+      const photosData = photosResponse.success ? {
+        count: photosResponse.data.length || 0,
+        recent: photosResponse.data?.slice(0, 3).map(photo => ({
+          name: photo.title || photo.name || 'Unnamed Photo',
+          id: photo.id
+        })) || []
+      } : { count: 0, recent: [] };
+
+      // Process files data
+      const filesData = filesResponse.success ? {
+        count: filesResponse.data?.items?.length || 0,
+        recent: filesResponse.data?.items?.slice(0, 3).map(file => ({
+          name: file.name || 'Unnamed File',
+          id: file.id
+        })) || []
+      } : { count: 0, recent: [] };
+
+      // Process notes data
+      const notesData = notesResponse.success ? {
+        count: notesResponse.data?.length || 0,
+        recent: notesResponse.data?.slice(0, 3).map(note => ({
+          name: note.title || 'Unnamed Note',
+          id: note.id
+        })) || []
+      } : { count: 0, recent: [] };
+
+      // Process bookmarks data
+      const bookmarksData = bookmarksResponse.success ? {
+        count: bookmarksResponse.data?.length || 0,
+        recent: bookmarksResponse.data?.slice(0, 3).map(bookmark => ({
+          name: bookmark.title || bookmark.url || 'Unnamed Bookmark',
+          id: bookmark.id
+        })) || []
+      } : { count: 0, recent: [] };
+
+      // Process passwords data
+      const passwordsData = passwordsResponse.success ? {
+        count: passwordsResponse.data?.length || 0
+      } : { count: 0 };
+
+      // Process wallet cards data
+      const cardsData = cardsResponse.success ? {
+        count: cardsResponse.data?.cards?.length || 0,
+        recent: cardsResponse.data?.cards?.slice(0, 3).map(card => ({
+          name: card.name || `${card.cardType || card.issuer || ''} Card`,
+          id: card.id
+        })) || []
+      } : { count: 0, recent: [] };
+
+      // Process voice memos data
+      const voiceMemosData = voiceMemosResponse.success ? {
+        count: voiceMemosResponse.data?.memos?.length || 0,
+        recent: voiceMemosResponse.data?.memos?.slice(0, 3).map(memo => ({
+          name: memo.title || 'Unnamed Voice Memo',
+          id: memo.id
+        })) || []
+      } : { count: 0, recent: [] };
+
+      // Process resume data
+      const resumeData = resumeResponse.success ? {
+        count: resumeResponse.data?.length || 0,
+        recent: resumeResponse.data?.slice(0, 1).map(resume => ({
+          name: resume.title || 'Resume',
+          id: resume.id
+        })) || []
+      } : { count: 0, recent: [] };
 
       const fetchedStats = {
-        photos: { count: 125, recent: [{ name: 'Vacation Pic 1' }, { name: 'Family Gathering' }] },
-        files: { count: 42 },
-        notes: { count: 18 },
-        bookmarks: { count: 73 },
-        passwords: { count: 35 },
-        cards: { count: 3 },
-        voiceMemos: { count: 7 },
+        photos: photosData,
+        files: filesData,
+        notes: notesData,
+        bookmarks: bookmarksData,
+        passwords: passwordsData,
+        cards: cardsData,
+        voiceMemos: voiceMemosData,
+        resume: resumeData
       };
+
       setStats(fetchedStats);
 
-      // Fetch user name (placeholder)
-      // const userProfile = await getUserProfile();
-      // if (userProfile.success) setUserName(userProfile.data.name || 'User');
+      // Set user name if available
+      if (user) {
+        setUserName(user.name || 'User');
+      }
 
     } catch (err) {
       setError('Failed to load dashboard data. Some widgets may not display correctly.');
@@ -85,7 +160,7 @@ const MainDashboardPage = () => {
       setStats(initialDashboardStats); // Reset to initial on error
     }
     setLoading(false);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -126,18 +201,21 @@ const MainDashboardPage = () => {
           count={stats.files.count}
           linkTo="/files"
           icon={icons.files}
+          recentItems={stats.files.recent}
         />
         <DashboardWidget
           title="Notes"
           count={stats.notes.count}
           linkTo="/notes"
           icon={icons.notes}
+          recentItems={stats.notes.recent}
         />
         <DashboardWidget
           title="Bookmarks"
           count={stats.bookmarks.count}
           linkTo="/bookmarks"
           icon={icons.bookmarks}
+          recentItems={stats.bookmarks.recent}
         />
         <DashboardWidget
           title="Passwords"
@@ -150,12 +228,21 @@ const MainDashboardPage = () => {
           count={stats.cards.count}
           linkTo="/wallet"
           icon={icons.cards}
+          recentItems={stats.cards.recent}
         />
         <DashboardWidget
           title="Voice Memos"
           count={stats.voiceMemos.count}
           linkTo="/voice-memos"
           icon={icons.voiceMemos}
+          recentItems={stats.voiceMemos.recent}
+        />
+        <DashboardWidget
+          title="Resume"
+          count={stats.resume ? stats.resume.count : 0}
+          linkTo="/resume"
+          icon="📄"
+          recentItems={stats.resume ? stats.resume.recent : []}
         />
         {/* Add more widgets as needed */}
         {/* Example for a settings link or profile */}

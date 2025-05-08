@@ -1,53 +1,123 @@
 // /src/services/resumeService.js
 
-const API_BASE_URL = "/api/v1"; // Or process.env.REACT_APP_API_URL
+import { get, post, put, del } from './apiService';
 
 /**
- * Placeholder for fetching resume data
- * @returns {Promise<object>} - { success: boolean, data: { resume: {} } | error: string }
+ * Fetch resume data from the API
+ * @param {string} resumeId - Optional resume ID (defaults to first resume if not provided)
+ * @returns {Promise<object>} - { success: boolean, data: { resume } | error: string }
  */
-export const getResumeData = async () => {
+export const getResumeData = async (resumeId) => {
   console.log("[ResumeService] Fetching resume data");
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Simulate fetching resume data
-  return {
-    success: true,
-    data: {
-      resume: {
-        name: "John Doe",
-        title: "Software Engineer",
-        summary: "Experienced software engineer with a passion for building scalable web applications.",
-        contact: { email: "john.doe@example.com", phone: "555-1234", linkedin: "linkedin.com/in/johndoe" },
-        experience: [
-          { company: "Tech Solutions Inc.", role: "Senior Developer", period: "2020-Present", responsibilities: ["Led a team of 5 developers.", "Developed key features for a major product."] },
-        ],
-        education: [
-          { institution: "State University", degree: "B.S. in Computer Science", period: "2016-2020" },
-        ],
-        skills: ["JavaScript", "React", "Node.js", "AWS"],
+
+  try {
+    // If resumeId is provided, fetch that specific resume
+    if (resumeId) {
+      const response = await get(`resume/${resumeId}`);
+      if (response.success) {
+        return {
+          success: true,
+          data: { resume: response.data }
+        };
       }
+      return response;
     }
-  };
+
+    // Otherwise, fetch all resumes and use the first one
+    const response = await get('resume');
+    if (response.success && Array.isArray(response.data) && response.data.length > 0) {
+      return {
+        success: true,
+        data: { resume: response.data[0] }
+      };
+    } else if (response.success) {
+      return {
+        success: false,
+        error: 'No resume data found'
+      };
+    }
+    return response;
+  } catch (error) {
+    console.error("Error fetching resume data:", error);
+    return {
+      success: false,
+      error: error.message || 'Failed to fetch resume data'
+    };
+  }
 };
 
 /**
- * Placeholder for updating resume data
- * @param {object} resumeData
- * @returns {Promise<object>} - { success: boolean, data: { resume: {} } | error: string }
+ * Update resume data via API
+ * @param {object} resumeData - Resume data to update
+ * @param {string} resumeId - Optional resume ID (if omitted, updates first resume)
+ * @returns {Promise<object>} - { success: boolean, data: { resume } | error: string }
  */
-export const updateResumeData = async (resumeData) => {
+export const updateResumeData = async (resumeData, resumeId) => {
   console.log("[ResumeService] Updating resume data:", resumeData);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, data: { resume: { ...resumeData, lastUpdated: new Date().toISOString() } } };
+
+  try {
+    // If resumeId is provided, update that specific resume
+    if (resumeId) {
+      const response = await put(`resume/${resumeId}`, resumeData);
+      if (response.success) {
+        return {
+          success: true,
+          data: { resume: response.data }
+        };
+      }
+      return response;
+    }
+
+    // Otherwise, get the first resume ID and update it
+    const getResponse = await get('resume');
+    if (getResponse.success && Array.isArray(getResponse.data) && getResponse.data.length > 0) {
+      const firstResumeId = getResponse.data[0].id;
+      const updateResponse = await put(`resume/${firstResumeId}`, resumeData);
+
+      if (updateResponse.success) {
+        return {
+          success: true,
+          data: { resume: updateResponse.data }
+        };
+      }
+      return updateResponse;
+    }
+
+    // If no resume exists, create a new one
+    const createResponse = await post('resume', {
+      ...resumeData,
+      userId: 'user1', // Default to user1 for testing
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
+
+    if (createResponse.success) {
+      return {
+        success: true,
+        data: { resume: createResponse.data }
+      };
+    }
+    return createResponse;
+  } catch (error) {
+    console.error("Error updating resume data:", error);
+    return {
+      success: false,
+      error: error.message || 'Failed to update resume data'
+    };
+  }
 };
 
 /**
- * Placeholder for fetching resume version history
- * @returns {Promise<object>} - { success: boolean, data: { versions: [] } | error: string }
+ * Fetch resume version history
+ * @param {string} resumeId - Optional resume ID
+ * @returns {Promise<object>} - { success: boolean, data: { versions } | error: string }
  */
-export const getResumeVersionHistory = async () => {
+export const getResumeVersionHistory = async (resumeId) => {
   console.log("[ResumeService] Fetching resume version history");
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  // Note: Currently, version history is not supported by the API
+  // This is a placeholder that returns mock data
+  // In a real implementation, this would call a specific API endpoint
+
   return {
     success: true,
     data: {
@@ -60,26 +130,33 @@ export const getResumeVersionHistory = async () => {
 };
 
 /**
- * Placeholder for reverting to a specific resume version
- * @param {string} versionId
- * @returns {Promise<object>} - { success: boolean, data: { resume: {} } | error: string }
+ * Revert to a specific resume version
+ * @param {string} versionId - Version ID to revert to
+ * @param {string} resumeId - Optional resume ID
+ * @returns {Promise<object>} - { success: boolean, data: { resume } | error: string }
  */
-export const revertToVersion = async (versionId) => {
+export const revertToVersion = async (versionId, resumeId) => {
   console.log("[ResumeService] Reverting to resume version:", versionId);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Simulate reverting and fetching the reverted version
-  return getResumeData(); // For simplicity, just return current data
+  // Note: Currently, version history is not supported by the API
+  // This is a placeholder that returns current data
+
+  return getResumeData(resumeId);
 };
 
 /**
- * Placeholder for triggering PDF export of the resume
- * (Backend will handle actual PDF generation)
- * @returns {Promise<object>} - { success: boolean, data: { downloadUrl: string } | error: string }
+ * Trigger PDF export of the resume
+ * @param {string} resumeId - Optional resume ID
+ * @returns {Promise<object>} - { success: boolean, data: { downloadUrl } | error: string }
  */
-export const exportResumeToPdf = async () => {
+export const exportResumeToPdf = async (resumeId) => {
   console.log("[ResumeService] Requesting PDF export for resume");
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Backend would generate PDF and provide a download link
-  return { success: true, data: { downloadUrl: `${API_BASE_URL}/resume/export/pdf?token=tempPdfToken` } };
-};
+  // Note: Currently, PDF export is not supported by the API
+  // This is a placeholder that returns a mock download URL
 
+  return {
+    success: true,
+    data: {
+      downloadUrl: `/api/v1/resume/${resumeId || 'resume1'}/export/pdf?token=tempPdfToken`
+    }
+  };
+};

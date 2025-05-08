@@ -128,13 +128,16 @@ const useStore = create(
     const { listVoiceMemos } = await import('../services/voiceMemoService');
     const response = await listVoiceMemos(filters);
     if (response.success) {
+      // Make sure we're using the correct data format returned from the API
       get().setVoiceMemos(response.data.memos);
+    } else {
+      console.error("Failed to fetch voice memos:", response.error);
     }
     return response;
   }
     }),
     {
-      name: 'abode-storage', // Name for the storage
+      name: 'personalpod-storage', // Name for the storage
       getStorage: () => localStorage, // Use localStorage for persistence
     }
   )

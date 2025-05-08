@@ -34,12 +34,39 @@ const ResumeEditPage = () => {
       const response = await getResumeData();
       if (response.success && response.data.resume) {
         // Initialize IDs for dynamic sections if not present from backend
+        const resumeData = response.data.resume;
         const initializedResume = {
           ...initialResumeState, // Ensure all fields are present
-          ...response.data.resume,
-          experience: response.data.resume.experience?.map(exp => ({ ...exp, id: exp.id || `exp-${expIdCounter++}` })) || [],
-          education: response.data.resume.education?.map(edu => ({ ...edu, id: edu.id || `edu-${eduIdCounter++}` })) || [],
-          skills: response.data.resume.skills?.map(skill => (typeof skill === 'string' ? {id: `skill-${skillIdCounter++}`, name: skill} : { ...skill, id: skill.id || `skill-${skillIdCounter++}` })) || [],
+          name: resumeData.name || '',
+          title: resumeData.title || '',
+          summary: resumeData.summary || '',
+          contact: {
+            email: resumeData.contact?.email || '',
+            phone: resumeData.contact?.phone || '',
+            linkedin: resumeData.contact?.linkedin || '',
+            github: resumeData.contact?.github || '',
+            website: resumeData.contact?.website || '',
+          },
+          experience: resumeData.experience?.map(exp => ({
+            id: exp.id || `exp-${expIdCounter++}`,
+            company: exp.company || '',
+            role: exp.role || '',
+            period: exp.period || '',
+            responsibilities: exp.responsibilities || ['']
+          })) || [],
+          education: resumeData.education?.map(edu => ({
+            id: edu.id || `edu-${eduIdCounter++}`,
+            institution: edu.institution || '',
+            degree: edu.degree || '',
+            period: edu.period || '',
+            details: edu.details || ''
+          })) || [],
+          skills: resumeData.skills?.map(skill => (
+            typeof skill === 'string'
+              ? {id: `skill-${skillIdCounter++}`, name: skill || ''}
+              : { id: skill.id || `skill-${skillIdCounter++}`, name: skill.name || '' }
+          )) || [],
+          lastUpdated: resumeData.lastUpdated || null,
         };
         setResume(initializedResume);
       } else {
@@ -89,7 +116,7 @@ const ResumeEditPage = () => {
       return newResume;
     });
   };
-  
+
   // Specific handler for top-level fields like name, title, summary
   const handleTopLevelChange = (e) => {
     const { name, value } = e.target;
@@ -123,7 +150,7 @@ const ResumeEditPage = () => {
       [section]: prev[section].map(item => item.id === id ? { ...item, [field]: value } : item)
     }));
   };
-  
+
   const handleResponsibilityChange = (e, expId, respIndex) => {
     const { value } = e.target;
     setResume(prev => ({
@@ -142,7 +169,7 @@ const ResumeEditPage = () => {
   const addResponsibility = (expId) => {
     setResume(prev => ({
         ...prev,
-        experience: prev.experience.map(exp => 
+        experience: prev.experience.map(exp =>
             exp.id === expId ? { ...exp, responsibilities: [...exp.responsibilities, ''] } : exp
         )
     }));
@@ -187,7 +214,7 @@ const ResumeEditPage = () => {
     }
     setSaving(false);
   };
-  
+
   const inputClass = "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm";
   const labelClass = "block text-sm font-medium text-gray-700";
   const buttonClass = "px-4 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2";
@@ -208,7 +235,7 @@ const ResumeEditPage = () => {
       <form onSubmit={handleSubmit} className="bg-white shadow-xl rounded-lg p-6 space-y-6">
         {/* Basic Info */}
         <section>
-          <h2 class="text-xl font-semibold text-gray-700 mb-3">Basic Information</h2>
+          <h2 className="text-xl font-semibold text-gray-700 mb-3">Basic Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div><label htmlFor="name" className={labelClass}>Full Name</label><input type="text" name="name" id="name" value={resume.name} onChange={handleTopLevelChange} className={inputClass} /></div>
             <div><label htmlFor="title" className={labelClass}>Professional Title</label><input type="text" name="title" id="title" value={resume.title} onChange={handleTopLevelChange} className={inputClass} /></div>
@@ -218,7 +245,7 @@ const ResumeEditPage = () => {
 
         {/* Contact Info */}
         <section>
-          <h2 class="text-xl font-semibold text-gray-700 mb-3">Contact Information</h2>
+          <h2 className="text-xl font-semibold text-gray-700 mb-3">Contact Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div><label htmlFor="email" className={labelClass}>Email</label><input type="email" name="email" id="email" value={resume.contact.email} onChange={handleContactChange} className={inputClass} /></div>
             <div><label htmlFor="phone" className={labelClass}>Phone</label><input type="tel" name="phone" id="phone" value={resume.contact.phone} onChange={handleContactChange} className={inputClass} /></div>
@@ -231,7 +258,7 @@ const ResumeEditPage = () => {
         {/* Experience */}
         <section>
           <div className="flex justify-between items-center mb-3">
-            <h2 class="text-xl font-semibold text-gray-700">Work Experience</h2>
+            <h2 className="text-xl font-semibold text-gray-700">Work Experience</h2>
             <button type="button" onClick={() => addSectionItem('experience')} className={`${buttonClass} bg-green-500 text-white hover:bg-green-600`}>+ Add Experience</button>
           </div>
           {resume.experience?.map((exp, index) => (
@@ -259,7 +286,7 @@ const ResumeEditPage = () => {
         {/* Education */}
         <section>
           <div className="flex justify-between items-center mb-3">
-            <h2 class="text-xl font-semibold text-gray-700">Education</h2>
+            <h2 className="text-xl font-semibold text-gray-700">Education</h2>
             <button type="button" onClick={() => addSectionItem('education')} className={`${buttonClass} bg-green-500 text-white hover:bg-green-600`}>+ Add Education</button>
           </div>
           {resume.education?.map((edu, index) => (
@@ -278,7 +305,7 @@ const ResumeEditPage = () => {
         {/* Skills */}
         <section>
           <div className="flex justify-between items-center mb-3">
-            <h2 class="text-xl font-semibold text-gray-700">Skills</h2>
+            <h2 className="text-xl font-semibold text-gray-700">Skills</h2>
             <button type="button" onClick={() => addSectionItem('skills')} className={`${buttonClass} bg-green-500 text-white hover:bg-green-600`}>+ Add Skill</button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -302,4 +329,3 @@ const ResumeEditPage = () => {
 };
 
 export default ResumeEditPage;
-

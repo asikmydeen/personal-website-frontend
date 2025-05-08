@@ -50,6 +50,11 @@
       "email": "testuser@example.com",
       "password": "password123",
       "id": "OBvEicT"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123",
+      "id": "eK94HjF"
     }
   ],
   "passwordResetTokens": [
@@ -718,9 +723,54 @@
   ],
   "resume": [
     {
+      "name": "Asik Mydeen",
+      "title": "Software Developer Resume",
+      "summary": "I am a software en",
+      "contact": {
+        "email": "writetoasik@gmail.com",
+        "phone": "2069108357",
+        "linkedin": "https://assasa.com",
+        "github": "http://sasa.com",
+        "website": "https://sas.com"
+      },
+      "experience": [
+        {
+          "company": "as",
+          "role": "as",
+          "period": "as",
+          "responsibilities": [
+            "as",
+            "asas"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "institution": "University of Technology",
+          "area": "Computer Science",
+          "studyType": "Bachelor",
+          "startDate": "2013-09-01",
+          "endDate": "2017-05-15",
+          "gpa": "3.8",
+          "courses": [
+            "Data Structures and Algorithms",
+            "Web Development",
+            "Database Systems"
+          ],
+          "degree": "as",
+          "period": "as",
+          "details": "as"
+        }
+      ],
+      "skills": [
+        "Frontend Development",
+        "Backend Development",
+        "DevOps",
+        "as"
+      ],
+      "lastUpdated": null,
       "id": "resume1",
       "userId": "user1",
-      "title": "Software Developer Resume",
       "isDefault": true,
       "basics": {
         "name": "Test User",
@@ -778,55 +828,6 @@
           ]
         }
       ],
-      "education": [
-        {
-          "institution": "University of Technology",
-          "area": "Computer Science",
-          "studyType": "Bachelor",
-          "startDate": "2013-09-01",
-          "endDate": "2017-05-15",
-          "gpa": "3.8",
-          "courses": [
-            "Data Structures and Algorithms",
-            "Web Development",
-            "Database Systems"
-          ]
-        }
-      ],
-      "skills": [
-        {
-          "name": "Frontend Development",
-          "level": "Advanced",
-          "keywords": [
-            "JavaScript",
-            "React",
-            "Vue",
-            "HTML",
-            "CSS",
-            "Tailwind"
-          ]
-        },
-        {
-          "name": "Backend Development",
-          "level": "Intermediate",
-          "keywords": [
-            "Node.js",
-            "Express",
-            "MongoDB",
-            "SQL"
-          ]
-        },
-        {
-          "name": "DevOps",
-          "level": "Basic",
-          "keywords": [
-            "Git",
-            "Docker",
-            "GitHub Actions",
-            "AWS"
-          ]
-        }
-      ],
       "projects": [
         {
           "name": "Personal Portfolio",
@@ -853,7 +854,22 @@
         }
       ],
       "createdAt": "2023-01-20T10:15:00.000Z",
-      "updatedAt": "2023-03-12T14:30:00.000Z"
+      "updatedAt": "2023-03-12T14:30:00.000Z",
+      "user": {
+        "id": "user1",
+        "email": "user@example.com",
+        "password": "$2a$10$encrypted_password_hash",
+        "name": "Test User",
+        "bio": "A test user bio",
+        "profilePicture": "https://randomuser.me/api/portraits/men/1.jpg",
+        "createdAt": "2023-01-15T08:30:00.000Z",
+        "lastLogin": "2023-04-01T10:25:00.000Z",
+        "settings": {
+          "theme": "light",
+          "notifications": true,
+          "twoFactorEnabled": false
+        }
+      }
     }
   ],
   "sharingLinks": [
