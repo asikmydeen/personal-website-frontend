@@ -42,4 +42,6 @@ const AnimatedCard: React.FC<AnimatedCardProps> = ({
   );
 };
 
-export default AnimatedCard;
+AnimatedCard.displayName = "AnimatedCard";
+
+export { AnimatedCard };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { listAlbums, listPhotosInAlbum, searchPhotos } from '../../services/photoService'; // Adjust path as needed
 import PhotoUploadComponent from '../../components/photos/PhotoUploadComponent'; // Adjust path as needed
+import CollapsibleTags from '../../components/ui/collapsible-tags';
 
 const PhotoGalleryPage = () => {
   const [albums, setAlbums] = useState([]);
@@ -158,11 +159,10 @@ const PhotoGalleryPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 sm:gap-4">
         {/* Albums Section - Hidden on mobile, visible on md screens and up */}
         <div className="hidden md:block md:col-span-1 bg-gray-50 p-3 sm:p-4 rounded-lg shadow">
-          <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-gray-700">Albums</h2>
-          {albums.length > 0 ? (
-            <ul className="space-y-1 sm:space-y-2">
-              <li
-                key="all-photos"
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-700">Albums</h2>
+            {selectedAlbum && (
+              <button
                 onClick={() => {
                   setSelectedAlbum(null);
                   setLoading(true);
@@ -183,22 +183,39 @@ const PhotoGalleryPage = () => {
                       setLoading(false);
                     });
                 }}
-                className={`p-2 rounded-md cursor-pointer ${!selectedAlbum ? 'bg-indigo-500 text-white' : 'bg-white hover:bg-indigo-100'}`}
+                className="text-xs px-2 py-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
               >
-                All Photos
-              </li>
-              {albums.map(album => (
-                <li
-                  key={album.id}
-                  onClick={() => handleSelectAlbum(album.id)}
-                  className={`p-2 rounded-md cursor-pointer ${selectedAlbum === album.id ? 'bg-indigo-500 text-white' : 'bg-white hover:bg-indigo-100'}`}
-                >
-                  {album.name} ({album.photoCount})
-                </li>
-              ))}
-            </ul>
+                Show All
+              </button>
+            )}
+          </div>
+
+          {albums.length > 0 ? (
+            <div className="space-y-2">
+              {!selectedAlbum && (
+                <div className="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full inline-block mb-2">
+                  All Photos
+                </div>
+              )}
+
+              {selectedAlbum && (
+                <div className="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full inline-block mb-2">
+                  {albums.find(a => a.id === selectedAlbum)?.name}
+                </div>
+              )}
+
+              <CollapsibleTags
+                tags={albums}
+                initialVisibleCount={5}
+                onTagClick={(album) => handleSelectAlbum(album.id)}
+                showFilter={false}
+                getTagLabel={(album) => `${album.name} (${album.photoCount})`}
+                getTagValue={(album) => album.id}
+                className="mt-1"
+              />
+            </div>
           ) : (
-            <p className="text-gray-500 text-sm">No albums found.</p>
+            <p className="text-gray-500 text-xs">No albums found.</p>
           )}
         </div>
 

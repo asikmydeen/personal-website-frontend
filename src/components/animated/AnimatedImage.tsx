@@ -113,19 +113,7 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({
     }
   };
 
-  // Hover effects
-  const hoverVariants: Variants = {
-    hover: {
-      scale: 1.05,
-      boxShadow: '0px 10px 25px rgba(0, 0, 0, 0.15)',
-      transition: {
-        duration: 0.3
-      }
-    },
-    tap: {
-      scale: 0.98
-    }
-  };
+  // Define hover and tap animations directly in the motion component
 
   return (
     <motion.div

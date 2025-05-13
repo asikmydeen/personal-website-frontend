@@ -12,7 +12,6 @@ interface AnimatedDrawerProps {
   showBackdrop?: boolean;
   className?: string;
   drawerClassName?: string;
-  backdrop?: boolean;
   closeButton?: boolean;
   closeButtonPosition?: 'inside' | 'outside';
 }
@@ -28,7 +27,6 @@ const AnimatedDrawer: React.FC<AnimatedDrawerProps> = ({
   showBackdrop = true,
   className = '',
   drawerClassName = '',
-  backdrop = true,
   closeButton = true,
   closeButtonPosition = 'inside'
 }) => {

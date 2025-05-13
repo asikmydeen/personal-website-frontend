@@ -1,5 +1,5 @@
 // Export all animation components from this file for easier imports
-export { default as AnimatedCard } from './AnimatedCard';
+export { AnimatedCard } from './AnimatedCard';
 export { default as AnimatedText } from './AnimatedText';
 export { default as AnimatedList } from './AnimatedList';
 export { default as AnimatedButton } from './AnimatedButton';
