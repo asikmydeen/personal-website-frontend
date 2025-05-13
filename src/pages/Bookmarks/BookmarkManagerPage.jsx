@@ -146,7 +146,7 @@ const BookmarkManagerPage = () => {
   });
 
   return (
-    <div className="container mx-auto p-4 max-w-6xl">
+    <div className="container mx-auto p-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">Bookmarks</h1>
         <Button

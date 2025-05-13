@@ -59,7 +59,7 @@ const ResumeViewPage = () => {
   const dateClass = "text-sm text-gray-500 italic";
 
   return (
-    <div className="container mx-auto p-4 md:p-8 max-w-4xl bg-white shadow-2xl rounded-lg my-8 print:shadow-none print:my-0">
+    <div className="container mx-auto p-4 md:p-8 bg-white shadow-2xl rounded-lg my-8 print:shadow-none print:my-0">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 print:hidden">
         <h1 className="text-4xl font-bold text-gray-800 mb-4 md:mb-0">{name || 'Your Name'}</h1>
         <div>

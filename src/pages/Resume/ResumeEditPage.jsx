@@ -225,7 +225,7 @@ const ResumeEditPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-3xl">
+    <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Edit Resume</h1>
         <button onClick={() => navigate('/resume')} className={`${buttonClass} bg-gray-200 text-gray-700 hover:bg-gray-300`}>View Resume</button>

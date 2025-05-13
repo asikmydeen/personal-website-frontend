@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip, Image } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip } from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -16,6 +16,7 @@ import {
 } from '@ant-design/icons';
 import useStore from '../../store/useStore';
 import ThemeSwitcher from '../theme/ThemeSwitcher';
+import LogoSvg from './LogoSvg';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -61,16 +62,11 @@ const FooterStatus = () => {
           </span>
         </Tooltip>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Image
-            src="/logo.png"
-            alt="PersonalPod Logo"
-            preview={false}
-            style={{
-              height: '20px',
-              marginRight: '8px'
-            }}
+          <LogoSvg
+            height="20px"
+            className="sidebar-logo"
+            collapsed={false}
           />
-          <strong>PersonalPod</strong>
         </div>
       </div>
 
@@ -159,12 +155,10 @@ const LayoutComponent = ({ children }) => {
   return (
     <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
       <Sider
-        collapsible
+        collapsible={false}
         collapsed={collapsed}
-        onCollapse={setCollapsed}
         breakpoint="lg"
         collapsedWidth={screens.lg ? 100 : 0}
-        zeroWidthTriggerStyle={{ top: 12 }}
         style={{
           background: 'transparent',
           minHeight: '100vh',
@@ -188,13 +182,12 @@ const LayoutComponent = ({ children }) => {
             userSelect: 'none',
           }}
         >
-          <Image
-            src="/logo.png"
-            alt="PersonalPod Logo"
-            preview={false}
+          <LogoSvg
+            height="100%"
+            className="sidebar-logo"
+            collapsed={collapsed}
             style={{
               width: '100%',
-              height: '100%',
               objectFit: 'contain',
               transition: 'width 0.4s, height 0.4s'
             }}

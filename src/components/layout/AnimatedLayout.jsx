@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip, Image } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip } from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import useStore from '../../store/useStore';
 import ThemeSwitcher from '../theme/ThemeSwitcher';
 import { AnimatedSidebarItem } from '../animated';
+import LogoSvg from './LogoSvg';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -59,16 +60,11 @@ const FooterStatus = () => {
           </span>
         </Tooltip>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Image
-            src="/logo.png"
-            alt="PersonalPod Logo"
-            preview={false}
-            style={{
-              height: '20px',
-              marginRight: '8px'
-            }}
+          <LogoSvg
+            height="20px"
+            className="sidebar-logo"
+            style={{ marginRight: '8px' }}
           />
-          <strong>PersonalPod</strong>
         </div>
       </div>
 
@@ -223,13 +219,11 @@ const AnimatedLayoutComponent = ({ children }) => {
           variants={logoVariants}
           animate={collapsed ? 'collapsed' : 'expanded'}
         >
-          <Image
-            src="/logo.png"
-            alt="PersonalPod Logo"
-            preview={false}
+          <LogoSvg
+            height="100%"
+            className="sidebar-logo"
             style={{
               width: '100%',
-              height: '100%',
               objectFit: 'contain',
               transition: 'width 0.4s, height 0.4s'
             }}

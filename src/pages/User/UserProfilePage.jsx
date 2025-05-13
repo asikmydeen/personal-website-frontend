@@ -5,6 +5,7 @@ import {
   AnimatedText,
   AnimatedTabContent
 } from '../../components/animated';
+import '../../styles/custom-tabs.css';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/ui/tabs';
 import { Progress } from '../../components/ui/progress';
 import { Button } from '../../components/ui/button';
@@ -976,7 +977,7 @@ const UserProfilePage = () => {
   );
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-4xl">
+    <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">User Settings</h1>
 
       {error && (
@@ -997,26 +998,26 @@ const UserProfilePage = () => {
       )}
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4 w-full justify-start overflow-x-auto">
-          <TabsTrigger value="profile" className="flex items-center">
+        <TabsList className="mb-4 w-full justify-start overflow-x-auto gap-1">
+          <TabsTrigger value="profile" className="flex items-center dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white">
             <User className="mr-2 h-4 w-4" /> Profile
           </TabsTrigger>
-          <TabsTrigger value="subscription">
+          <TabsTrigger value="subscription" className="flex items-center dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white">
             <CreditCard className="mr-2 h-4 w-4" /> Subscription
           </TabsTrigger>
-          <TabsTrigger value="storage">
+          <TabsTrigger value="storage" className="flex items-center dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white">
             <Cloud className="mr-2 h-4 w-4" /> Storage
           </TabsTrigger>
-          <TabsTrigger value="security">
+          <TabsTrigger value="security" className="flex items-center dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white">
             <Shield className="mr-2 h-4 w-4" /> Security
           </TabsTrigger>
-          <TabsTrigger value="notifications">
+          <TabsTrigger value="notifications" className="flex items-center dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white">
             <Bell className="mr-2 h-4 w-4" /> Notifications
           </TabsTrigger>
-          <TabsTrigger value="privacy">
+          <TabsTrigger value="privacy" className="flex items-center dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white">
             <Lock className="mr-2 h-4 w-4" /> Privacy
           </TabsTrigger>
-          <TabsTrigger value="display">
+          <TabsTrigger value="display" className="flex items-center dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white">
             <Settings className="mr-2 h-4 w-4" /> Display
           </TabsTrigger>
         </TabsList>
