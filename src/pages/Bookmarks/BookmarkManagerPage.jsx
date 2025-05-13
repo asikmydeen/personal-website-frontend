@@ -5,11 +5,10 @@ import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
 import { Tooltip } from '../../components/ui/tooltip';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
-import { Input } from '../../components/ui/input';
-import { Label } from '../../components/ui/label';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '../../components/ui/dropdown-menu';
-import { addBookmark, updateBookmark, deleteBookmark } from '../../services/bookmarkService';
+import AnimatedModal from '../../components/animated/AnimatedModal';
+import { deleteBookmark } from '../../services/bookmarkService';
+import AddEditBookmarkComponent from '../../components/bookmarks/AddEditBookmarkComponent';
 
 const BookmarkManagerPage = () => {
   const { bookmarks, fetchBookmarks, setBookmarks } = useStore();
@@ -17,14 +16,8 @@ const BookmarkManagerPage = () => {
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTag, setActiveTag] = useState('');
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentBookmark, setCurrentBookmark] = useState(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    url: '',
-    tags: ''
-  });
 
   // Extract unique tags for filter dropdown
   const allTags = [...new Set((bookmarks || []).flatMap(bookmark => bookmark?.tags || []))];
@@ -44,63 +37,18 @@ const BookmarkManagerPage = () => {
     loadBookmarks();
   }, [fetchBookmarks]);
 
-  const handleAddBookmark = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      // Convert tags from comma-separated string to array
-      const tagsArray = formData.tags.split(',')
-        .map(tag => tag.trim())
-        .filter(tag => tag !== '');
-
-      const response = await addBookmark({
-        title: formData.title,
-        url: formData.url,
-        tags: tagsArray
-      });
-
-      if (response.success && response.data) {
-        setBookmarks([...(bookmarks || []), response.data]);
-        setIsAddDialogOpen(false);
-        setFormData({ title: '', url: '', tags: '' });
-      } else {
-        setError('Failed to add bookmark: ' + response.error);
-      }
-    } catch (err) {
-      setError('An error occurred while adding the bookmark.');
-      console.error('Add bookmark error:', err);
+  const handleSaveSuccess = (savedBookmark) => {
+    if (currentBookmark && currentBookmark.id) {
+      // Update existing bookmark in the local state
+      setBookmarks((bookmarks || []).map(b =>
+        b && b.id === currentBookmark?.id ? savedBookmark : b
+      ));
+    } else {
+      // Add new bookmark to the local state
+      setBookmarks([...(bookmarks || []), savedBookmark]);
     }
-    setLoading(false);
-  };
-
-  const handleEditBookmark = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const tagsArray = formData.tags.split(',')
-        .map(tag => tag.trim())
-        .filter(tag => tag !== '');
-
-      const response = await updateBookmark(currentBookmark.id, {
-        title: formData.title,
-        url: formData.url,
-        tags: tagsArray
-      });
-
-      if (response.success && response.data) {
-        // Update the bookmark in the local state
-        setBookmarks((bookmarks || []).map(b =>
-          b && b.id === currentBookmark?.id ? response.data : b
-        ));
-        setIsEditDialogOpen(false);
-      } else {
-        setError('Failed to update bookmark: ' + response.error);
-      }
-    } catch (err) {
-      setError('An error occurred while updating the bookmark.');
-      console.error('Edit bookmark error:', err);
-    }
-    setLoading(false);
+    setIsDialogOpen(false);
+    setCurrentBookmark(null);
   };
 
   const handleDeleteBookmark = async (bookmarkId) => {
@@ -121,14 +69,9 @@ const BookmarkManagerPage = () => {
     }
   };
 
-  const openEditDialog = (bookmark) => {
+  const openBookmarkDialog = (bookmark = null) => {
     setCurrentBookmark(bookmark);
-    setFormData({
-      title: bookmark.title || '',
-      url: bookmark.url || '',
-      tags: (bookmark.tags || []).join(', ')
-    });
-    setIsEditDialogOpen(true);
+    setIsDialogOpen(true);
   };
 
   // Filter bookmarks based on search query and active tag
@@ -151,10 +94,7 @@ const BookmarkManagerPage = () => {
         <h1 className="text-3xl font-bold text-gray-800">Bookmarks</h1>
         <Button
           className="bg-indigo-600 hover:bg-indigo-700 flex items-center gap-2 text-white font-medium"
-          onClick={() => {
-            setFormData({ title: '', url: '', tags: '' });
-            setIsAddDialogOpen(true);
-          }}
+          onClick={() => openBookmarkDialog()}
           style={{
             boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
             textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
@@ -224,10 +164,7 @@ const BookmarkManagerPage = () => {
           </p>
           <Button
             className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
-            onClick={() => {
-              setFormData({ title: '', url: '', tags: '' });
-              setIsAddDialogOpen(true);
-            }}
+            onClick={() => openBookmarkDialog()}
             style={{
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
               textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
@@ -245,7 +182,7 @@ const BookmarkManagerPage = () => {
                   <span>{bookmark.title}</span>
                   <div className="flex space-x-1">
                     <button
-                      onClick={() => openEditDialog(bookmark)}
+                      onClick={() => openBookmarkDialog(bookmark)}
                       className="text-gray-500 hover:text-indigo-600 p-1"
                       aria-label="Edit bookmark"
                     >
@@ -289,143 +226,22 @@ const BookmarkManagerPage = () => {
         </div>
       )}
 
-      {/* Add Bookmark Dialog */}
-      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="glass-effect">
-          <DialogHeader>
-            <DialogTitle>Add New Bookmark</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleAddBookmark}>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  placeholder="Website Title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  required
-                  className="glass-effect"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="url">URL</Label>
-                <Input
-                  id="url"
-                  placeholder="https://example.com"
-                  value={formData.url}
-                  onChange={(e) => setFormData({...formData, url: e.target.value})}
-                  required
-                  className="glass-effect"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="tags">Tags (comma separated)</Label>
-                <Input
-                  id="tags"
-                  placeholder="work, reference, important"
-                  value={formData.tags}
-                  onChange={(e) => setFormData({...formData, tags: e.target.value})}
-                  className="glass-effect"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsAddDialogOpen(false)}
-                className="border-gray-300 text-gray-700 hover:bg-gray-100"
-                style={{
-                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={loading}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
-                style={{
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
-                  textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
-                }}
-              >
-                {loading ? 'Adding...' : 'Add Bookmark'}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Edit Bookmark Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="glass-effect">
-          <DialogHeader>
-            <DialogTitle>Edit Bookmark</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleEditBookmark}>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="edit-title">Title</Label>
-                <Input
-                  id="edit-title"
-                  placeholder="Website Title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  required
-                  className="glass-effect"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="edit-url">URL</Label>
-                <Input
-                  id="edit-url"
-                  placeholder="https://example.com"
-                  value={formData.url}
-                  onChange={(e) => setFormData({...formData, url: e.target.value})}
-                  required
-                  className="glass-effect"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="edit-tags">Tags (comma separated)</Label>
-                <Input
-                  id="edit-tags"
-                  placeholder="work, reference, important"
-                  value={formData.tags}
-                  onChange={(e) => setFormData({...formData, tags: e.target.value})}
-                  className="glass-effect"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsEditDialogOpen(false)}
-                className="border-gray-300 text-gray-700 hover:bg-gray-100"
-                style={{
-                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={loading}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
-                style={{
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
-                  textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
-                }}
-              >
-                {loading ? 'Updating...' : 'Update Bookmark'}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {/* Add/Edit Bookmark Dialog */}
+      <AnimatedModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        animationType="zoom"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">{currentBookmark ? 'Edit Bookmark' : 'Add New Bookmark'}</h2>
+          <AddEditBookmarkComponent
+            bookmarkData={currentBookmark}
+            onClose={() => setIsDialogOpen(false)}
+            onSaveSuccess={handleSaveSuccess}
+          />
+        </div>
+      </AnimatedModal>
     </div>
   );
 };

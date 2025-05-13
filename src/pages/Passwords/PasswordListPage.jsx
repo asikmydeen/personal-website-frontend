@@ -6,16 +6,9 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../../components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter
-} from '../../components/ui/dialog';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import AnimatedModal from '../../components/animated/AnimatedModal';
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
   DropdownMenuItem, DropdownMenuSeparator
@@ -429,12 +422,15 @@ const PasswordListPage = () => {
       </div>
 
       {/* View Password Dialog */}
-      <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>View Password Details</DialogTitle>
-            <DialogDescription>View your encrypted password details</DialogDescription>
-          </DialogHeader>
+      <AnimatedModal
+        isOpen={isViewDialogOpen}
+        onClose={() => setIsViewDialogOpen(false)}
+        animationType="zoom"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">View Password Details</h2>
+          <p className="text-gray-600 mb-4">View your encrypted password details</p>
 
           {passwordDetails ? (
             <div className="py-4">
@@ -524,20 +520,23 @@ const PasswordListPage = () => {
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </div>
+      </AnimatedModal>
 
       {/* Add/Generate Password Dialog */}
-      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              {formMode === 'generator' ? 'Password Generator' : 'Add New Password'}
-            </DialogTitle>
-            <DialogDescription>
-              {formMode === 'generator' ? 'Generate a secure random password' : 'Add a new password to your vault'}
-            </DialogDescription>
-          </DialogHeader>
+      <AnimatedModal
+        isOpen={isAddDialogOpen}
+        onClose={() => setIsAddDialogOpen(false)}
+        animationType="zoom"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">
+            {formMode === 'generator' ? 'Password Generator' : 'Add New Password'}
+          </h2>
+          <p className="text-gray-600 mb-4">
+            {formMode === 'generator' ? 'Generate a secure random password' : 'Add a new password to your vault'}
+          </p>
 
           <Tabs value={formMode === 'generator' ? 'generator' : 'manual'} className="pt-2" defaultValue="manual">
             <TabsList className="grid grid-cols-2">
@@ -578,29 +577,30 @@ const PasswordListPage = () => {
               />
             </TabsContent>
           </Tabs>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </AnimatedModal>
 
       {/* Edit Password Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Edit Password</DialogTitle>
-            <DialogDescription>Modify your stored password details</DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            <AddEditPasswordComponent
-              onSubmit={(formData) => handleAddEditPassword(formData, true)}
-              onClose={() => setIsEditDialogOpen(false)}
-              loading={loading}
-              passwordData={Array.isArray(passwords) ?
-                passwords.find(p => p.id === selectedPassword) :
-                null}
-              isEdit={true}
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
+      <AnimatedModal
+        isOpen={isEditDialogOpen}
+        onClose={() => setIsEditDialogOpen(false)}
+        animationType="zoom"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">Edit Password</h2>
+          <p className="text-gray-600 mb-4">Modify your stored password details</p>
+          <AddEditPasswordComponent
+            onSubmit={(formData) => handleAddEditPassword(formData, true)}
+            onClose={() => setIsEditDialogOpen(false)}
+            loading={loading}
+            passwordData={Array.isArray(passwords) ?
+              passwords.find(p => p.id === selectedPassword) :
+              null}
+            isEdit={true}
+          />
+        </div>
+      </AnimatedModal>
     </div>
   );
 };

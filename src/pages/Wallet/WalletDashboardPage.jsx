@@ -5,10 +5,10 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../../components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Badge } from '../../components/ui/badge';
+import AnimatedModal from '../../components/animated/AnimatedModal';
 import { addCard, deleteCard, getCardDetails, updateCard } from '../../services/digitalWalletService';
 import AddEditCardComponent from '../../components/wallet/AddEditCardComponent';
 
@@ -277,11 +277,14 @@ const WalletDashboardPage = () => {
       )}
 
       {/* View Card Dialog */}
-      <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>View Card Details</DialogTitle>
-          </DialogHeader>
+      <AnimatedModal
+        isOpen={isViewDialogOpen}
+        onClose={() => setIsViewDialogOpen(false)}
+        animationType="zoom"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">View Card Details</h2>
 
           {cardDetails ? (
             <div className="py-4">
@@ -395,32 +398,35 @@ const WalletDashboardPage = () => {
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+      </div>
+    </AnimatedModal>
 
-      {/* Add Card Dialog */}
-      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Add New Card</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
+    {/* Add Card Dialog */}
+    <AnimatedModal
+      isOpen={isAddDialogOpen}
+      onClose={() => setIsAddDialogOpen(false)}
+      animationType="zoom"
+      className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+    >
+      <div className="p-6">
+        <h2 className="text-2xl font-bold mb-4">Add New Card</h2>
             <AddEditCardComponent
               onSubmit={(formData) => handleAddEditCard(formData, false)}
               loading={loading}
               onCancel={() => setIsAddDialogOpen(false)}
             />
-          </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </AnimatedModal>
 
       {/* Edit Card Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Edit Card</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
+      <AnimatedModal
+        isOpen={isEditDialogOpen}
+        onClose={() => setIsEditDialogOpen(false)}
+        animationType="zoom"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">Edit Card</h2>
             <AddEditCardComponent
               onSubmit={(formData) => handleAddEditCard(formData, true)}
               loading={loading}
@@ -428,9 +434,8 @@ const WalletDashboardPage = () => {
               isEdit={true}
               onCancel={() => setIsEditDialogOpen(false)}
             />
-          </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </AnimatedModal>
     </div>
   );
 };
