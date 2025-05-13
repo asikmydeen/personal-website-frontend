@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip, Drawer } from 'antd';
-import { isIOS } from '@/core/platform';
-import './menu-button.css'; // We'll create this file next
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -16,9 +14,24 @@ import {
   SoundOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
+import { isIOS } from '@/core/platform';
 import useStore from '@core/store/useStore';
 import ThemeSwitcher from '../theme/ThemeSwitcher';
 import LogoSvg from './LogoSvg';
+import './menu-button.css';
+
+// iOS accessibility fix for SLHighlightDisambiguationPillViewAccessibility issue
+if (typeof document !== 'undefined' && isIOS()) {
+  // Add meta tag to help with iOS accessibility
+  const meta = document.createElement('meta');
+  meta.name = 'viewport';
+  meta.content = 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no';
+  document.getElementsByTagName('head')[0].appendChild(meta);
+
+  // Add accessibility role to body for iOS
+  document.body.setAttribute('role', 'application');
+  document.body.setAttribute('aria-label', 'Personal Pod Application');
+}
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -322,26 +335,34 @@ const LayoutComponent = ({ children }) => {
                   color: 'hsl(var(--playful-header-text-color))',
                   background: 'transparent',
                   border: 'none',
-                  padding: isIOSDevice ? '16px' : '12px',  // Even larger touch target for iOS
+                  padding: isIOSDevice ? '16px' : '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  WebkitTapHighlightColor: 'transparent', // Remove tap highlight on iOS
-                  outline: 'none', // Remove outline
-                  touchAction: 'manipulation', // Optimize for touch
-                  userSelect: 'none', // Prevent text selection
-                  marginLeft: isIOSDevice ? '-16px' : '-12px', // Offset the padding to maintain visual alignment
+                  WebkitTapHighlightColor: 'transparent',
+                  outline: 'none',
+                  touchAction: 'manipulation',
+                  userSelect: 'none',
+                  marginLeft: isIOSDevice ? '-16px' : '-12px',
                   // iOS-specific enhancements
                   ...(isIOSDevice && {
                     position: 'relative',
-                    zIndex: 100, // Ensure it's above other elements
-                    transform: 'translateZ(0)', // Force hardware acceleration
-                    borderRadius: '8px', // Rounded corners for visual feedback
+                    zIndex: 100,
+                    transform: 'translateZ(0)',
+                    borderRadius: '8px',
                   })
                 }}
                 aria-label="Open menu"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded={mobileMenuOpen}
+                accessibilityRole="button"
+                accessibilityLabel="Open navigation menu"
+                accessibilityHint="Opens the application navigation menu"
               >
-                <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
+                <span aria-hidden="true">
+                  <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
+                </span>
               </button>
             ) : (
               <button
@@ -372,11 +393,19 @@ const LayoutComponent = ({ children }) => {
                   })
                 }}
                 aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                role="button"
+                aria-expanded={!collapsed}
+                aria-controls="sidebar-navigation"
+                accessibilityRole="button"
+                accessibilityLabel={collapsed ? "Expand sidebar navigation" : "Collapse sidebar navigation"}
+                accessibilityHint={collapsed ? "Expands the sidebar navigation menu" : "Collapses the sidebar navigation menu"}
               >
-                {collapsed ?
-                  <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} /> :
-                  <MenuFoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
-                }
+                <span aria-hidden="true">
+                  {collapsed ?
+                    <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} /> :
+                    <MenuFoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
+                  }
+                </span>
               </button>
             )}
             <Title level={isMobile ? 5 : 4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

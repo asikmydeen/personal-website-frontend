@@ -31,6 +31,7 @@ export const useStore = create(
       cards: [],
       voiceMemos: [],
       resumes: [],
+      resumeData: null, // Single resume data for viewing/editing
       files: [], // For file manager (directory contents)
       photos: [],
 
@@ -83,7 +84,30 @@ export const useStore = create(
           set({ resumes: get().resumes || [] });
         }
       },
-      // TODO: Add resume actions
+
+      // Single resume data fetching
+      fetchResumeData: async (resumeId) => {
+        try {
+          const { getResumeData } = await import('../services/resumeService');
+          const response = await getResumeData(resumeId);
+          if (response && response.success && response.data && response.data.resume) {
+            set({ resumeData: response.data.resume });
+          } else {
+            console.error('Failed to fetch resume data:', response?.error);
+            set({ resumeData: null });
+            throw new Error(response?.error || 'Failed to fetch resume data');
+          }
+        } catch (error) {
+          console.error('Error in fetchResumeData store action:', error);
+          set({ resumeData: null });
+          throw error;
+        }
+      },
+
+      setResumeData: (resumeData) => {
+        set({ resumeData });
+      },
+      // TODO: Add more resume actions
 
       // --- Files ---
       fetchFiles: async (path = "/") => { // Path might be relevant for file manager

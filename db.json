@@ -779,7 +779,6 @@
   ],
   "resume": [
     {
-      "id": "resume101",
       "name": "Alexander Mitchell",
       "title": "Senior Software Engineer",
       "summary": "<p>Results-driven software engineer with 8+ years of experience developing scalable applications and leading engineering teams. Specializing in cloud architecture, microservices, and DevOps practices with proven success in reducing system downtime and optimizing application performance. Passionate about mentoring junior developers and implementing best coding practices across organizations.</p>",
@@ -854,10 +853,10 @@
         "System Design",
         "Agile Methodologies"
       ],
+      "lastUpdated": null,
       "theme": "executive",
-      "userId": "user1",
-      "createdAt": "2025-04-10T14:30:00.000Z",
-      "updatedAt": "2025-05-13T19:23:35.269Z"
+      "updatedAt": "2025-05-13T23:44:43.076Z",
+      "id": "resume101"
     },
     {
       "id": "resume102",

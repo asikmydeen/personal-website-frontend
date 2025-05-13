@@ -1,7 +1,23 @@
+/* Fix for SLHighlightDisambiguationPillViewAccessibility issue on iOS */
+@supports (-webkit-touch-callout: none) {
+  /* This empty rule helps prevent the SLHighlightDisambiguationPillViewAccessibility error */
+  :root {
+    --sl-highlight-disambiguation: none;
+  }
+}
+
 /* Menu button enhancements for all platforms */
 .menu-toggle-button {
   position: relative;
   z-index: 10;
+  /* Ensure proper accessibility focus styles */
+  outline: none;
+}
+
+/* Accessibility focus styles */
+.menu-toggle-button:focus-visible {
+  box-shadow: 0 0 0 2px hsl(var(--playful-header-text-color));
+  outline: 2px solid transparent;
 }
 
 /* iOS-specific menu button enhancements */
@@ -51,6 +67,17 @@
     /* Increase the hit area even more */
     min-width: 48px;
     min-height: 48px;
+
+    /* iOS accessibility enhancements */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    /* Fix for SLHighlightDisambiguationPillViewAccessibility issue */
+    isolation: isolate;
+
+    /* Ensure proper accessibility focus indication */
+    outline-offset: 2px;
   }
 
   /* Active state specifically for iOS devices */
