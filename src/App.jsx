@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import PrivateRoute from './components/PrivateRoute';
+import ThemeProvider from './providers/ThemeProvider';
 
 import MainDashboardPage from './pages/Dashboard/MainDashboardPage';
 import PhotoGalleryPage from './pages/Photos/PhotoGalleryPage';
@@ -10,13 +11,14 @@ import ResumeViewPage from './pages/Resume/ResumeViewPage';
 import ResumeEditPage from './pages/Resume/ResumeEditPage';
 import LoginPage from './pages/Auth/LoginPage';
 import NotesListPage from './pages/Notes/NotesListPage';
-import TextNoteEditorPage from './pages/Notes/TextNoteEditorPage';
 import TextNoteViewPage from './pages/Notes/TextNoteViewPage';
 import BookmarkManagerPage from './pages/Bookmarks/BookmarkManagerPage';
 import PasswordListPage from './pages/Passwords/PasswordListPage';
 import WalletDashboardPage from './pages/Wallet/WalletDashboardPage';
 import VoiceMemoListPage from './pages/VoiceMemos/VoiceMemoListPage';
+import UserProfilePage from './pages/User/UserProfilePage';
 import 'antd/dist/reset.css';
+import './styles/antd-dark-overrides.css';
 
 // Photo components
 import PhotoDetailViewComponent from './components/photos/PhotoDetailViewComponent';
@@ -24,21 +26,22 @@ import AlbumViewComponent from './components/photos/AlbumViewComponent';
 
 function App() {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route
-            path="/login"
-            element={<LoginPage />}
-          />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <MainDashboardPage />
-              </PrivateRoute>
-            }
-          />
+    <ThemeProvider>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route
+              path="/login"
+              element={<LoginPage />}
+            />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <MainDashboardPage />
+                </PrivateRoute>
+              }
+            />
           <Route
             path="/photos"
             element={
@@ -96,22 +99,6 @@ function App() {
             }
           />
           <Route
-            path="/notes/new"
-            element={
-              <PrivateRoute>
-                <TextNoteEditorPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/notes/edit/:noteId"
-            element={
-              <PrivateRoute>
-                <TextNoteEditorPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
             path="/notes/:noteId"
             element={
               <PrivateRoute>
@@ -151,10 +138,19 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <UserProfilePage />
+              </PrivateRoute>
+            }
+          />
           {/* Add more routes here for other features */}
         </Routes>
-      </Layout>
-    </Router>
+        </Layout>
+      </Router>
+    </ThemeProvider>
   );
 }
 

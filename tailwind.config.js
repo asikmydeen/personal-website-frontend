@@ -10,6 +10,9 @@ module.exports = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+        muted: 'hsl(var(--playful-card-background))',
+        'muted-foreground': 'hsl(var(--playful-content-text-color))',
+        'muted-border': 'hsl(var(--playful-card-border-color))',
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
   				foreground: 'hsl(var(--sidebar-foreground))',
@@ -69,5 +72,5 @@ module.exports = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('@tailwindcss/typography')],
 }

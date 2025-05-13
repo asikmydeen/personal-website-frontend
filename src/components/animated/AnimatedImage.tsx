@@ -1,0 +1,159 @@
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
+
+interface AnimatedImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+  style?: React.CSSProperties;
+  width?: number | string;
+  height?: number | string;
+  animationType?: 'fade' | 'zoom' | 'slide' | 'reveal' | 'bounce';
+  delay?: number;
+  duration?: number;
+  onClick?: () => void;
+  hoverEffect?: boolean;
+}
+
+const AnimatedImage: React.FC<AnimatedImageProps> = ({
+  src,
+  alt,
+  className = '',
+  style = {},
+  width,
+  height,
+  animationType = 'fade',
+  delay = 0,
+  duration = 0.5,
+  onClick,
+  hoverEffect = true
+}) => {
+  // Get animation variants based on type
+  const getVariants = (): Variants => {
+    switch (animationType) {
+      case 'fade':
+        return {
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              duration: duration,
+              delay: delay,
+              ease: 'easeOut'
+            }
+          }
+        };
+      case 'zoom':
+        return {
+          hidden: { opacity: 0, scale: 0.8 },
+          visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+              duration: duration,
+              delay: delay,
+              type: 'spring',
+              stiffness: 200,
+              damping: 20
+            }
+          }
+        };
+      case 'slide':
+        return {
+          hidden: { opacity: 0, x: -100 },
+          visible: {
+            opacity: 1,
+            x: 0,
+            transition: {
+              duration: duration,
+              delay: delay,
+              type: 'spring',
+              stiffness: 300,
+              damping: 25
+            }
+          }
+        };
+      case 'reveal':
+        return {
+          hidden: { clipPath: 'inset(0 100% 0 0)' },
+          visible: {
+            clipPath: 'inset(0 0% 0 0)',
+            transition: {
+              duration: duration,
+              delay: delay,
+              ease: 'easeOut'
+            }
+          }
+        };
+      case 'bounce':
+        return {
+          hidden: { opacity: 0, y: -50 },
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              type: 'spring',
+              stiffness: 300,
+              damping: 10,
+              delay: delay
+            }
+          }
+        };
+      default:
+        return {
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              duration: duration,
+              delay: delay
+            }
+          }
+        };
+    }
+  };
+
+  // Hover effects
+  const hoverVariants: Variants = {
+    hover: {
+      scale: 1.05,
+      boxShadow: '0px 10px 25px rgba(0, 0, 0, 0.15)',
+      transition: {
+        duration: 0.3
+      }
+    },
+    tap: {
+      scale: 0.98
+    }
+  };
+
+  return (
+    <motion.div
+      className={`overflow-hidden ${className}`}
+      style={{
+        width: width,
+        height: height,
+        ...style
+      }}
+      initial="hidden"
+      animate="visible"
+      variants={getVariants()}
+      whileHover={hoverEffect ? 'hover' : undefined}
+      whileTap={onClick && hoverEffect ? 'tap' : undefined}
+      onClick={onClick}
+    >
+      <motion.img
+        src={src}
+        alt={alt}
+        className="w-full h-full object-cover"
+        variants={
+          animationType === 'reveal'
+            ? {} // For reveal animation, we animate the container, not the image
+            : getVariants()
+        }
+      />
+    </motion.div>
+  );
+};
+
+export default AnimatedImage;

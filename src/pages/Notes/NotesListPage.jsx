@@ -4,7 +4,9 @@ import useStore from '../../store/useStore';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
-import { Search } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
+import AnimatedModal from '../../components/animated/AnimatedModal';
+import AddEditNoteComponent from '../../components/notes/AddEditNoteComponent';
 
 const NotesListPage = () => {
   const { notes, fetchNotes } = useStore();
@@ -12,6 +14,8 @@ const NotesListPage = () => {
   const [error, setError] = useState('');
   const [activeTag, setActiveTag] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentNote, setCurrentNote] = useState(null);
 
   // Extract all unique tags from notes for filter menu
   const allTags = [...new Set((notes || []).flatMap(note => note?.tags || []))];
@@ -32,6 +36,27 @@ const NotesListPage = () => {
     loadNotes();
   }, [fetchNotes]);
 
+  const handleOpenCreateModal = () => {
+    setCurrentNote(null); // Reset to ensure we're creating a new note
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEditModal = (note) => {
+    setCurrentNote(note);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setCurrentNote(null);
+  };
+
+  const handleSaveSuccess = async (savedNote) => {
+    // Refresh notes list
+    await fetchNotes();
+    handleCloseModal();
+  };
+
   // Filter notes based on selected tag and search query
   const filteredNotes = (notes || []).filter(note => {
     if (!note) return false;
@@ -48,12 +73,33 @@ const NotesListPage = () => {
     <div className="container mx-auto p-4 max-w-5xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">Notes</h1>
-        <Link to="/notes/new">
-          <Button className="bg-green-500 hover:bg-green-600">
-            Create New Note
-          </Button>
-        </Link>
+        <Button
+          className="bg-green-500 hover:bg-green-600 flex items-center gap-2"
+          onClick={handleOpenCreateModal}
+        >
+          <Plus className="h-4 w-4" />
+          Create New Note
+        </Button>
       </div>
+
+      {/* Note editing modal */}
+      <AnimatedModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        animationType="zoom"
+        className="w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">
+            {currentNote ? 'Edit Note' : 'Create New Note'}
+          </h2>
+          <AddEditNoteComponent
+            noteData={currentNote}
+            onClose={handleCloseModal}
+            onSaveSuccess={handleSaveSuccess}
+          />
+        </div>
+      </AnimatedModal>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         {/* Left sidebar with filters */}
@@ -106,16 +152,18 @@ const NotesListPage = () => {
           ) : filteredNotes.length === 0 ? (
             <div className="text-center py-10 bg-gray-50 rounded-lg">
               <p className="text-gray-600 mb-4">{searchQuery || activeTag ? 'No notes match your filters' : 'No notes yet'}</p>
-              <Link to="/notes/new">
-                <Button variant="outline" className="border-indigo-500 text-indigo-600 hover:bg-indigo-50">
-                  Create your first note
-                </Button>
-              </Link>
+              <Button
+                onClick={handleOpenCreateModal}
+                variant="outline"
+                className="border-indigo-500 text-indigo-600 hover:bg-indigo-50"
+              >
+                Create your first note
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filteredNotes.map((note) => (
-                <Link to={`/notes/${note.id}`} key={note.id}>
+                <div key={note.id} onClick={() => handleOpenEditModal(note)}>
                   <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader>
                       <CardTitle className="line-clamp-2">{note.title}</CardTitle>
@@ -134,7 +182,7 @@ const NotesListPage = () => {
                       ))}
                     </CardFooter>
                   </Card>
-                </Link>
+                </div>
               ))}
             </div>
           )}

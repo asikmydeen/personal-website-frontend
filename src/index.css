@@ -1,10 +1,8 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer base {
   :root {
-    --radius: 0.5rem;
+    --radius: 0.75rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -14,50 +12,50 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Playful Theme V3 - Modified with darker header/logo colors */
+    /* Playful Theme V3 - Modified for glass effect */
     --playful-page-background: 30 50% 98%;
     --playful-content-text-color: 210 15% 25%;
 
-    /* Updated: White Header Background */
+    /* Updated for glass effect */
     --playful-header-background: 0 0% 100%;
-    /* White */
     --playful-header-text-color: 210 15% 25%;
-    /* Dark Gray */
 
     --playful-sider-background: 0 0% 100%;
     --playful-sider-text-color: 210 15% 25%;
 
-    /* Updated: Light Gray Logo Background */
+    /* Updated for glass effect */
     --playful-sider-logo-background: 0 0% 97%;
-    /* Light Gray */
     --playful-sider-logo-text-color: 210 15% 25%;
-    /* Dark Gray */
 
-    --playful-menu-item-hover-background: 215 70% 35%;
+    /* Updated for more vibrant hover effects */
+    --playful-menu-item-hover-background: 215 70% 45%;
     --playful-menu-item-hover-text-color: 0 0% 100%;
 
-    --playful-menu-item-selected-background: 190 70% 50%;
+    --playful-menu-item-selected-background: 190 70% 55%;
     --playful-menu-item-selected-text-color: 0 0% 100%;
 
+    /* Updated for glass effect */
     --playful-card-background: 0 0% 100%;
     --playful-card-border-color: 210 20% 88%;
 
-    --playful-button-primary-background: 185 50% 55%;
+    /* Alias for card background to ensure theme consistency */
+    --card-bg: var(--playful-card-background);
+
+    /* Updated for more vibrant buttons */
+    --playful-button-primary-background: 185 50% 60%;
     --playful-button-primary-text-color: 0 0% 100%;
-    --playful-button-primary-hover-background: 185 50% 45%;
+    --playful-button-primary-hover-background: 185 50% 50%;
 
-    --playful-link-text-color: 190 60% 50%;
-    --playful-link-hover-text-color: 190 60% 40%;
+    --playful-link-text-color: 190 60% 55%;
+    --playful-link-hover-text-color: 190 60% 45%;
 
-    --playful-focus-ring-color: 185 55% 60%;
+    --playful-focus-ring-color: 185 55% 65%;
     --playful-input-background: 0 0% 97%;
     --playful-input-placeholder-color: 210 15% 55%;
   }
 
   .dark {
-    /* Dark mode for sidebar - we are not focusing on dark mode for playful theme for now */
-    /* TODO: Define dark mode playful colors if needed in future */
-
+    /* Dark mode for sidebar */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -65,9 +63,53 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Dark mode for playful theme - updated for glass effect */
+    --playful-page-background: 220 20% 10%;
+    --playful-content-text-color: 210 15% 95%;
+
+    /* Updated for glass effect */
+    --playful-header-background: 220 20% 15%;
+    --playful-header-text-color: 210 15% 95%;
+
+    --playful-sider-background: 220 20% 15%;
+    --playful-sider-text-color: 210 15% 95%;
+
+    /* Updated for glass effect */
+    --playful-sider-logo-background: 220 20% 20%;
+    --playful-sider-logo-text-color: 210 15% 95%;
+
+    /* Updated for more vibrant hover effects */
+    --playful-menu-item-hover-background: 215 70% 40%;
+    --playful-menu-item-hover-text-color: 0 0% 100%;
+
+    --playful-menu-item-selected-background: 190 70% 45%;
+    --playful-menu-item-selected-text-color: 0 0% 100%;
+
+    /* Updated for glass effect */
+    --playful-card-background: 220 20% 15%;
+    --playful-card-border-color: 220 20% 30%;
+
+    /* Alias for card background to ensure theme consistency in dark mode */
+    --card-bg: var(--playful-card-background);
+
+    /* Updated for more vibrant buttons */
+    --playful-button-primary-background: 185 50% 50%;
+    --playful-button-primary-text-color: 0 0% 100%;
+    --playful-button-primary-hover-background: 185 50% 40%;
+
+    --playful-link-text-color: 190 60% 65%;
+    --playful-link-hover-text-color: 190 60% 75%;
+
+    --playful-focus-ring-color: 185 55% 55%;
+    --playful-input-background: 220 20% 20%;
+    --playful-input-placeholder-color: 210 15% 65%;
   }
 }
+
+@tailwind components;
+@tailwind utilities;
 
 @layer components {
   /* Base sidebar menu styling with consistent text coloring */

@@ -1,0 +1,1010 @@
+/* Ant Design Dark Mode Overrides */
+
+/* General card overrides */
+.dark .ant-card {
+  background-color: hsl(var(--playful-card-background));
+  border-color: hsl(var(--playful-card-border-color));
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-card-head {
+  background-color: hsl(var(--playful-card-background));
+  border-color: hsl(var(--playful-card-border-color));
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-card-body {
+  background-color: hsl(var(--playful-card-background));
+  color: hsl(var(--playful-content-text-color));
+}
+
+/* Table overrides */
+.dark .ant-table {
+  background-color: hsl(var(--playful-card-background));
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-table-thead > tr > th {
+  background-color: hsl(var(--playful-sider-logo-background));
+  color: hsl(var(--playful-content-text-color));
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+.dark .ant-table-tbody > tr > td {
+  background-color: hsl(var(--playful-card-background));
+  color: hsl(var(--playful-content-text-color));
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+.dark .ant-table-tbody > tr:hover > td {
+  background-color: hsl(var(--playful-sider-logo-background));
+}
+
+.dark .ant-table-cell-row-hover {
+  background-color: hsl(var(--playful-sider-logo-background)) !important;
+}
+
+/* Input overrides */
+.dark .ant-input {
+  background-color: hsl(var(--playful-input-background));
+  color: hsl(var(--playful-content-text-color));
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+.dark .ant-input-search-button {
+  background-color: hsl(var(--playful-button-primary-background));
+  border-color: hsl(var(--playful-button-primary-background));
+}
+
+/* Button overrides */
+.dark .ant-btn {
+  border-color: hsl(var(--playful-card-border-color));
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-btn-primary {
+  background-color: hsl(var(--playful-button-primary-background));
+  border-color: hsl(var(--playful-button-primary-background));
+  color: hsl(var(--playful-button-primary-text-color));
+}
+
+.dark .ant-btn-primary:hover {
+  background-color: hsl(var(--playful-button-primary-hover-background));
+  border-color: hsl(var(--playful-button-primary-hover-background));
+}
+
+/* List overrides */
+.dark .ant-list {
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-list-item {
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+.dark .ant-list-item-meta-title {
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-list-item-meta-description {
+  color: hsla(var(--playful-content-text-color), 0.7);
+}
+
+/* Tag overrides */
+.dark .ant-tag {
+  background-color: hsl(var(--playful-sider-logo-background));
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+/* Photos screen specific overrides */
+.dark .photo-card,
+.dark .album-card,
+.dark .aspect-square {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .photo-grid-item,
+.dark .album-grid-item,
+.dark .grid-cols-2,
+.dark .grid-cols-3,
+.dark .grid-cols-4 > div {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Photos page specific overrides */
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark .bg-gray-200 {
+  background-color: hsl(var(--playful-card-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .text-gray-500,
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-800 {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .hover\:bg-gray-100:hover,
+.dark .hover\:bg-indigo-100:hover {
+  background-color: hsl(var(--playful-sider-logo-background)) !important;
+}
+
+.dark .bg-indigo-500 {
+  background-color: hsl(var(--playful-menu-item-selected-background)) !important;
+}
+
+.dark .bg-indigo-100 {
+  background-color: hsl(var(--playful-sider-logo-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Notes screen specific overrides */
+.dark .note-card {
+  background-color: hsl(var(--playful-card-background));
+  border-color: hsl(var(--playful-card-border-color));
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .note-sidebar {
+  background-color: hsl(var(--playful-sider-background));
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+.dark .note-list-item {
+  background-color: hsl(var(--playful-card-background));
+  border-color: hsl(var(--playful-card-border-color));
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .note-list-item:hover {
+  background-color: hsl(var(--playful-sider-logo-background));
+}
+
+.dark .note-list-item.active {
+  background-color: hsl(var(--playful-menu-item-selected-background));
+  color: hsl(var(--playful-menu-item-selected-text-color));
+}
+
+/* Files screen specific overrides */
+.dark .file-list-item {
+  background-color: hsl(var(--playful-card-background));
+  border-color: hsl(var(--playful-card-border-color));
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .file-list-item:hover {
+  background-color: hsl(var(--playful-sider-logo-background));
+}
+
+/* Files page table overrides */
+.dark .bg-white {
+  background-color: hsl(var(--playful-card-background)) !important;
+}
+
+.dark .bg-gray-50,
+.dark div.bg-gray-50,
+.dark .text-center.py-10.bg-gray-50,
+.dark [class*="bg-gray-50"] {
+  background-color: hsl(var(--playful-sider-logo-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .divide-gray-200 > * {
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+.dark .hover\:bg-gray-50:hover {
+  background-color: hsl(var(--playful-sider-logo-background)) !important;
+}
+
+.dark .text-blue-600 {
+  color: hsl(var(--playful-link-text-color)) !important;
+}
+
+.dark .hover\:text-blue-800:hover {
+  color: hsl(var(--playful-link-hover-text-color)) !important;
+}
+
+.dark .text-red-600 {
+  color: #f56565 !important;
+}
+
+.dark .hover\:text-red-800:hover {
+  color: #c53030 !important;
+}
+
+/* Fix for Files page text color */
+.dark table td,
+.dark table th,
+.dark .text-gray-900,
+.dark .font-medium {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .whitespace-nowrap {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Fix for file and folder icons */
+.dark table td span,
+.dark table td button {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark table td button.text-indigo-600,
+.dark table td button.text-blue-600 {
+  color: hsl(var(--playful-link-text-color)) !important;
+}
+
+.dark table td button.text-red-600 {
+  color: #f56565 !important;
+}
+
+/* Typography overrides */
+.dark .ant-typography {
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark h1.ant-typography,
+.dark h2.ant-typography,
+.dark h3.ant-typography,
+.dark h4.ant-typography,
+.dark h5.ant-typography {
+  color: hsl(var(--playful-content-text-color));
+}
+
+/* Modal overrides */
+.dark .ant-modal-content {
+  background-color: hsl(var(--playful-card-background));
+}
+
+.dark .ant-modal-header {
+  background-color: hsl(var(--playful-card-background));
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+.dark .ant-modal-title {
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-modal-close-x {
+  color: hsl(var(--playful-content-text-color));
+}
+
+.dark .ant-modal-footer {
+  border-color: hsl(var(--playful-card-border-color));
+}
+
+/* Additional overrides for UI components */
+.dark .shadow,
+.dark .shadow-lg,
+.dark .shadow-md,
+.dark .shadow-xl {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark .hover\:shadow-md:hover,
+.dark .hover\:shadow-lg:hover,
+.dark .hover\:shadow-xl:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Button overrides */
+.dark .bg-green-500 {
+  background-color: hsl(var(--playful-button-primary-background)) !important;
+}
+
+.dark .hover\:bg-green-600:hover {
+  background-color: hsl(var(--playful-button-primary-hover-background)) !important;
+}
+
+.dark .bg-blue-500 {
+  background-color: hsl(210, 70%, 40%) !important;
+}
+
+.dark .hover\:bg-blue-600:hover {
+  background-color: hsl(210, 70%, 35%) !important;
+}
+
+/* Icon button overrides for consistent appearance */
+.dark button[data-variant="outline"][data-size="icon"] {
+  background-color: transparent !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark button[data-variant="outline"][data-size="icon"]:hover {
+  background-color: hsla(var(--playful-card-border-color), 0.2) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .bg-red-500 {
+  background-color: hsl(0, 70%, 50%) !important;
+}
+
+.dark .hover\:bg-red-600:hover {
+  background-color: hsl(0, 70%, 45%) !important;
+}
+
+.dark .bg-indigo-600 {
+  background-color: hsl(var(--playful-button-primary-background)) !important;
+}
+
+.dark .hover\:bg-indigo-700:hover {
+  background-color: hsl(var(--playful-button-primary-hover-background)) !important;
+}
+
+/* Form elements */
+.dark input[type="text"],
+.dark input[type="password"],
+.dark input[type="email"],
+.dark input[type="search"],
+.dark textarea {
+  background-color: hsl(var(--playful-input-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+.dark input::placeholder {
+  color: hsl(var(--playful-input-placeholder-color)) !important;
+}
+
+/* Fix for fixed position elements */
+.dark .fixed {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.dark .fixed .bg-white {
+  background-color: hsl(var(--playful-card-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Tag styling for Notes, Bookmarks, and Voice Memos */
+.dark .inline-flex,
+.dark .px-2,
+.dark .py-1,
+.dark .rounded-md,
+.dark .text-xs,
+.dark .font-medium {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Specific tag styling for all pages */
+.dark .inline-flex.items-center.px-2.py-1.rounded-md.text-xs.font-medium,
+.dark span.inline-flex.items-center.px-2.py-1.rounded-md.text-xs.font-medium {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
+  margin: 2px !important;
+}
+
+/* Tag background colors */
+.dark .bg-gray-100,
+.dark .bg-gray-200,
+.dark .bg-indigo-100,
+.dark .bg-blue-100,
+.dark .bg-green-100,
+.dark .bg-red-100,
+.dark .bg-yellow-100,
+.dark .bg-purple-100,
+.dark span.bg-gray-100,
+.dark span.bg-gray-200,
+.dark span.bg-indigo-100,
+.dark span.bg-blue-100,
+.dark span.bg-green-100,
+.dark span.bg-red-100,
+.dark span.bg-yellow-100,
+.dark span.bg-purple-100 {
+  background-color: hsl(var(--playful-sider-logo-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Specific tag colors for better visibility in dark mode */
+.dark .bg-indigo-100 {
+  background-color: hsla(240, 70%, 30%, 0.5) !important;
+}
+
+.dark .bg-blue-100 {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+}
+
+.dark .bg-green-100 {
+  background-color: hsla(120, 70%, 20%, 0.5) !important;
+}
+
+.dark .bg-red-100 {
+  background-color: hsla(0, 70%, 30%, 0.5) !important;
+}
+
+.dark .bg-yellow-100 {
+  background-color: hsla(60, 70%, 25%, 0.5) !important;
+}
+
+.dark .bg-purple-100 {
+  background-color: hsla(270, 70%, 30%, 0.5) !important;
+}
+
+/* Tag text color */
+.dark .text-indigo-800,
+.dark .text-blue-800,
+.dark .text-green-800,
+.dark .text-red-800,
+.dark .text-yellow-800,
+.dark .text-purple-800,
+.dark .text-gray-800 {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Password Manager text color fix */
+.dark .text-sm,
+.dark .font-medium,
+.dark .text-gray-500,
+.dark .text-gray-700,
+.dark .text-gray-900 {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Service name in Password Manager */
+.dark td.whitespace-nowrap {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Password Manager specific styling */
+.dark .password-card,
+.dark .password-list-item {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+.dark .password-service-icon {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .password-username,
+.dark .password-service {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .password-action-button {
+  color: hsl(var(--playful-link-text-color)) !important;
+}
+
+.dark .password-action-button:hover {
+  color: hsl(var(--playful-link-hover-text-color)) !important;
+}
+
+/* Bookmarks page specific styling */
+.dark .bookmark-card {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+.dark .bookmark-title {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .bookmark-url {
+  color: hsl(var(--playful-link-text-color)) !important;
+}
+
+/* Specific styling for bookmark tags */
+.dark .bookmark-tag,
+.dark span.bg-blue-100,
+.dark span.bg-green-100,
+.dark span.bg-red-100,
+.dark span.bg-yellow-100,
+.dark span.bg-indigo-100,
+.dark span.bg-purple-100,
+.dark span.bg-gray-100,
+.dark .bg-indigo-50,
+.dark [class*="bg-indigo-50"],
+.dark .Badge,
+.dark [class*="Badge"],
+.dark button.bg-indigo-50,
+.dark .variant-outline,
+.dark [class*="variant-outline"] {
+  background-color: hsla(240, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+}
+
+/* Direct fix for bookmark tags */
+.dark .CardFooter .variant-outline.bg-blue-50.cursor-pointer,
+.dark .CardFooter [class*="variant-outline"] [class*="bg-blue-50"] [class*="cursor-pointer"],
+.dark button.variant-outline.bg-blue-50.cursor-pointer,
+.dark button[class*="variant-outline"][class*="bg-blue-50"][class*="cursor-pointer"] {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Super specific fix for bookmark tags */
+.dark button[class*="Badge"],
+.dark button.bg-blue-50,
+.dark button.variant-outline,
+.dark button.variant-outline.bg-blue-50,
+.dark button.variant-outline.bg-blue-50.cursor-pointer {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Extremely specific fix for bookmark tags */
+.dark .CardFooter button,
+.dark .CardFooter button.variant-outline,
+.dark .CardFooter button.bg-blue-50,
+.dark .CardFooter button.cursor-pointer,
+.dark .CardFooter button.variant-outline.bg-blue-50,
+.dark .CardFooter button.variant-outline.cursor-pointer,
+.dark .CardFooter button.bg-blue-50.cursor-pointer,
+.dark .CardFooter button.variant-outline.bg-blue-50.cursor-pointer {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  margin: 2px !important;
+}
+
+/* Different colors for different tag types */
+.dark span.bg-blue-100 {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+}
+
+.dark span.bg-green-100 {
+  background-color: hsla(120, 70%, 20%, 0.5) !important;
+}
+
+.dark span.bg-red-100 {
+  background-color: hsla(0, 70%, 30%, 0.5) !important;
+}
+
+.dark span.bg-yellow-100 {
+  background-color: hsla(60, 70%, 25%, 0.5) !important;
+}
+
+.dark span.bg-purple-100 {
+  background-color: hsla(270, 70%, 30%, 0.5) !important;
+}
+
+.dark span.bg-gray-100 {
+  background-color: hsla(0, 0%, 40%, 0.5) !important;
+}
+
+/* Voice Memos specific styling */
+.dark .memo-card {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+.dark .memo-title {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Voice memo tag styling */
+.dark .memo-tag,
+.dark .voice-memo-tag,
+.dark div[class*="voice-memos"] span.bg-blue-100,
+.dark div[class*="voice-memos"] span.bg-green-100,
+.dark div[class*="voice-memos"] span.bg-red-100,
+.dark div[class*="voice-memos"] span.bg-yellow-100,
+.dark div[class*="voice-memos"] span.bg-indigo-100,
+.dark div[class*="voice-memos"] span.bg-purple-100,
+.dark div[class*="voice-memos"] span.bg-gray-100,
+.dark .Badge,
+.dark [class*="Badge"],
+.dark button.Badge,
+.dark span[class*="Badge"],
+.dark div[class*="Badge"],
+.dark .bg-indigo-50,
+.dark span.bg-indigo-50,
+.dark button.bg-indigo-50 {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
+  margin: 2px !important;
+}
+
+/* Different colors for different voice memo tag types */
+.dark div[class*="voice-memos"] span.bg-blue-100,
+.dark .tag-work {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+}
+
+.dark div[class*="voice-memos"] span.bg-green-100,
+.dark .tag-personal {
+  background-color: hsla(120, 70%, 20%, 0.5) !important;
+}
+
+.dark div[class*="voice-memos"] span.bg-red-100,
+.dark .tag-important {
+  background-color: hsla(0, 70%, 30%, 0.5) !important;
+}
+
+.dark div[class*="voice-memos"] span.bg-yellow-100,
+.dark .tag-shopping {
+  background-color: hsla(60, 70%, 25%, 0.5) !important;
+}
+
+.dark div[class*="voice-memos"] span.bg-purple-100,
+.dark .tag-ideas {
+  background-color: hsla(270, 70%, 30%, 0.5) !important;
+}
+
+.dark div[class*="voice-memos"] span.bg-gray-100,
+.dark .tag-project {
+  background-color: hsla(0, 0%, 40%, 0.5) !important;
+}
+
+/* Additional fixes for all pages */
+.dark .text-black,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-gray-600 {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .border-gray-200,
+.dark .border-gray-300 {
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Fix for Resume page text colors */
+.dark .text-indigo-700 {
+  color: hsl(230, 70%, 70%) !important;
+}
+
+.dark .border-indigo-200 {
+  border-color: hsl(230, 70%, 30%) !important;
+}
+
+/* Fix for Resume page skill tags */
+.dark .bg-indigo-100.text-indigo-700 {
+  background-color: hsla(230, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Direct tag selectors for Bookmarks and Voice Memos */
+.dark span.inline-block.bg-blue-100.text-blue-800,
+.dark span.inline-block.bg-green-100.text-green-800,
+.dark span.inline-block.bg-red-100.text-red-800,
+.dark span.inline-block.bg-yellow-100.text-yellow-800,
+.dark span.inline-block.bg-indigo-100.text-indigo-800,
+.dark span.inline-block.bg-purple-100.text-purple-800,
+.dark span.inline-block.bg-gray-100.text-gray-800,
+.dark span.inline-block,
+.dark span.bg-indigo-50,
+.dark span.variant-outline,
+.dark span[class*="variant-outline"],
+.dark span[class*="bg-indigo-50"],
+.dark button.variant-outline,
+.dark button[class*="variant-outline"] {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  margin: 2px !important;
+}
+
+/* Specific colors for different tag types */
+.dark span.inline-block.bg-blue-100.text-blue-800 {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+}
+
+.dark span.inline-block.bg-green-100.text-green-800 {
+  background-color: hsla(120, 70%, 20%, 0.5) !important;
+}
+
+.dark span.inline-block.bg-red-100.text-red-800 {
+  background-color: hsla(0, 70%, 30%, 0.5) !important;
+}
+
+.dark span.inline-block.bg-yellow-100.text-yellow-800 {
+  background-color: hsla(60, 70%, 25%, 0.5) !important;
+}
+
+.dark span.inline-block.bg-indigo-100.text-indigo-800 {
+  background-color: hsla(240, 70%, 30%, 0.5) !important;
+}
+
+.dark span.inline-block.bg-purple-100.text-purple-800 {
+  background-color: hsla(270, 70%, 30%, 0.5) !important;
+}
+
+.dark span.inline-block.bg-gray-100.text-gray-800 {
+  background-color: hsla(0, 0%, 40%, 0.5) !important;
+}
+
+/* Fix for icons */
+.dark svg {
+  color: inherit;
+}
+
+.dark button svg,
+.dark a svg {
+  color: inherit;
+}
+
+/* Fix for white background in content area */
+.dark .ant-layout-content {
+  background-color: hsl(var(--playful-page-background)) !important;
+}
+
+.dark .container,
+.dark .mx-auto,
+.dark .p-4,
+.dark .max-w-6xl,
+.dark div.container,
+.dark div.mx-auto,
+.dark div.p-4,
+.dark div.max-w-6xl {
+  background-color: transparent !important;
+}
+
+/* Fix for Resume page container in dark mode */
+.dark .container.mx-auto.p-4.md\:p-8.max-w-4xl.bg-white.shadow-2xl.rounded-lg.my-8.print\:shadow-none.print\:my-0 {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Fix for white background in panes */
+.dark .ant-layout-content > div {
+  background-color: transparent !important;
+}
+
+/* Fix for the page background */
+.dark .ant-layout {
+  background-color: hsl(var(--playful-page-background)) !important;
+}
+
+/* Fix for white background in main content area */
+.dark .ant-layout-content,
+.dark .ant-layout-content > div,
+.dark .ant-layout-content > div > div,
+.dark .ant-layout-content > div > div > div,
+.dark .ant-layout-content > div > div > div > div,
+.dark .ant-layout-content > div > div > div > div > div {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Fix for white background in search bar */
+.dark .bg-white.p-4.rounded-lg.shadow-sm.mb-6.flex.flex-col.md\:flex-row.gap-4,
+.dark div.bg-white.p-4.rounded-lg.shadow-sm.mb-6.flex.flex-col.md\:flex-row.gap-4 {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Fix for filter button in dark mode */
+.dark button.variant-outline.flex.items-center.gap-2,
+.dark button[class*="variant-outline"][class*="flex"][class*="items-center"][class*="gap-2"] {
+  background-color: hsl(var(--playful-card-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Direct fix for bookmark page background */
+.dark .container.mx-auto.p-4.max-w-6xl {
+  background-color: transparent !important;
+}
+
+.dark .container.mx-auto.p-4.max-w-6xl > div.grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3.gap-4 > div.hover\:shadow-md.transition-all {
+  background-color: hsl(var(--playful-card-background)) !important;
+}
+
+/* Fix for the white background in the bookmarks page */
+.dark .text-center.py-10.bg-gray-50.rounded-lg {
+  background-color: hsl(var(--playful-card-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Fix for Card component in dark mode */
+.dark .Card,
+.dark div.Card,
+.dark [class*="Card"],
+.dark div[class*="Card"],
+.dark .hover\:shadow-md,
+.dark div.hover\:shadow-md,
+.dark [class*="hover:shadow-md"],
+.dark div[class*="hover:shadow-md"],
+.dark .transition-all,
+.dark div.transition-all,
+.dark [class*="transition-all"],
+.dark div[class*="transition-all"] {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Fix for Badge component in Voice Memos and Bookmarks */
+.dark .Badge,
+.dark span.Badge,
+.dark button.Badge,
+.dark div.Badge,
+.dark [class*="Badge"],
+.dark span[class*="Badge"],
+.dark button[class*="Badge"],
+.dark div[class*="Badge"],
+.dark span.bg-indigo-50,
+.dark button.bg-indigo-50,
+.dark div.bg-indigo-50,
+.dark [class*="bg-indigo-50"],
+.dark span[class*="bg-indigo-50"],
+.dark button[class*="bg-indigo-50"],
+.dark div[class*="bg-indigo-50"] {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Fix for search inputs */
+.dark .search-input,
+.dark input[type="text"].pl-10.pr-4.py-2.w-full.border.rounded-md.focus\:outline-none.focus\:ring-1.focus\:ring-indigo-500,
+.dark input[type="text"][class*="pl-10"][class*="pr-4"][class*="py-2"][class*="w-full"][class*="border"][class*="rounded-md"] {
+  background-color: hsl(var(--playful-input-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+.dark .search-icon,
+.dark .absolute.left-3.top-2\.5.h-4.w-4.text-gray-400 {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+/* Fix for audio player controls */
+.dark .audio-player {
+  background-color: hsl(var(--playful-card-background)) !important;
+  border-color: hsl(var(--playful-card-border-color)) !important;
+}
+
+.dark .audio-controls button {
+  color: hsl(var(--playful-content-text-color)) !important;
+}
+
+.dark .audio-progress {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+}
+
+/* Direct fix for Badge component in Voice Memos and Bookmarks */
+.dark .CardFooter .flex.gap-2.flex-wrap .Badge,
+.dark .CardFooter .flex.gap-2.flex-wrap span,
+.dark .CardFooter .flex.gap-2.flex-wrap button,
+.dark .CardFooter .flex.gap-2.flex-wrap div,
+.dark .CardFooter [class*="flex"] [class*="gap-2"] [class*="flex-wrap"] span,
+.dark .CardFooter [class*="flex"] [class*="gap-2"] [class*="flex-wrap"] button,
+.dark .CardFooter [class*="flex"] [class*="gap-2"] [class*="flex-wrap"] div,
+.dark .CardFooter [class*="flex"] [class*="gap-2"] [class*="flex-wrap"] .Badge,
+.dark .CardFooter [class*="flex"] [class*="gap-2"] [class*="flex-wrap"] [class*="Badge"],
+.dark .CardFooter [class*="flex"] [class*="gap-2"] [class*="flex-wrap"] [class*="bg-indigo-50"],
+.dark .CardFooter [class*="flex"] [class*="gap-2"] [class*="flex-wrap"] [class*="variant-outline"] {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  margin: 2px !important;
+}
+
+/* Fix for white background in Voice Memos and Bookmarks */
+.dark .bg-gray-50,
+.dark div.bg-gray-50,
+.dark [class*="bg-gray-50"],
+.dark div[class*="bg-gray-50"],
+.dark .bg-white,
+.dark div.bg-white,
+.dark [class*="bg-white"],
+.dark div[class*="bg-white"],
+.dark .bg-gray-50.p-4.rounded-lg.shadow,
+.dark .bg-gray-50.rounded-lg,
+.dark .text-center.py-10.bg-gray-50,
+.dark .text-center.py-10.bg-gray-50.rounded-lg,
+.dark div.bg-gray-50.p-4.rounded-lg.shadow,
+.dark div.bg-gray-50.rounded-lg,
+.dark div.text-center.py-10.bg-gray-50,
+.dark div.text-center.py-10.bg-gray-50.rounded-lg {
+  background-color: hsl(var(--playful-card-background)) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Direct fix for Badge component in Voice Memos */
+.dark .cursor-pointer.px-3.py-2.rounded-md.bg-indigo-100.text-indigo-800,
+.dark .cursor-pointer.px-3.py-2.rounded-md.hover\:bg-gray-100,
+.dark div.cursor-pointer.px-3.py-2.rounded-md.bg-indigo-100.text-indigo-800,
+.dark div.cursor-pointer.px-3.py-2.rounded-md.hover\:bg-gray-100,
+.dark [class*="cursor-pointer"] [class*="px-3"] [class*="py-2"] [class*="rounded-md"] [class*="bg-indigo-100"] [class*="text-indigo-800"],
+.dark [class*="cursor-pointer"] [class*="px-3"] [class*="py-2"] [class*="rounded-md"] [class*="hover:bg-gray-100"],
+.dark .cursor-pointer.px-3.py-2.rounded-md,
+.dark div.cursor-pointer.px-3.py-2.rounded-md {
+  background-color: hsla(240, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Fix for Voice Memos tags */
+.dark .space-y-2 .cursor-pointer,
+.dark .space-y-2 div.cursor-pointer,
+.dark .space-y-2 [class*="cursor-pointer"],
+.dark [class*="space-y-2"] .cursor-pointer,
+.dark [class*="space-y-2"] div.cursor-pointer,
+.dark [class*="space-y-2"] [class*="cursor-pointer"] {
+  background-color: hsla(240, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+}
+
+/* Direct fix for Badge component in Bookmarks */
+.dark .CardFooter .Badge,
+.dark .CardFooter span.Badge,
+.dark .CardFooter button.Badge,
+.dark .CardFooter div.Badge,
+.dark .CardFooter [class*="Badge"],
+.dark .CardFooter span[class*="Badge"],
+.dark .CardFooter button[class*="Badge"],
+.dark .CardFooter div[class*="Badge"],
+.dark .CardFooter span.bg-indigo-50,
+.dark .CardFooter button.bg-indigo-50,
+.dark .CardFooter div.bg-indigo-50,
+.dark .CardFooter [class*="bg-indigo-50"],
+.dark .CardFooter span[class*="bg-indigo-50"],
+.dark .CardFooter button[class*="bg-indigo-50"],
+.dark .CardFooter div[class*="bg-indigo-50"],
+.dark .CardFooter span.variant-outline,
+.dark .CardFooter button.variant-outline,
+.dark .CardFooter div.variant-outline,
+.dark .CardFooter [class*="variant-outline"],
+.dark .CardFooter span[class*="variant-outline"],
+.dark .CardFooter button[class*="variant-outline"],
+.dark .CardFooter div[class*="variant-outline"],
+.dark .flex.gap-2.flex-wrap .Badge,
+.dark .flex.gap-2.flex-wrap span.Badge,
+.dark .flex.gap-2.flex-wrap button.Badge,
+.dark .flex.gap-2.flex-wrap div.Badge,
+.dark .flex.gap-2.flex-wrap [class*="Badge"],
+.dark .flex.gap-2.flex-wrap span[class*="Badge"],
+.dark .flex.gap-2.flex-wrap button[class*="Badge"],
+.dark .flex.gap-2.flex-wrap div[class*="Badge"],
+.dark .flex.gap-2.flex-wrap span.bg-indigo-50,
+.dark .flex.gap-2.flex-wrap button.bg-indigo-50,
+.dark .flex.gap-2.flex-wrap div.bg-indigo-50,
+.dark .flex.gap-2.flex-wrap [class*="bg-indigo-50"],
+.dark .flex.gap-2.flex-wrap span[class*="bg-indigo-50"],
+.dark .flex.gap-2.flex-wrap button[class*="bg-indigo-50"],
+.dark .flex.gap-2.flex-wrap div[class*="bg-indigo-50"],
+.dark .flex.gap-2.flex-wrap span.variant-outline,
+.dark .flex.gap-2.flex-wrap button.variant-outline,
+.dark .flex.gap-2.flex-wrap div.variant-outline,
+.dark .flex.gap-2.flex-wrap [class*="variant-outline"],
+.dark .flex.gap-2.flex-wrap span[class*="variant-outline"],
+.dark .flex.gap-2.flex-wrap button[class*="variant-outline"],
+.dark .flex.gap-2.flex-wrap div[class*="variant-outline"],
+.dark .bg-blue-50,
+.dark span.bg-blue-50,
+.dark button.bg-blue-50,
+.dark div.bg-blue-50,
+.dark [class*="bg-blue-50"],
+.dark span[class*="bg-blue-50"],
+.dark button[class*="bg-blue-50"],
+.dark div[class*="bg-blue-50"] {
+  background-color: hsla(210, 70%, 30%, 0.5) !important;
+  color: hsl(var(--playful-content-text-color)) !important;
+  border: 1px solid hsl(var(--playful-card-border-color)) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  margin: 2px !important;
+}

@@ -1,0 +1,213 @@
+/* Glass Effects and Skeuomorphic Design Styles */
+
+/* Light Mode Glass Effects */
+:root {
+  /* Glass effect variables */
+  --glass-background-light: rgba(255, 255, 255, 0.8);
+  --glass-border-light: rgba(255, 255, 255, 0.9);
+  --glass-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-blur-light: 8px;
+
+  /* Skeuomorphic texture variables */
+  --texture-light: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+
+  /* Light mode background with gradient */
+  --background-gradient-light: linear-gradient(135deg, hsl(30 50% 98%), hsl(30 50% 94%));
+}
+
+/* Dark Mode Glass Effects */
+.dark {
+  /* Glass effect variables */
+  --glass-background-dark: rgba(30, 30, 40, 0.8);
+  --glass-border-dark: rgba(60, 60, 80, 0.5);
+  --glass-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-blur-dark: 8px;
+
+  /* Skeuomorphic texture variables */
+  --texture-dark: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23FFFFFF' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+
+  /* Dark mode background with gradient */
+  --background-gradient-dark: linear-gradient(135deg, hsl(220 20% 12%), hsl(220 20% 8%));
+}
+
+/* Main Background with Texture */
+body {
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--texture-light);
+  background-size: 200px 200px;
+  opacity: 0.5;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.dark body::before {
+  background-image: var(--texture-dark);
+}
+
+/* Page Background with Gradient */
+body {
+  background: var(--background-gradient-light);
+}
+
+.dark body {
+  background: var(--background-gradient-dark);
+}
+
+/* Glass Effect for Layout Components */
+.glass-effect {
+  background: var(--glass-background-light);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-light);
+}
+
+.dark .glass-effect {
+  background: var(--glass-background-dark);
+  backdrop-filter: blur(var(--glass-blur-dark));
+  -webkit-backdrop-filter: blur(var(--glass-blur-dark));
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: var(--glass-shadow-dark);
+}
+
+/* Glass Effect for Cards */
+.glass-card {
+  background: var(--glass-background-light);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-card {
+  background: var(--glass-background-dark);
+  backdrop-filter: blur(var(--glass-blur-dark));
+  -webkit-backdrop-filter: blur(var(--glass-blur-dark));
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: var(--glass-shadow-dark);
+}
+
+.dark .glass-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Glass Effect for Header */
+.glass-header {
+  background: var(--glass-background-light);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border-bottom: 1px solid var(--glass-border-light);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-header {
+  background: var(--glass-background-dark);
+  backdrop-filter: blur(var(--glass-blur-dark));
+  -webkit-backdrop-filter: blur(var(--glass-blur-dark));
+  border-bottom: 1px solid var(--glass-border-dark);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Glass Effect for Sidebar */
+.glass-sidebar {
+  background: var(--glass-background-light);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border-right: 1px solid var(--glass-border-light);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-sidebar {
+  background: var(--glass-background-dark);
+  backdrop-filter: blur(var(--glass-blur-dark));
+  -webkit-backdrop-filter: blur(var(--glass-blur-dark));
+  border-right: 1px solid var(--glass-border-dark);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Skeuomorphic Button Styles */
+.skeuomorphic-button {
+  background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+  color: #333333;
+  font-weight: 500;
+}
+
+.skeuomorphic-button:hover {
+  background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+}
+
+.skeuomorphic-button:active {
+  background: linear-gradient(to top, #f0f0f0, #e0e0e0);
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.1),
+    inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+.dark .skeuomorphic-button {
+  background: linear-gradient(to bottom, #3a3a45, #2a2a35);
+  border: 1px solid #1a1a25;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.dark .skeuomorphic-button:hover {
+  background: linear-gradient(to bottom, #404050, #303040);
+}
+
+.dark .skeuomorphic-button:active {
+  background: linear-gradient(to top, #303040, #252535);
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Primary Button Styles */
+.bg-indigo-600 {
+  background: linear-gradient(to bottom, #4f46e5, #4338ca);
+  color: white;
+  font-weight: 500;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  border: 1px solid #4338ca;
+}
+
+.bg-indigo-600:hover {
+  background: linear-gradient(to bottom, #4338ca, #3730a3);
+}
+
+.dark .bg-indigo-600 {
+  background: linear-gradient(to bottom, #6366f1, #4f46e5);
+  border: 1px solid #4f46e5;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}

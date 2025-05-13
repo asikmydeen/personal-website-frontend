@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { exportResumeToPdf } from '../../services/resumeService'; // Keep for export usage
 import ReactMarkdown from 'react-markdown';
 import useStore from '../../store/useStore';
+import { Edit, FileDown } from 'lucide-react';
+import { Button } from '../../components/ui/button';
 
 const ResumeViewPage = () => {
   const resume = useStore(state => state.resumeData);
@@ -61,18 +63,26 @@ const ResumeViewPage = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 print:hidden">
         <h1 className="text-4xl font-bold text-gray-800 mb-4 md:mb-0">{name || 'Your Name'}</h1>
         <div>
-          <button
+          <Button
             onClick={() => navigate('/resume/edit')}
-            className="mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-150 text-sm"
+            variant="outline"
+            size="icon"
+            className="mr-2 h-9 w-9"
+            title="Edit Resume"
           >
-            Edit Resume
-          </button>
-          <button
+            <Edit className="h-5 w-5" />
+            <span className="sr-only">Edit Resume</span>
+          </Button>
+          <Button
             onClick={handleExportPDF}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-150 text-sm"
+            variant="outline"
+            size="icon"
+            className="h-9 w-9"
+            title="Export to PDF"
           >
-            Export to PDF
-          </button>
+            <FileDown className="h-5 w-5" />
+            <span className="sr-only">Export to PDF</span>
+          </Button>
         </div>
       </div>
       <p className="text-xl text-gray-600 mb-6 text-center md:text-left print:text-left">{title || 'Your Professional Title'}</p>

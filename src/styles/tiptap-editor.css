@@ -1,0 +1,72 @@
+/* TipTap WYSIWYG Editor Styles */
+
+/* Editor content styling */
+.tiptap-editor {
+  @apply prose prose-sm sm:prose dark:prose-invert max-w-none;
+}
+
+.tiptap-editor:focus {
+  @apply outline-none;
+}
+
+/* Override default prose styling for the editor */
+.tiptap-editor h1 {
+  @apply text-2xl font-bold mb-4 mt-6;
+}
+.tiptap-editor h2 {
+  @apply text-xl font-bold mb-3 mt-5;
+}
+.tiptap-editor h3 {
+  @apply text-lg font-bold mb-2 mt-4;
+}
+
+.tiptap-editor p {
+  @apply my-3;
+}
+
+.tiptap-editor ul {
+  @apply list-disc pl-6 my-3;
+}
+
+.tiptap-editor ol {
+  @apply list-decimal pl-6 my-3;
+}
+
+.tiptap-editor blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic my-4;
+}
+
+.tiptap-editor a {
+  @apply text-blue-600 hover:underline dark:text-blue-400;
+}
+
+.tiptap-editor code {
+  @apply bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5 font-mono text-sm;
+}
+
+/* Editor toolbar styling */
+.tiptap-toolbar {
+  @apply flex flex-wrap gap-1 p-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-t-md;
+}
+
+.tiptap-toolbar button {
+  @apply p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors;
+}
+
+.tiptap-toolbar button.active {
+  @apply bg-gray-200 dark:bg-gray-700;
+}
+
+.tiptap-toolbar button:focus {
+  @apply outline-none ring-2 ring-offset-2 ring-indigo-500;
+}
+
+/* Editor content area styling */
+.tiptap-content {
+  @apply border border-gray-300 dark:border-gray-700 border-t-0 rounded-b-md p-4 min-h-[200px] bg-white dark:bg-gray-900;
+}
+
+/* ProseMirror specific styles */
+.ProseMirror {
+  @apply min-h-[200px] focus:outline-none;
+}

@@ -8,14 +8,12 @@ import {
   CloseCircleOutlined,
   CloudOutlined,
   FileOutlined,
-  CreditCardOutlined,
-  KeyOutlined,
-  BookOutlined,
-  SoundOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
+import { motion, AnimatePresence } from 'framer-motion';
 import useStore from '../../store/useStore';
 import ThemeSwitcher from '../theme/ThemeSwitcher';
+import { AnimatedSidebarItem } from '../animated';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -118,11 +116,16 @@ const navigation = [
   { key: '/resume', label: 'Resume', icon: '📄', to: '/resume' },
 ];
 
-const LayoutComponent = ({ children }) => {
+const AnimatedLayoutComponent = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const isAuthenticated = useStore(state => state.isAuthenticated);
   const location = useLocation();
   const screens = useBreakpoint();
+
+  // Animated sidebar toggle
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed);
+  };
 
   if (!isAuthenticated) {
     return (
@@ -144,37 +147,67 @@ const LayoutComponent = ({ children }) => {
     );
   }
 
-  const userMenuItems = [
-    {
-      key: 'profile',
-      label: <Link to="/profile">Profile</Link>,
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="profile">
+        <Link to="/profile">Profile</Link>
+      </Menu.Item>
+      <Menu.Item key="logout" onClick={() => useStore.getState().logout()}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
+
+  // Animation variants for the layout
+  const siderVariants = {
+    expanded: {
+      width: '200px',
+      transition: { duration: 0.3, ease: 'easeInOut' }
     },
-    {
-      key: 'logout',
-      label: 'Logout',
-      onClick: () => useStore.getState().logout(),
+    collapsed: {
+      width: screens.lg ? '100px' : '0px',
+      transition: { duration: 0.3, ease: 'easeInOut' }
     }
-  ];
+  };
+
+  const contentVariants = {
+    expanded: {
+      marginLeft: '200px',
+      transition: { duration: 0.3, ease: 'easeInOut' }
+    },
+    collapsed: {
+      marginLeft: screens.lg ? '100px' : '0px',
+      transition: { duration: 0.3, ease: 'easeInOut' }
+    }
+  };
+
+  const logoVariants = {
+    expanded: { scale: 1, opacity: 1 },
+    collapsed: { scale: 0.8, opacity: 0.9 }
+  };
+
+  const triggerVariants = {
+    expanded: { rotate: 0 },
+    collapsed: { rotate: 180 }
+  };
 
   return (
     <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={setCollapsed}
-        breakpoint="lg"
-        collapsedWidth={screens.lg ? 100 : 0}
-        zeroWidthTriggerStyle={{ top: 12 }}
+      <motion.div
+        className="playful-sider glass-sidebar"
         style={{
           background: 'transparent',
           minHeight: '100vh',
           position: 'fixed',
           left: 0,
           zIndex: 10,
+          overflowX: 'hidden',
         }}
-        className="playful-sider glass-sidebar"
+        variants={siderVariants}
+        animate={collapsed ? 'collapsed' : 'expanded'}
+        initial={false}
       >
-        <div
+        <motion.div
           style={{
             height: 80,
             margin: 12,
@@ -187,6 +220,8 @@ const LayoutComponent = ({ children }) => {
             color: 'hsl(var(--playful-sider-logo-text-color))',
             userSelect: 'none',
           }}
+          variants={logoVariants}
+          animate={collapsed ? 'collapsed' : 'expanded'}
         >
           <Image
             src="/logo.png"
@@ -199,35 +234,31 @@ const LayoutComponent = ({ children }) => {
               transition: 'width 0.4s, height 0.4s'
             }}
           />
+        </motion.div>
+
+        <div className="sidebar-menu" style={{ background: 'transparent', padding: '0 8px' }}>
+          {navigation.map(item => (
+            <AnimatedSidebarItem
+              key={item.key}
+              to={item.to}
+              icon={item.icon}
+              label={item.label}
+              isActive={location.pathname === item.key}
+              collapsed={collapsed}
+            />
+          ))}
         </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          style={{
-            background: 'transparent'
-          }}
-          className="sidebar-menu"
-          items={navigation.map(item => ({
-            key: item.key,
-            icon: collapsed ? (
-              <Link to={item.to} className="sidebar-icon-link">
-                <span role="img" aria-label={item.label}>{item.icon}</span>
-              </Link>
-            ) : (
-              <span role="img" aria-label={item.label}>{item.icon}</span>
-            ),
-            label: <Link to={item.to} className="sidebar-text-link" style={{ fontWeight: 'bold' }}>{item.label}</Link>
-          }))}
-        />
-      </Sider>
-      <Layout
+      </motion.div>
+
+      <motion.div
         style={{
-          marginLeft: collapsed ? (screens.lg ? '100px' : '0px') : '200px',
-          transition: 'margin-left 0.2s',
           display: 'flex',
           flexDirection: 'column',
           minHeight: '100vh'
         }}
+        variants={contentVariants}
+        animate={collapsed ? 'collapsed' : 'expanded'}
+        initial={false}
       >
         <Header
           style={{
@@ -245,36 +276,70 @@ const LayoutComponent = ({ children }) => {
           className="glass-header"
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-              className: 'trigger',
-              onClick: () => setCollapsed(!collapsed),
-              style: { fontSize: 20, marginRight: 24, cursor: 'pointer', color: 'hsl(var(--playful-header-text-color))' },
-            })}
-            <Title level={4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))' }}>
-              {{
-                '/': 'Home',
-                '/photos': 'Photos',
-                '/files': 'Files',
-                '/notes': 'Notes',
-                '/bookmarks': 'Bookmarks',
-                '/passwords': 'Password Manager',
-                '/wallet': 'Digital Wallet',
-                '/voice-memos': 'Voice Memos',
-                '/resume': 'Resume',
-                '/profile': 'Profile',
-              }[location.pathname] || 'Home'}
-            </Title>
+            <motion.div
+              onClick={toggleSidebar}
+              style={{
+                fontSize: 20,
+                marginRight: 24,
+                cursor: 'pointer',
+                color: 'hsl(var(--playful-header-text-color))'
+              }}
+              variants={triggerVariants}
+              animate={collapsed ? 'collapsed' : 'expanded'}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Title level={4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))' }}>
+                {{
+                  '/': 'Home',
+                  '/photos': 'Photos',
+                  '/files': 'Files',
+                  '/notes': 'Notes',
+                  '/bookmarks': 'Bookmarks',
+                  '/passwords': 'Password Manager',
+                  '/wallet': 'Digital Wallet',
+                  '/voice-memos': 'Voice Memos',
+                  '/resume': 'Resume',
+                  '/profile': 'Profile',
+                }[location.pathname] || 'Home'}
+              </Title>
+            </motion.div>
           </div>
+
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <ThemeSwitcher />
-            <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
-              <Avatar size="large" style={{ cursor: 'pointer', backgroundColor: 'hsl(var(--playful-sider-logo-background))', color: 'hsl(var(--playful-sider-logo-text-color))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span role="img" aria-label="User Menu" style={{ fontSize: '24px' }}>👤</span>
-              </Avatar>
+            <Dropdown menu={{ items: userMenu }} placement="bottomRight" arrow>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Avatar
+                  size="large"
+                  style={{
+                    cursor: 'pointer',
+                    backgroundColor: 'hsl(var(--playful-sider-logo-background))',
+                    color: 'hsl(var(--playful-sider-logo-text-color))',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <span role="img" aria-label="User Menu" style={{ fontSize: '24px' }}>👤</span>
+                </Avatar>
+              </motion.div>
             </Dropdown>
           </div>
         </Header>
-        <Content
+
+        <motion.div
           style={{
             margin: '24px 16px',
             padding: 24,
@@ -286,32 +351,47 @@ const LayoutComponent = ({ children }) => {
             border: 'none'
           }}
           className="glass-effect"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          {children}
-        </Content>
-        <Footer style={{
-          textAlign: 'center',
-          background: 'transparent',
-          color: 'hsl(var(--playful-header-text-color))',
-          padding: '0 16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '40px', /* Match the height of sidebar's collapse trigger */
-          marginTop: 'auto',
-          marginLeft: 0,
-          marginRight: 0,
-          marginBottom: 0,
-          borderRadius: 0,
-          fontSize: '12px'
-        }}
-        className="glass-header"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        <Footer
+          style={{
+            textAlign: 'center',
+            background: 'transparent',
+            color: 'hsl(var(--playful-header-text-color))',
+            padding: '0 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '40px', /* Match the height of sidebar's collapse trigger */
+            marginTop: 'auto',
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: 0,
+            borderRadius: 0,
+            fontSize: '12px'
+          }}
+          className="glass-header"
         >
           <FooterStatus />
         </Footer>
-      </Layout>
+      </motion.div>
     </Layout>
   );
 };
 
-export default LayoutComponent;
+export default AnimatedLayoutComponent;

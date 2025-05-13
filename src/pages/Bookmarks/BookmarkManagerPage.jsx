@@ -150,10 +150,14 @@ const BookmarkManagerPage = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">Bookmarks</h1>
         <Button
-          className="bg-indigo-600 hover:bg-indigo-700 flex items-center gap-2"
+          className="bg-indigo-600 hover:bg-indigo-700 flex items-center gap-2 text-white font-medium"
           onClick={() => {
             setFormData({ title: '', url: '', tags: '' });
             setIsAddDialogOpen(true);
+          }}
+          style={{
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+            textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
           }}
         >
           <Plus size={16} />
@@ -162,7 +166,7 @@ const BookmarkManagerPage = () => {
       </div>
 
       {/* Search and filter bar */}
-      <div className="bg-white p-4 rounded-lg shadow-sm mb-6 flex flex-col md:flex-row gap-4">
+      <div className="bg-white p-4 rounded-lg shadow-sm mb-6 flex flex-col md:flex-row gap-4 glass-effect">
         <div className="relative flex-grow">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
           <input
@@ -176,12 +180,18 @@ const BookmarkManagerPage = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 border-gray-300 text-gray-700 hover:bg-gray-100"
+              style={{
+                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
+              }}
+            >
               <Filter size={16} />
               {activeTag ? `Tag: ${activeTag}` : 'Filter by Tag'}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="glass-effect">
             <DropdownMenuItem onClick={() => setActiveTag('')}>
               All Bookmarks
             </DropdownMenuItem>
@@ -208,16 +218,19 @@ const BookmarkManagerPage = () => {
           <p className="mt-2 text-gray-600">Loading bookmarks...</p>
         </div>
       ) : filteredBookmarks.length === 0 ? (
-        <div className="text-center py-10 bg-gray-50 rounded-lg">
+        <div className="text-center py-10 bg-gray-50 rounded-lg glass-effect">
           <p className="text-gray-600 mb-4">
             {searchQuery || activeTag ? 'No bookmarks match your filters' : 'No bookmarks yet'}
           </p>
           <Button
-            variant="outline"
-            className="border-indigo-500 text-indigo-600 hover:bg-indigo-50"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
             onClick={() => {
               setFormData({ title: '', url: '', tags: '' });
               setIsAddDialogOpen(true);
+            }}
+            style={{
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+              textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
             }}
           >
             Add your first bookmark
@@ -226,7 +239,7 @@ const BookmarkManagerPage = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredBookmarks.map(bookmark => (
-            <Card key={bookmark.id} className="hover:shadow-md transition-all">
+            <Card key={bookmark.id} className="hover:shadow-md transition-all glass-card">
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg font-bold truncate flex items-start justify-between">
                   <span>{bookmark.title}</span>
@@ -278,7 +291,7 @@ const BookmarkManagerPage = () => {
 
       {/* Add Bookmark Dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent>
+        <DialogContent className="glass-effect">
           <DialogHeader>
             <DialogTitle>Add New Bookmark</DialogTitle>
           </DialogHeader>
@@ -292,6 +305,7 @@ const BookmarkManagerPage = () => {
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
                   required
+                  className="glass-effect"
                 />
               </div>
               <div className="space-y-2">
@@ -302,6 +316,7 @@ const BookmarkManagerPage = () => {
                   value={formData.url}
                   onChange={(e) => setFormData({...formData, url: e.target.value})}
                   required
+                  className="glass-effect"
                 />
               </div>
               <div className="space-y-2">
@@ -311,14 +326,31 @@ const BookmarkManagerPage = () => {
                   placeholder="work, reference, important"
                   value={formData.tags}
                   onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                  className="glass-effect"
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsAddDialogOpen(false)}
+                className="border-gray-300 text-gray-700 hover:bg-gray-100"
+                style={{
+                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
+                }}
+              >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
+                style={{
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+                  textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
+                }}
+              >
                 {loading ? 'Adding...' : 'Add Bookmark'}
               </Button>
             </DialogFooter>
@@ -328,7 +360,7 @@ const BookmarkManagerPage = () => {
 
       {/* Edit Bookmark Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent>
+        <DialogContent className="glass-effect">
           <DialogHeader>
             <DialogTitle>Edit Bookmark</DialogTitle>
           </DialogHeader>
@@ -342,6 +374,7 @@ const BookmarkManagerPage = () => {
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
                   required
+                  className="glass-effect"
                 />
               </div>
               <div className="space-y-2">
@@ -352,6 +385,7 @@ const BookmarkManagerPage = () => {
                   value={formData.url}
                   onChange={(e) => setFormData({...formData, url: e.target.value})}
                   required
+                  className="glass-effect"
                 />
               </div>
               <div className="space-y-2">
@@ -361,14 +395,31 @@ const BookmarkManagerPage = () => {
                   placeholder="work, reference, important"
                   value={formData.tags}
                   onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                  className="glass-effect"
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsEditDialogOpen(false)}
+                className="border-gray-300 text-gray-700 hover:bg-gray-100"
+                style={{
+                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
+                }}
+              >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
+                style={{
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+                  textShadow: '0 1px 1px rgba(0, 0, 0, 0.2)'
+                }}
+              >
                 {loading ? 'Updating...' : 'Update Bookmark'}
               </Button>
             </DialogFooter>
