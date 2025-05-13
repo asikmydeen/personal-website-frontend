@@ -159,7 +159,7 @@ const FileManagerPage = () => {
                       <span className="text-sm">📄 {item.name}</span>
                     )}
                   </div>
-                  <span className="text-xs bg-gray-100 px-2 py-1 rounded">{item.type}</span>
+                  <span className="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">{item.type}</span>
                 </div>
                 <div className="text-xs text-gray-500 mb-2">
                   {item.type === 'file' && <div>Size: {formatFileSize(parseInt(item.size) * 1024 || 0)}</div>}
@@ -167,9 +167,9 @@ const FileManagerPage = () => {
                 </div>
                 <div className="flex space-x-2">
                   {item.type === 'file' && (
-                    <button onClick={() => handleDownload(item.id, item.name)} className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded">Download</button>
+                    <button onClick={() => handleDownload(item.id, item.name)} className="text-xs bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">Download</button>
                   )}
-                  <button onClick={() => handleDelete(item.id, item.type, item.name)} className="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">Delete</button>
+                  <button onClick={() => handleDelete(item.id, item.type, item.name)} className="text-xs bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 rounded">Delete</button>
                 </div>
               </div>
             ))}
