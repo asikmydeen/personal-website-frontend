@@ -1,83 +1,102 @@
-/* TipTap WYSIWYG Editor Styles */
+/* Rich text editor styling */
 
-/* Editor content styling */
-.tiptap-editor {
-  @apply prose prose-sm md:prose dark:prose-invert max-w-none text-sm sm:text-base;
+/* Basic styling for contentEditable area */
+[contenteditable] {
+  outline: none;
+  width: 100%;
+  min-height: 100px;
+  color: inherit;
 }
 
-.tiptap-editor:focus {
-  @apply outline-none;
+[contenteditable]:empty:before {
+  content: attr(placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+  display: block;
 }
 
-/* Override default prose styling for the editor */
-.tiptap-editor h1 {
-  @apply text-xl sm:text-2xl font-bold mb-2 sm:mb-4 mt-4 sm:mt-6;
-}
-.tiptap-editor h2 {
-  @apply text-lg sm:text-xl font-bold mb-2 sm:mb-3 mt-3 sm:mt-5;
-}
-.tiptap-editor h3 {
-  @apply text-base sm:text-lg font-bold mb-1 sm:mb-2 mt-3 sm:mt-4;
+/* Basic styling for formatted content */
+[contenteditable] strong,
+[contenteditable] b {
+  font-weight: bold;
 }
 
-.tiptap-editor p {
-  @apply my-2 sm:my-3;
+[contenteditable] em,
+[contenteditable] i {
+  font-style: italic;
 }
 
-.tiptap-editor ul {
-  @apply list-disc pl-4 sm:pl-6 my-2 sm:my-3;
+[contenteditable] u {
+  text-decoration: underline;
 }
 
-.tiptap-editor ol {
-  @apply list-decimal pl-4 sm:pl-6 my-2 sm:my-3;
+[contenteditable] a {
+  color: #0284c7;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.tiptap-editor blockquote {
-  @apply border-l-4 border-gray-300 pl-3 sm:pl-4 italic my-3 sm:my-4;
+[contenteditable] ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
 }
 
-.tiptap-editor a {
-  @apply text-blue-600 hover:underline dark:text-blue-400;
+[contenteditable] ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
 }
 
-.tiptap-editor code {
-  @apply bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5 font-mono text-sm;
+[contenteditable] li {
+  margin: 0.25em 0;
 }
 
-/* Editor toolbar styling */
-.tiptap-toolbar {
-  @apply flex flex-wrap gap-1 p-1 sm:p-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-t-md;
+/* Text alignment */
+[contenteditable] div[align="center"],
+[contenteditable] p[align="center"] {
+  text-align: center;
 }
 
-.tiptap-toolbar button {
-  @apply p-1 sm:p-2 rounded text-xs sm:text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors;
+[contenteditable] div[align="right"],
+[contenteditable] p[align="right"] {
+  text-align: right;
 }
 
-.tiptap-toolbar button.active {
-  @apply bg-gray-200 dark:bg-gray-700;
+/* Dark mode adjustments */
+.dark [contenteditable] a {
+  color: #38bdf8;
 }
 
-.tiptap-toolbar button:focus {
-  @apply outline-none ring-2 ring-offset-2 ring-indigo-500;
+/* Theme integration */
+.resume-container [contenteditable] a {
+  color: var(--resume-accent, #0284c7);
 }
 
-/* Editor content area styling */
-.tiptap-content {
-  @apply border border-gray-300 dark:border-gray-700 border-t-0 rounded-b-md p-2 sm:p-4 min-h-[150px] sm:min-h-[200px] bg-white dark:bg-gray-900;
+/* Support for theming in viewed resume */
+.resume-container .prose p,
+.resume-container .prose ul,
+.resume-container .prose ol,
+.resume-container .prose li,
+.resume-container .prose a {
+  color: var(--resume-text) !important;
 }
 
-/* ProseMirror specific styles */
-.ProseMirror {
-  @apply min-h-[150px] sm:min-h-[200px] focus:outline-none;
+.resume-container .prose strong,
+.resume-container .prose b {
+  color: var(--resume-primary) !important;
+  font-weight: bold;
 }
 
-/* Mobile-specific adjustments */
-@media (max-width: 640px) {
-  .tiptap-toolbar button {
-    @apply min-w-[28px] min-h-[28px] flex items-center justify-center;
-  }
+.resume-container .prose a {
+  color: var(--resume-accent) !important;
+  text-decoration: underline;
+}
 
-  .tiptap-editor {
-    @apply text-sm;
-  }
+.resume-container .prose ul {
+  list-style-type: disc;
+}
+
+.resume-container .prose ol {
+  list-style-type: decimal;
 }

@@ -9,6 +9,7 @@ import PhotoGalleryPage from './pages/Photos/PhotoGalleryPage';
 import FileManagerPage from './pages/Files/FileManagerPage';
 import ResumeViewPage from './pages/Resume/ResumeViewPage';
 import ResumeEditPage from './pages/Resume/ResumeEditPage';
+import ResumeListPage from './pages/Resume/ResumeListPage';
 import LoginPage from './pages/Auth/LoginPage';
 import NotesListPage from './pages/Notes/NotesListPage';
 import TextNoteViewPage from './pages/Notes/TextNoteViewPage';
@@ -78,12 +79,20 @@ function App() {
             path="/resume"
             element={
               <PrivateRoute>
+                <ResumeListPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/resume/:resumeId"
+            element={
+              <PrivateRoute>
                 <ResumeViewPage />
               </PrivateRoute>
             }
           />
           <Route
-            path="/resume/edit"
+            path="/resume/edit/:resumeId"
             element={
               <PrivateRoute>
                 <ResumeEditPage />

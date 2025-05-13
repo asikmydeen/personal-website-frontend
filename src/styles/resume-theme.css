@@ -1,0 +1,149 @@
+/* CSS to ensure resume themes override dark/light mode settings */
+
+.resume-container {
+  --tw-shadow: none !important;
+  color: var(--resume-text) !important;
+  background-color: var(--resume-background) !important;
+  /* Reset dark mode colors and force use of theme colors */
+  --tw-prose-body: var(--resume-text) !important;
+  --tw-prose-headings: var(--resume-primary) !important;
+  --tw-prose-lead: var(--resume-text) !important;
+  --tw-prose-links: var(--resume-accent) !important;
+  --tw-prose-bold: var(--resume-primary) !important;
+  --tw-prose-counters: var(--resume-accent) !important;
+  --tw-prose-bullets: var(--resume-accent) !important;
+  --tw-prose-hr: var(--resume-border) !important;
+  --tw-prose-quotes: var(--resume-text) !important;
+  --tw-prose-quote-borders: var(--resume-accent) !important;
+  --tw-prose-captions: var(--resume-accent) !important;
+  --tw-prose-code: var(--resume-text) !important;
+  --tw-prose-pre-code: var(--resume-text) !important;
+  --tw-prose-pre-bg: var(--resume-secondary) !important;
+  --tw-prose-th-borders: var(--resume-border) !important;
+  --tw-prose-td-borders: var(--resume-border) !important;
+}
+
+.resume-container * {
+  border-color: var(--resume-border) !important;
+}
+
+.resume-container h1,
+.resume-container h2,
+.resume-container h3,
+.resume-container h4 {
+  color: var(--resume-primary) !important;
+  font-family: var(--resume-heading-font) !important;
+}
+
+.resume-container p,
+.resume-container li,
+.resume-container span {
+  color: var(--resume-text) !important;
+  font-family: var(--resume-body-font) !important;
+}
+
+.resume-container .resume-title {
+  color: var(--resume-accent) !important;
+}
+
+.resume-container a {
+  color: var(--resume-text) !important;
+  text-decoration: underline;
+}
+
+.resume-container a:hover {
+  color: var(--resume-primary) !important;
+}
+
+.resume-container button {
+  background-color: var(--resume-accent);
+  color: var(--resume-background);
+}
+
+.resume-container .period {
+  color: var(--resume-accent) !important;
+}
+
+/* Override Tailwind typography prose styles */
+.resume-container .prose * {
+  color: var(--resume-text) !important;
+  opacity: 1 !important;
+  border-color: var(--resume-border) !important;
+}
+
+.resume-container .prose strong {
+  color: var(--resume-primary) !important;
+  font-weight: 600;
+}
+
+.resume-container .prose ul li::marker {
+  color: var(--resume-primary) !important;
+}
+
+.resume-container .prose h1,
+.resume-container .prose h2,
+.resume-container .prose h3 {
+  color: var(--resume-primary) !important;
+}
+
+/* Force contrast for dark themes */
+html.dark .resume-container {
+  color: var(--resume-text) !important;
+  background-color: var(--resume-background) !important;
+  --tw-prose-invert-body: var(--resume-text) !important;
+  --tw-prose-invert-headings: var(--resume-primary) !important;
+  --tw-prose-invert-lead: var(--resume-text) !important;
+  --tw-prose-invert-links: var(--resume-accent) !important;
+  --tw-prose-invert-bold: var(--resume-primary) !important;
+  --tw-prose-invert-counters: var(--resume-accent) !important;
+  --tw-prose-invert-bullets: var(--resume-accent) !important;
+  --tw-prose-invert-hr: var(--resume-border) !important;
+  --tw-prose-invert-quotes: var(--resume-text) !important;
+  --tw-prose-invert-quote-borders: var(--resume-accent) !important;
+  --tw-prose-invert-captions: var(--resume-accent) !important;
+  --tw-prose-invert-code: var(--resume-text) !important;
+  --tw-prose-invert-pre-code: var(--resume-text) !important;
+  --tw-prose-invert-pre-bg: var(--resume-secondary) !important;
+  --tw-prose-invert-th-borders: var(--resume-border) !important;
+  --tw-prose-invert-td-borders: var(--resume-border) !important;
+}
+
+/* Button styles for theme */
+.resume-container .theme-button {
+  background-color: var(--resume-secondary) !important;
+  color: var(--resume-text) !important;
+  border: 1px solid var(--resume-border) !important;
+}
+
+.resume-container .theme-button:hover {
+  background-color: var(--resume-primary);
+  color: white;
+}
+
+/* Ensure skills tags match theme */
+.resume-container .skill-tag {
+  background-color: var(--resume-secondary) !important;
+  color: var(--resume-text) !important;
+  border: 1px solid var(--resume-border) !important;
+}
+
+/* Override any potential dark mode styles that might cause contrast issues */
+html.dark .resume-container p,
+html.dark .resume-container span,
+html.dark .resume-container div,
+html.dark .resume-container h1,
+html.dark .resume-container h2,
+html.dark .resume-container h3,
+html.dark .resume-container h4,
+html.dark .resume-container a,
+html.dark .resume-container li {
+  color: var(--resume-text) !important;
+}
+
+html.dark .resume-container h1,
+html.dark .resume-container h2,
+html.dark .resume-container h3,
+html.dark .resume-container h4,
+html.dark .resume-container strong {
+  color: var(--resume-primary) !important;
+}

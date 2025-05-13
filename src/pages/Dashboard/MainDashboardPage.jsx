@@ -182,7 +182,7 @@ const MainDashboardPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-3 sm:p-4 md:p-8">
+    <div className="w-full p-3 sm:p-4 md:p-8">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-playful-content-text-color mb-1 sm:mb-2">Welcome back, {userName}!</h1>
       <p className="text-sm sm:text-md text-playful-content-text-color/80 mb-4 sm:mb-6 md:mb-8">Here's an overview of your personal space.</p>
 

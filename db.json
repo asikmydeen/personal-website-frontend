@@ -744,153 +744,412 @@
   ],
   "resume": [
     {
-      "name": "Asik Mydeen",
-      "title": "Software Developer Resume",
-      "summary": "I am a software en",
+      "id": "resume101",
+      "name": "Alexander Mitchell",
+      "title": "Senior Software Engineer",
+      "summary": "<p>Results-driven software engineer with 8+ years of experience developing scalable applications and leading engineering teams. Specializing in cloud architecture, microservices, and DevOps practices with proven success in reducing system downtime and optimizing application performance. Passionate about mentoring junior developers and implementing best coding practices across organizations.</p>",
       "contact": {
-        "email": "writetoasik@gmail.com",
-        "phone": "2069108357",
-        "linkedin": "https://assasa.com",
-        "github": "http://sasa.com",
-        "website": "https://sas.com"
+        "email": "alex.mitchell@example.com",
+        "phone": "(555) 123-4567",
+        "linkedin": "https://linkedin.com/in/alexmitchell",
+        "github": "https://github.com/alexmitchell",
+        "website": "https://alexmitchell.dev"
       },
       "experience": [
         {
-          "company": "as",
-          "role": "as",
-          "period": "as",
+          "company": "TechInnovate Solutions",
+          "role": "Senior Software Engineer",
+          "period": "January 2020 - Present",
           "responsibilities": [
-            "as",
-            "asas"
+            "<p>Lead a team of 6 engineers in developing and maintaining cloud-native applications using Kubernetes, Docker, and AWS services</p>",
+            "<p>Architected and implemented a microservices platform that reduced system downtime by 75% and improved API response times by 40%</p>",
+            "<p>Established CI/CD pipelines using GitHub Actions and Jenkins, reducing deployment time from days to hours</p>",
+            "<p>Implemented comprehensive test automation strategies, achieving 90% code coverage and reducing regression issues by 65%</p>"
+          ]
+        },
+        {
+          "company": "DataStream Inc.",
+          "role": "Full Stack Developer",
+          "period": "March 2017 - December 2019",
+          "responsibilities": [
+            "<p>Developed responsive web applications using React, Node.js, and MongoDB</p>",
+            "<p>Optimized database queries and application performance, resulting in 30% faster load times</p>",
+            "<p>Collaborated with product managers and designers to implement user-centric features</p>",
+            "<p>Mentored junior developers through pair programming and code reviews</p>"
+          ]
+        },
+        {
+          "company": "CodeCraft Software",
+          "role": "Junior Developer",
+          "period": "May 2015 - February 2017",
+          "responsibilities": [
+            "<p>Built and maintained REST APIs using Python and Django</p>",
+            "<p>Participated in daily stand-up meetings and biweekly sprint planning sessions</p>",
+            "<p>Resolved customer-reported bugs and implemented feature enhancements</p>"
           ]
         }
       ],
       "education": [
         {
-          "institution": "University of Technology",
-          "area": "Computer Science",
-          "studyType": "Bachelor",
-          "startDate": "2013-09-01",
-          "endDate": "2017-05-15",
-          "gpa": "3.8",
-          "courses": [
-            "Data Structures and Algorithms",
-            "Web Development",
-            "Database Systems"
-          ],
-          "degree": "as",
-          "period": "as",
-          "details": "as"
+          "institution": "Stanford University",
+          "degree": "Master of Science in Computer Science",
+          "period": "2013 - 2015",
+          "details": "<p>Specialization in Machine Learning and Distributed Systems. Thesis: \"Scalable Distributed Machine Learning Frameworks for Real-time Analytics\"</p>"
+        },
+        {
+          "institution": "University of Washington",
+          "degree": "Bachelor of Science in Computer Engineering",
+          "period": "2009 - 2013",
+          "details": "<p>Graduated with honors (3.8 GPA). Active member of the Association for Computing Machinery (ACM)</p>"
         }
       ],
       "skills": [
-        "Frontend Development",
-        "Backend Development",
-        "DevOps",
-        "as"
+        "JavaScript",
+        "Python",
+        "Java",
+        "React",
+        "Node.js",
+        "AWS",
+        "Docker",
+        "Kubernetes",
+        "CI/CD",
+        "MongoDB",
+        "PostgreSQL",
+        "Microservices",
+        "System Design",
+        "Agile Methodologies"
       ],
-      "lastUpdated": null,
-      "id": "resume1",
+      "theme": "executive",
       "userId": "user1",
-      "isDefault": true,
-      "basics": {
-        "name": "Test User",
-        "label": "Software Developer",
-        "image": "https://randomuser.me/api/portraits/men/1.jpg",
-        "email": "user@example.com",
-        "phone": "(555) 123-4567",
-        "url": "https://testuser.dev",
-        "summary": "Experienced software developer with a focus on web technologies and user experience.",
-        "location": {
-          "address": "123 Main St",
-          "postalCode": "94103",
-          "city": "San Francisco",
-          "region": "CA",
-          "countryCode": "US"
-        },
-        "profiles": [
-          {
-            "network": "LinkedIn",
-            "username": "testuser",
-            "url": "https://linkedin.com/in/testuser"
-          },
-          {
-            "network": "GitHub",
-            "username": "testuser",
-            "url": "https://github.com/testuser"
-          }
-        ]
+      "createdAt": "2025-04-10T14:30:00.000Z",
+      "updatedAt": "2025-05-13T19:23:35.269Z"
+    },
+    {
+      "id": "resume102",
+      "name": "Samantha Rodriguez",
+      "title": "Marketing Director",
+      "summary": "<p>Strategic marketing leader with 10+ years of experience driving brand growth and digital marketing transformation across multiple industries. Proven track record of developing and executing integrated marketing campaigns that exceed ROI targets and enhance brand engagement. Skilled in team leadership, budget management, and creating data-driven marketing strategies.</p>",
+      "contact": {
+        "email": "samantha.r@example.com",
+        "phone": "(555) 987-6543",
+        "linkedin": "https://linkedin.com/in/samantharodriguez",
+        "github": "",
+        "website": "https://samantharodriguez.com"
       },
-      "work": [
+      "experience": [
         {
-          "company": "Tech Solutions Inc.",
-          "position": "Senior Developer",
-          "website": "https://techsolutions.example.com",
-          "startDate": "2020-01-15",
-          "endDate": null,
-          "summary": "Lead developer for client-facing web applications",
-          "highlights": [
-            "Developed responsive web applications using React",
-            "Implemented CI/CD pipeline reducing deployment time by 50%",
-            "Mentored junior developers on best practices"
+          "company": "Global Innovations Inc.",
+          "role": "Marketing Director",
+          "period": "June 2021 - Present",
+          "responsibilities": [
+            "<p>Lead a cross-functional marketing team of 12 specialists, overseeing a $2.5M annual marketing budget</p>",
+            "<p>Developed and executed comprehensive marketing strategies resulting in 35% YoY revenue growth</p>",
+            "<p>Revitalized brand messaging and visual identity, increasing brand recognition by 40% according to market research</p>",
+            "<p>Optimized digital marketing channels, achieving a 25% reduction in customer acquisition costs while increasing conversion rates by 18%</p>"
           ]
         },
         {
-          "company": "Digital Innovations",
-          "position": "Web Developer",
-          "website": "https://digitalinnovations.example.com",
-          "startDate": "2017-03-01",
-          "endDate": "2019-12-31",
-          "summary": "Worked on various frontend projects",
-          "highlights": [
-            "Built interactive UI components with Vue.js",
-            "Optimized application performance",
-            "Collaborated with design team on UI/UX improvements"
+          "company": "TechSolutions Corp",
+          "role": "Senior Marketing Manager",
+          "period": "August 2017 - May 2021",
+          "responsibilities": [
+            "<p>Managed product marketing initiatives for SaaS product suite with over $30M in annual revenue</p>",
+            "<p>Spearheaded content strategy that generated 45% increase in marketing qualified leads</p>",
+            "<p>Launched successful social media campaigns that increased audience engagement by 60%</p>",
+            "<p>Collaborated with sales team to develop targeted materials, contributing to 28% growth in enterprise accounts</p>"
+          ]
+        },
+        {
+          "company": "Apex Marketing Agency",
+          "role": "Digital Marketing Specialist",
+          "period": "March 2015 - July 2017",
+          "responsibilities": [
+            "<p>Designed and implemented SEO strategies for clients across various industries</p>",
+            "<p>Created and managed PPC campaigns with average ROI of 300%</p>",
+            "<p>Conducted market research and competitive analyses to inform marketing strategies</p>"
           ]
         }
       ],
-      "projects": [
+      "education": [
         {
-          "name": "Personal Portfolio",
-          "description": "Responsive portfolio website showcasing projects and skills",
-          "highlights": [
-            "Built with React and Tailwind CSS",
-            "Includes dark/light theme toggle",
-            "Fully responsive design"
-          ],
-          "keywords": [
-            "React",
-            "Tailwind",
-            "Portfolio"
-          ],
-          "startDate": "2022-06-01",
-          "endDate": "2022-07-15",
-          "url": "https://testuser.dev",
-          "roles": [
-            "Designer",
-            "Developer"
-          ],
-          "entity": "Personal Project",
-          "type": "Web Application"
+          "institution": "Northwestern University",
+          "degree": "MBA, Marketing Concentration",
+          "period": "2013 - 2015",
+          "details": "<p>Graduated with distinction. Vice President of Marketing Club.</p>"
+        },
+        {
+          "institution": "University of California, Los Angeles",
+          "degree": "Bachelor of Arts in Communications",
+          "period": "2009 - 2013",
+          "details": "<p>Minor in Business Administration. Dean's List all semesters.</p>"
         }
       ],
-      "createdAt": "2023-01-20T10:15:00.000Z",
-      "updatedAt": "2023-03-12T14:30:00.000Z",
-      "user": {
-        "id": "user1",
-        "email": "user@example.com",
-        "password": "$2a$10$encrypted_password_hash",
-        "name": "Test User",
-        "bio": "A test user bio",
-        "profilePicture": "https://randomuser.me/api/portraits/men/1.jpg",
-        "createdAt": "2023-01-15T08:30:00.000Z",
-        "lastLogin": "2023-04-01T10:25:00.000Z",
-        "settings": {
-          "theme": "light",
-          "notifications": true,
-          "twoFactorEnabled": false
+      "skills": [
+        "Strategic Marketing",
+        "Digital Marketing",
+        "Brand Development",
+        "Market Research",
+        "Campaign Management",
+        "Content Strategy",
+        "SEO/SEM",
+        "Social Media Marketing",
+        "Team Leadership",
+        "Budget Management",
+        "Google Analytics",
+        "Adobe Creative Suite",
+        "HubSpot",
+        "Salesforce"
+      ],
+      "theme": "professional",
+      "userId": "user1",
+      "createdAt": "2025-03-22T10:15:00.000Z",
+      "updatedAt": "2025-05-10T16:30:00.000Z"
+    },
+    {
+      "id": "resume103",
+      "name": "Daniel Wong",
+      "title": "Senior Graphic Designer",
+      "summary": "<p>Versatile graphic designer with 7+ years of experience creating compelling visual solutions for print and digital media. Expertise in branding, packaging design, and digital illustration, with a strong commitment to pixel-perfect execution and client satisfaction. Known for translating complex ideas into clean, visually appealing designs that exceed client expectations.</p>",
+      "contact": {
+        "email": "daniel.wong@example.com",
+        "phone": "(555) 234-5678",
+        "linkedin": "https://linkedin.com/in/danielwong",
+        "github": "",
+        "website": "https://danielwongdesign.com"
+      },
+      "experience": [
+        {
+          "company": "Creative Edge Studios",
+          "role": "Senior Graphic Designer",
+          "period": "September 2020 - Present",
+          "responsibilities": [
+            "<p>Lead designer for major accounts including two Fortune 500 companies, managing all aspects of visual brand presence</p>",
+            "<p>Developed brand identity packages for 15+ clients, including logo design, style guides, and marketing collateral</p>",
+            "<p>Implemented design systems that increased team efficiency by 30% and maintained brand consistency across platforms</p>",
+            "<p>Mentored junior designers and provided art direction for a team of 5 designers</p>"
+          ]
+        },
+        {
+          "company": "Pixel Perfect Agency",
+          "role": "Graphic Designer",
+          "period": "July 2018 - August 2020",
+          "responsibilities": [
+            "<p>Created visual content for digital marketing campaigns, resulting in 25% higher engagement rates</p>",
+            "<p>Designed packaging for consumer products that led to 40% increase in shelf visibility</p>",
+            "<p>Collaborated with marketing teams to develop cohesive advertising materials across multiple channels</p>",
+            "<p>Redesigned company website, improving user engagement metrics by 35%</p>"
+          ]
+        },
+        {
+          "company": "Artistry Design Co.",
+          "role": "Junior Designer",
+          "period": "February 2016 - June 2018",
+          "responsibilities": [
+            "<p>Assisted senior designers with layout and production for print and digital projects</p>",
+            "<p>Created social media graphics and promotional materials for various clients</p>",
+            "<p>Participated in client meetings and contributed to brainstorming sessions</p>"
+          ]
         }
-      }
+      ],
+      "education": [
+        {
+          "institution": "Rhode Island School of Design",
+          "degree": "Bachelor of Fine Arts in Graphic Design",
+          "period": "2012 - 2016",
+          "details": "<p>Graduated with honors. Senior thesis featured in annual showcase. Student Design Association President.</p>"
+        },
+        {
+          "institution": "School of Visual Arts",
+          "degree": "Certificate in Typography and Layout Design",
+          "period": "Summer 2015",
+          "details": "<p>Intensive summer program focused on typography principles and layout techniques.</p>"
+        }
+      ],
+      "skills": [
+        "Adobe Creative Suite",
+        "Illustrator",
+        "Photoshop",
+        "InDesign",
+        "Figma",
+        "UI/UX Design",
+        "Typography",
+        "Brand Identity",
+        "Logo Design",
+        "Packaging Design",
+        "Digital Illustration",
+        "Color Theory",
+        "Print Production",
+        "Art Direction"
+      ],
+      "theme": "creative",
+      "userId": "user1",
+      "createdAt": "2025-02-15T09:20:00.000Z",
+      "updatedAt": "2025-05-05T14:40:00.000Z"
+    },
+    {
+      "id": "resume104",
+      "name": "Olivia Chen",
+      "title": "Senior Financial Analyst",
+      "summary": "<p>Detail-oriented financial analyst with 6+ years of experience in financial modeling, forecasting, and data analysis. Expertise in implementing cost-saving initiatives and optimizing financial processes that drive operational efficiency. Strong background in financial reporting and analysis with a proven ability to translate complex financial data into actionable insights for stakeholders.</p>",
+      "contact": {
+        "email": "olivia.chen@example.com",
+        "phone": "(555) 345-6789",
+        "linkedin": "https://linkedin.com/in/oliviachen",
+        "github": "",
+        "website": ""
+      },
+      "experience": [
+        {
+          "company": "Global Investment Partners",
+          "role": "Senior Financial Analyst",
+          "period": "November 2021 - Present",
+          "responsibilities": [
+            "<p>Conduct comprehensive financial analysis and modeling for a $500M investment portfolio</p>",
+            "<p>Develop monthly and quarterly financial reports for executive leadership, highlighting key performance indicators and trends</p>",
+            "<p>Implemented automated reporting systems that reduced report preparation time by 40%</p>",
+            "<p>Lead financial due diligence for acquisition targets, contributing to successful completion of 3 acquisitions valued at over $75M</p>"
+          ]
+        },
+        {
+          "company": "Meridian Consulting Group",
+          "role": "Financial Analyst",
+          "period": "March 2019 - October 2021",
+          "responsibilities": [
+            "<p>Performed financial modeling and scenario analysis for client projects across various industries</p>",
+            "<p>Created dashboards and visualizations to present complex financial data to clients</p>",
+            "<p>Contributed to cost-reduction initiatives that saved clients an average of $1.2M annually</p>",
+            "<p>Collaborated with cross-functional teams to develop comprehensive financial strategies</p>"
+          ]
+        },
+        {
+          "company": "First National Bank",
+          "role": "Junior Financial Analyst",
+          "period": "July 2017 - February 2019",
+          "responsibilities": [
+            "<p>Assisted in preparing monthly financial statements and variance analyses</p>",
+            "<p>Supported budget planning and forecasting processes</p>",
+            "<p>Maintained and updated financial databases and spreadsheets</p>"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "institution": "University of Chicago",
+          "degree": "Master of Business Administration, Finance Concentration",
+          "period": "2015 - 2017",
+          "details": "<p>GPA: 3.9/4.0. Member of Finance Club and Investment Banking Association.</p>"
+        },
+        {
+          "institution": "University of Michigan",
+          "degree": "Bachelor of Science in Economics",
+          "period": "2011 - 2015",
+          "details": "<p>Minor in Statistics. Graduated cum laude.</p>"
+        }
+      ],
+      "skills": [
+        "Financial Modeling",
+        "Financial Analysis",
+        "Forecasting",
+        "Budgeting",
+        "Variance Analysis",
+        "Data Visualization",
+        "PowerBI",
+        "Tableau",
+        "Excel Advanced Functions",
+        "SQL",
+        "SAP",
+        "Bloomberg Terminal",
+        "Financial Reporting",
+        "Risk Assessment",
+        "M&A Analysis"
+      ],
+      "theme": "executive",
+      "userId": "user1",
+      "createdAt": "2025-01-30T16:45:00.000Z",
+      "updatedAt": "2025-04-28T11:20:00.000Z"
+    },
+    {
+      "id": "resume105",
+      "name": "Michael Johnson",
+      "title": "Senior Project Manager",
+      "summary": "<p>PMP-certified project manager with 9+ years of experience leading cross-functional teams to deliver complex projects on time and under budget. Strong track record of stakeholder management, risk mitigation, and process improvement across technology and business transformation initiatives. Adept at managing multiple projects simultaneously while maintaining high quality standards and team morale.</p>",
+      "contact": {
+        "email": "michael.johnson@example.com",
+        "phone": "(555) 456-7890",
+        "linkedin": "https://linkedin.com/in/michaeljohnson",
+        "github": "",
+        "website": "https://michaeljohnsonpm.com"
+      },
+      "experience": [
+        {
+          "company": "Enterprise Solutions Inc.",
+          "role": "Senior Project Manager",
+          "period": "April 2020 - Present",
+          "responsibilities": [
+            "<p>Lead a portfolio of strategic technology projects with combined budgets exceeding $8M annually</p>",
+            "<p>Successfully delivered ERP implementation for 3,000+ users, completing the project 2 weeks ahead of schedule and 5% under budget</p>",
+            "<p>Developed and implemented standardized project management methodologies that increased on-time delivery rates from 65% to 92%</p>",
+            "<p>Manage and mentor a team of 5 project coordinators, providing professional development and performance feedback</p>"
+          ]
+        },
+        {
+          "company": "Innovative Technology Solutions",
+          "role": "Project Manager",
+          "period": "June 2017 - March 2020",
+          "responsibilities": [
+            "<p>Managed concurrent software development projects for clients in healthcare, finance, and retail sectors</p>",
+            "<p>Implemented Agile methodologies that improved team velocity by 30% and reduced defect rates by 25%</p>",
+            "<p>Coordinated cross-functional teams of developers, designers, and QA specialists to ensure project milestones were met</p>",
+            "<p>Conducted regular stakeholder meetings to communicate progress and manage expectations</p>"
+          ]
+        },
+        {
+          "company": "Global Systems Corp.",
+          "role": "Project Coordinator",
+          "period": "September 2014 - May 2017",
+          "responsibilities": [
+            "<p>Assisted senior project managers with planning, scheduling, and resource allocation</p>",
+            "<p>Documented project requirements, maintained project documentation, and tracked deliverables</p>",
+            "<p>Facilitated team meetings and managed project communication channels</p>"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "institution": "Duke University",
+          "degree": "Master of Business Administration",
+          "period": "2012 - 2014",
+          "details": "<p>Concentration in Operations Management. Graduate Assistant for Project Management course.</p>"
+        },
+        {
+          "institution": "University of Texas at Austin",
+          "degree": "Bachelor of Science in Business Administration",
+          "period": "2008 - 2012",
+          "details": "<p>Focus on Management Information Systems. Member of Business Leadership Association.</p>"
+        }
+      ],
+      "skills": [
+        "Project Management",
+        "Agile Methodologies",
+        "Scrum",
+        "Waterfall",
+        "Stakeholder Management",
+        "Risk Management",
+        "Budgeting",
+        "Resource Allocation",
+        "Microsoft Project",
+        "Jira",
+        "Confluence",
+        "Asana",
+        "Process Improvement",
+        "Team Leadership",
+        "Change Management",
+        "PRINCE2"
+      ],
+      "theme": "professional",
+      "userId": "user1",
+      "createdAt": "2025-01-15T08:30:00.000Z",
+      "updatedAt": "2025-04-20T13:15:00.000Z"
     }
   ],
   "sharingLinks": [

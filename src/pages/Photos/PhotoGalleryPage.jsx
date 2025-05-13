@@ -85,7 +85,7 @@ const PhotoGalleryPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-2 sm:p-4">
+    <div className="w-full p-2 sm:p-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-2 sm:gap-0">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Photo Gallery</h1>
         <button

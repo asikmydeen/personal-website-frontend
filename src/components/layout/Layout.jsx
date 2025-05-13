@@ -134,12 +134,13 @@ const LayoutComponent = ({ children }) => {
       <div style={{ minHeight: '100vh', background: 'transparent' }}>
         <Content
           style={{
-            margin: isMobile ? '16px 8px' : '24px 16px',
-            padding: isMobile ? 16 : 24,
+            margin: isMobile ? '16px 0' : '24px 0',
+            padding: isMobile ? '16px 8px' : '24px 16px',
             background: 'transparent',
             color: 'hsl(var(--playful-content-text-color))',
             border: 'none',
-            borderRadius: 'var(--radius)'
+            borderRadius: 'var(--radius)',
+            width: '100%'
           }}
           className="glass-effect"
         >
@@ -343,14 +344,16 @@ const LayoutComponent = ({ children }) => {
         </Header>
         <Content
           style={{
-            margin: isMobile ? '16px 8px' : '24px 16px',
-            padding: isMobile ? 16 : 24,
+            margin: isMobile ? '16px 0' : '24px 0',
+            padding: isMobile ? '16px 0' : '24px 0', // Remove horizontal padding to allow full width
             background: 'transparent',
             color: 'hsl(var(--playful-content-text-color))',
             minHeight: 280,
             overflow: 'auto',
             borderRadius: 'var(--radius)',
-            border: 'none'
+            border: 'none',
+            width: '100%',
+            maxWidth: '100%'
           }}
           className="glass-effect"
         >

@@ -54,8 +54,8 @@
   "/api/v1/albums/:id": "/albums/:id?_expand=user",
   "/api/v1/albums/:id/photos": "/albums/:id/photos",
 
-  "/api/v1/resume": "/resume?_expand=user",
-  "/api/v1/resume/:id": "/resume/:id?_expand=user",
+  "/api/v1/resume": "/resume",
+  "/api/v1/resume/:id": "/resume/:id",
 
   "/api/v1/sharing/links": "/sharingLinks?_expand=user",
   "/api/v1/sharing/links/:token": "/sharingLinks?token=:token",

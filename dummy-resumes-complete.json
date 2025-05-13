@@ -1,0 +1,656 @@
+[
+  {
+    "id": "resume101",
+    "name": "Alexander Mitchell",
+    "title": "Senior Software Engineer",
+    "summary": "<p>Results-driven software engineer with 8+ years of experience developing scalable applications and leading engineering teams. Specializing in cloud architecture, microservices, and DevOps practices with proven success in reducing system downtime and optimizing application performance. Passionate about mentoring junior developers and implementing best coding practices across organizations.</p>",
+    "contact": {
+      "email": "alex.mitchell@example.com",
+      "phone": "(555) 123-4567",
+      "linkedin": "https://linkedin.com/in/alexmitchell",
+      "github": "https://github.com/alexmitchell",
+      "website": "https://alexmitchell.dev"
+    },
+    "experience": [
+      {
+        "company": "TechInnovate Solutions",
+        "role": "Senior Software Engineer",
+        "period": "January 2020 - Present",
+        "responsibilities": [
+          "<p>Lead a team of 6 engineers in developing and maintaining cloud-native applications using Kubernetes, Docker, and AWS services</p>",
+          "<p>Architected and implemented a microservices platform that reduced system downtime by 75% and improved API response times by 40%</p>",
+          "<p>Established CI/CD pipelines using GitHub Actions and Jenkins, reducing deployment time from days to hours</p>",
+          "<p>Implemented comprehensive test automation strategies, achieving 90% code coverage and reducing regression issues by 65%</p>"
+        ]
+      },
+      {
+        "company": "DataStream Inc.",
+        "role": "Full Stack Developer",
+        "period": "March 2017 - December 2019",
+        "responsibilities": [
+          "<p>Developed responsive web applications using React, Node.js, and MongoDB</p>",
+          "<p>Optimized database queries and application performance, resulting in 30% faster load times</p>",
+          "<p>Collaborated with product managers and designers to implement user-centric features</p>",
+          "<p>Mentored junior developers through pair programming and code reviews</p>"
+        ]
+      },
+      {
+        "company": "CodeCraft Software",
+        "role": "Junior Developer",
+        "period": "May 2015 - February 2017",
+        "responsibilities": [
+          "<p>Built and maintained REST APIs using Python and Django</p>",
+          "<p>Participated in daily stand-up meetings and biweekly sprint planning sessions</p>",
+          "<p>Resolved customer-reported bugs and implemented feature enhancements</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Stanford University",
+        "degree": "Master of Science in Computer Science",
+        "period": "2013 - 2015",
+        "details": "<p>Specialization in Machine Learning and Distributed Systems. Thesis: \"Scalable Distributed Machine Learning Frameworks for Real-time Analytics\"</p>"
+      },
+      {
+        "institution": "University of Washington",
+        "degree": "Bachelor of Science in Computer Engineering",
+        "period": "2009 - 2013",
+        "details": "<p>Graduated with honors (3.8 GPA). Active member of the Association for Computing Machinery (ACM)</p>"
+      }
+    ],
+    "skills": [
+      "JavaScript",
+      "Python",
+      "Java",
+      "React",
+      "Node.js",
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "MongoDB",
+      "PostgreSQL",
+      "Microservices",
+      "System Design",
+      "Agile Methodologies"
+    ],
+    "theme": "modern",
+    "userId": "user1",
+    "createdAt": "2025-04-10T14:30:00.000Z",
+    "updatedAt": "2025-05-12T09:45:00.000Z"
+  },
+  {
+    "id": "resume102",
+    "name": "Samantha Rodriguez",
+    "title": "Marketing Director",
+    "summary": "<p>Strategic marketing leader with 10+ years of experience driving brand growth and digital marketing transformation across multiple industries. Proven track record of developing and executing integrated marketing campaigns that exceed ROI targets and enhance brand engagement. Skilled in team leadership, budget management, and creating data-driven marketing strategies.</p>",
+    "contact": {
+      "email": "samantha.r@example.com",
+      "phone": "(555) 987-6543",
+      "linkedin": "https://linkedin.com/in/samantharodriguez",
+      "github": "",
+      "website": "https://samantharodriguez.com"
+    },
+    "experience": [
+      {
+        "company": "Global Innovations Inc.",
+        "role": "Marketing Director",
+        "period": "June 2021 - Present",
+        "responsibilities": [
+          "<p>Lead a cross-functional marketing team of 12 specialists, overseeing a $2.5M annual marketing budget</p>",
+          "<p>Developed and executed comprehensive marketing strategies resulting in 35% YoY revenue growth</p>",
+          "<p>Revitalized brand messaging and visual identity, increasing brand recognition by 40% according to market research</p>",
+          "<p>Optimized digital marketing channels, achieving a 25% reduction in customer acquisition costs while increasing conversion rates by 18%</p>"
+        ]
+      },
+      {
+        "company": "TechSolutions Corp",
+        "role": "Senior Marketing Manager",
+        "period": "August 2017 - May 2021",
+        "responsibilities": [
+          "<p>Managed product marketing initiatives for SaaS product suite with over $30M in annual revenue</p>",
+          "<p>Spearheaded content strategy that generated 45% increase in marketing qualified leads</p>",
+          "<p>Launched successful social media campaigns that increased audience engagement by 60%</p>",
+          "<p>Collaborated with sales team to develop targeted materials, contributing to 28% growth in enterprise accounts</p>"
+        ]
+      },
+      {
+        "company": "Apex Marketing Agency",
+        "role": "Digital Marketing Specialist",
+        "period": "March 2015 - July 2017",
+        "responsibilities": [
+          "<p>Designed and implemented SEO strategies for clients across various industries</p>",
+          "<p>Created and managed PPC campaigns with average ROI of 300%</p>",
+          "<p>Conducted market research and competitive analyses to inform marketing strategies</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Northwestern University",
+        "degree": "MBA, Marketing Concentration",
+        "period": "2013 - 2015",
+        "details": "<p>Graduated with distinction. Vice President of Marketing Club.</p>"
+      },
+      {
+        "institution": "University of California, Los Angeles",
+        "degree": "Bachelor of Arts in Communications",
+        "period": "2009 - 2013",
+        "details": "<p>Minor in Business Administration. Dean's List all semesters.</p>"
+      }
+    ],
+    "skills": [
+      "Strategic Marketing",
+      "Digital Marketing",
+      "Brand Development",
+      "Market Research",
+      "Campaign Management",
+      "Content Strategy",
+      "SEO/SEM",
+      "Social Media Marketing",
+      "Team Leadership",
+      "Budget Management",
+      "Google Analytics",
+      "Adobe Creative Suite",
+      "HubSpot",
+      "Salesforce"
+    ],
+    "theme": "professional",
+    "userId": "user1",
+    "createdAt": "2025-03-22T10:15:00.000Z",
+    "updatedAt": "2025-05-10T16:30:00.000Z"
+  },
+  {
+    "id": "resume103",
+    "name": "Daniel Wong",
+    "title": "Senior Graphic Designer",
+    "summary": "<p>Versatile graphic designer with 7+ years of experience creating compelling visual solutions for print and digital media. Expertise in branding, packaging design, and digital illustration, with a strong commitment to pixel-perfect execution and client satisfaction. Known for translating complex ideas into clean, visually appealing designs that exceed client expectations.</p>",
+    "contact": {
+      "email": "daniel.wong@example.com",
+      "phone": "(555) 234-5678",
+      "linkedin": "https://linkedin.com/in/danielwong",
+      "github": "",
+      "website": "https://danielwongdesign.com"
+    },
+    "experience": [
+      {
+        "company": "Creative Edge Studios",
+        "role": "Senior Graphic Designer",
+        "period": "September 2020 - Present",
+        "responsibilities": [
+          "<p>Lead designer for major accounts including two Fortune 500 companies, managing all aspects of visual brand presence</p>",
+          "<p>Developed brand identity packages for 15+ clients, including logo design, style guides, and marketing collateral</p>",
+          "<p>Implemented design systems that increased team efficiency by 30% and maintained brand consistency across platforms</p>",
+          "<p>Mentored junior designers and provided art direction for a team of 5 designers</p>"
+        ]
+      },
+      {
+        "company": "Pixel Perfect Agency",
+        "role": "Graphic Designer",
+        "period": "July 2018 - August 2020",
+        "responsibilities": [
+          "<p>Created visual content for digital marketing campaigns, resulting in 25% higher engagement rates</p>",
+          "<p>Designed packaging for consumer products that led to 40% increase in shelf visibility</p>",
+          "<p>Collaborated with marketing teams to develop cohesive advertising materials across multiple channels</p>",
+          "<p>Redesigned company website, improving user engagement metrics by 35%</p>"
+        ]
+      },
+      {
+        "company": "Artistry Design Co.",
+        "role": "Junior Designer",
+        "period": "February 2016 - June 2018",
+        "responsibilities": [
+          "<p>Assisted senior designers with layout and production for print and digital projects</p>",
+          "<p>Created social media graphics and promotional materials for various clients</p>",
+          "<p>Participated in client meetings and contributed to brainstorming sessions</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Rhode Island School of Design",
+        "degree": "Bachelor of Fine Arts in Graphic Design",
+        "period": "2012 - 2016",
+        "details": "<p>Graduated with honors. Senior thesis featured in annual showcase. Student Design Association President.</p>"
+      },
+      {
+        "institution": "School of Visual Arts",
+        "degree": "Certificate in Typography and Layout Design",
+        "period": "Summer 2015",
+        "details": "<p>Intensive summer program focused on typography principles and layout techniques.</p>"
+      }
+    ],
+    "skills": [
+      "Adobe Creative Suite",
+      "Illustrator",
+      "Photoshop",
+      "InDesign",
+      "Figma",
+      "UI/UX Design",
+      "Typography",
+      "Brand Identity",
+      "Logo Design",
+      "Packaging Design",
+      "Digital Illustration",
+      "Color Theory",
+      "Print Production",
+      "Art Direction"
+    ],
+    "theme": "creative",
+    "userId": "user1",
+    "createdAt": "2025-02-15T09:20:00.000Z",
+    "updatedAt": "2025-05-05T14:40:00.000Z"
+  },
+  {
+    "id": "resume104",
+    "name": "Olivia Chen",
+    "title": "Senior Financial Analyst",
+    "summary": "<p>Detail-oriented financial analyst with 6+ years of experience in financial modeling, forecasting, and data analysis. Expertise in implementing cost-saving initiatives and optimizing financial processes that drive operational efficiency. Strong background in financial reporting and analysis with a proven ability to translate complex financial data into actionable insights for stakeholders.</p>",
+    "contact": {
+      "email": "olivia.chen@example.com",
+      "phone": "(555) 345-6789",
+      "linkedin": "https://linkedin.com/in/oliviachen",
+      "github": "",
+      "website": ""
+    },
+    "experience": [
+      {
+        "company": "Global Investment Partners",
+        "role": "Senior Financial Analyst",
+        "period": "November 2021 - Present",
+        "responsibilities": [
+          "<p>Conduct comprehensive financial analysis and modeling for a $500M investment portfolio</p>",
+          "<p>Develop monthly and quarterly financial reports for executive leadership, highlighting key performance indicators and trends</p>",
+          "<p>Implemented automated reporting systems that reduced report preparation time by 40%</p>",
+          "<p>Lead financial due diligence for acquisition targets, contributing to successful completion of 3 acquisitions valued at over $75M</p>"
+        ]
+      },
+      {
+        "company": "Meridian Consulting Group",
+        "role": "Financial Analyst",
+        "period": "March 2019 - October 2021",
+        "responsibilities": [
+          "<p>Performed financial modeling and scenario analysis for client projects across various industries</p>",
+          "<p>Created dashboards and visualizations to present complex financial data to clients</p>",
+          "<p>Contributed to cost-reduction initiatives that saved clients an average of $1.2M annually</p>",
+          "<p>Collaborated with cross-functional teams to develop comprehensive financial strategies</p>"
+        ]
+      },
+      {
+        "company": "First National Bank",
+        "role": "Junior Financial Analyst",
+        "period": "July 2017 - February 2019",
+        "responsibilities": [
+          "<p>Assisted in preparing monthly financial statements and variance analyses</p>",
+          "<p>Supported budget planning and forecasting processes</p>",
+          "<p>Maintained and updated financial databases and spreadsheets</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "University of Chicago",
+        "degree": "Master of Business Administration, Finance Concentration",
+        "period": "2015 - 2017",
+        "details": "<p>GPA: 3.9/4.0. Member of Finance Club and Investment Banking Association.</p>"
+      },
+      {
+        "institution": "University of Michigan",
+        "degree": "Bachelor of Science in Economics",
+        "period": "2011 - 2015",
+        "details": "<p>Minor in Statistics. Graduated cum laude.</p>"
+      }
+    ],
+    "skills": [
+      "Financial Modeling",
+      "Financial Analysis",
+      "Forecasting",
+      "Budgeting",
+      "Variance Analysis",
+      "Data Visualization",
+      "PowerBI",
+      "Tableau",
+      "Excel Advanced Functions",
+      "SQL",
+      "SAP",
+      "Bloomberg Terminal",
+      "Financial Reporting",
+      "Risk Assessment",
+      "M&A Analysis"
+    ],
+    "theme": "professional",
+    "userId": "user1",
+    "createdAt": "2025-01-30T16:45:00.000Z",
+    "updatedAt": "2025-04-28T11:20:00.000Z"
+  },
+  {
+    "id": "resume105",
+    "name": "Michael Johnson",
+    "title": "Senior Project Manager",
+    "summary": "<p>PMP-certified project manager with 9+ years of experience leading cross-functional teams to deliver complex projects on time and under budget. Strong track record of stakeholder management, risk mitigation, and process improvement across technology and business transformation initiatives. Adept at managing multiple projects simultaneously while maintaining high quality standards and team morale.</p>",
+    "contact": {
+      "email": "michael.johnson@example.com",
+      "phone": "(555) 456-7890",
+      "linkedin": "https://linkedin.com/in/michaeljohnson",
+      "github": "",
+      "website": "https://michaeljohnsonpm.com"
+    },
+    "experience": [
+      {
+        "company": "Enterprise Solutions Inc.",
+        "role": "Senior Project Manager",
+        "period": "April 2020 - Present",
+        "responsibilities": [
+          "<p>Lead a portfolio of strategic technology projects with combined budgets exceeding $8M annually</p>",
+          "<p>Successfully delivered ERP implementation for 3,000+ users, completing the project 2 weeks ahead of schedule and 5% under budget</p>",
+          "<p>Developed and implemented standardized project management methodologies that increased on-time delivery rates from 65% to 92%</p>",
+          "<p>Manage and mentor a team of 5 project coordinators, providing professional development and performance feedback</p>"
+        ]
+      },
+      {
+        "company": "Innovative Technology Solutions",
+        "role": "Project Manager",
+        "period": "June 2017 - March 2020",
+        "responsibilities": [
+          "<p>Managed concurrent software development projects for clients in healthcare, finance, and retail sectors</p>",
+          "<p>Implemented Agile methodologies that improved team velocity by 30% and reduced defect rates by 25%</p>",
+          "<p>Coordinated cross-functional teams of developers, designers, and QA specialists to ensure project milestones were met</p>",
+          "<p>Conducted regular stakeholder meetings to communicate progress and manage expectations</p>"
+        ]
+      },
+      {
+        "company": "Global Systems Corp.",
+        "role": "Project Coordinator",
+        "period": "September 2014 - May 2017",
+        "responsibilities": [
+          "<p>Assisted senior project managers with planning, scheduling, and resource allocation</p>",
+          "<p>Documented project requirements, maintained project documentation, and tracked deliverables</p>",
+          "<p>Facilitated team meetings and managed project communication channels</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Duke University",
+        "degree": "Master of Business Administration",
+        "period": "2012 - 2014",
+        "details": "<p>Concentration in Operations Management. Graduate Assistant for Project Management course.</p>"
+      },
+      {
+        "institution": "University of Texas at Austin",
+        "degree": "Bachelor of Science in Business Administration",
+        "period": "2008 - 2012",
+        "details": "<p>Focus on Management Information Systems. Member of Business Leadership Association.</p>"
+      }
+    ],
+    "skills": [
+      "Project Management",
+      "Agile Methodologies",
+      "Scrum",
+      "Waterfall",
+      "Stakeholder Management",
+      "Risk Management",
+      "Budgeting",
+      "Resource Allocation",
+      "Microsoft Project",
+      "Jira",
+      "Confluence",
+      "Asana",
+      "Process Improvement",
+      "Team Leadership",
+      "Change Management",
+      "PRINCE2"
+    ],
+    "theme": "executive",
+    "userId": "user1",
+    "createdAt": "2025-01-15T08:30:00.000Z",
+    "updatedAt": "2025-04-20T13:15:00.000Z"
+  },
+  {
+    "id": "resume106",
+    "name": "Emily Patel",
+    "title": "Lead Data Scientist",
+    "summary": "<p>Results-oriented data scientist with 6+ years of experience applying machine learning and statistical modeling to solve complex business problems. Proven expertise in developing predictive models and extracting actionable insights from large datasets. Strong communicator skilled at translating technical concepts for non-technical stakeholders and driving data-informed decision making.</p>",
+    "contact": {
+      "email": "emily.patel@example.com",
+      "phone": "(555) 567-8901",
+      "linkedin": "https://linkedin.com/in/emilypatel",
+      "github": "https://github.com/emilypatel",
+      "website": "https://emilypatel.ai"
+    },
+    "experience": [
+      {
+        "company": "DataTech Analytics",
+        "role": "Lead Data Scientist",
+        "period": "July 2021 - Present",
+        "responsibilities": [
+          "<p>Lead a team of 4 data scientists in developing advanced machine learning models for Fortune 500 clients</p>",
+          "<p>Designed and implemented a customer churn prediction model that increased retention rates by 18%</p>",
+          "<p>Created a recommendation engine that improved e-commerce conversion rates by 23% and increased average order value by 15%</p>",
+          "<p>Established best practices for data science workflow, including version control, code review, and documentation standards</p>"
+        ]
+      },
+      {
+        "company": "Insight Analytics Group",
+        "role": "Data Scientist",
+        "period": "May 2019 - June 2021",
+        "responsibilities": [
+          "<p>Developed predictive models for client projects in healthcare, finance, and retail sectors</p>",
+          "<p>Implemented natural language processing solutions for sentiment analysis and text classification</p>",
+          "<p>Created interactive visualizations and dashboards to communicate insights to stakeholders</p>",
+          "<p>Collaborated with data engineering team to optimize data pipelines and improve model deployment</p>"
+        ]
+      },
+      {
+        "company": "Research Institute of Technology",
+        "role": "Data Analyst",
+        "period": "August 2017 - April 2019",
+        "responsibilities": [
+          "<p>Performed statistical analysis on experimental data for research projects</p>",
+          "<p>Developed automated data cleaning and preprocessing scripts</p>",
+          "<p>Created reports and visualizations to summarize research findings</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Carnegie Mellon University",
+        "degree": "Master of Science in Machine Learning",
+        "period": "2015 - 2017",
+        "details": "<p>Research focus on deep learning applications in computer vision. Teaching Assistant for Introduction to Machine Learning.</p>"
+      },
+      {
+        "institution": "University of California, Berkeley",
+        "degree": "Bachelor of Science in Computer Science and Statistics (Double Major)",
+        "period": "2011 - 2015",
+        "details": "<p>Graduated with high honors. Undergraduate research in statistical modeling.</p>"
+      }
+    ],
+    "skills": [
+      "Python",
+      "R",
+      "Machine Learning",
+      "Deep Learning",
+      "TensorFlow",
+      "PyTorch",
+      "Natural Language Processing",
+      "Computer Vision",
+      "Statistical Analysis",
+      "SQL",
+      "Big Data Technologies",
+      "Spark",
+      "Data Visualization",
+      "Tableau",
+      "A/B Testing",
+      "Feature Engineering"
+    ],
+    "theme": "modern",
+    "userId": "user1",
+    "createdAt": "2025-02-10T11:20:00.000Z",
+    "updatedAt": "2025-04-15T09:45:00.000Z"
+  },
+  {
+    "id": "resume107",
+    "name": "Sarah Williams",
+    "title": "Nurse Practitioner",
+    "summary": "<p>Compassionate and detail-oriented nurse practitioner with 8+ years of clinical experience in primary care and urgent care settings. Board-certified with expertise in chronic disease management, preventative care, and health education. Committed to providing patient-centered care with a strong focus on health promotion and disease prevention.</p>",
+    "contact": {
+      "email": "sarah.williams@example.com",
+      "phone": "(555) 678-9012",
+      "linkedin": "https://linkedin.com/in/sarahwilliams",
+      "github": "",
+      "website": ""
+    },
+    "experience": [
+      {
+        "company": "Community Health Partners",
+        "role": "Family Nurse Practitioner",
+        "period": "October 2020 - Present",
+        "responsibilities": [
+          "<p>Provide comprehensive primary care services to diverse patient population, managing approximately 80 patient visits weekly</p>",
+          "<p>Diagnose and treat acute and chronic illnesses, prescribe medications, and order/interpret diagnostic tests</p>",
+          "<p>Developed and implemented care protocols for diabetes management that improved patient outcomes by 25%</p>",
+          "<p>Coordinate care with specialists and other healthcare providers to ensure continuity of care</p>"
+        ]
+      },
+      {
+        "company": "Urgent Care Associates",
+        "role": "Nurse Practitioner",
+        "period": "March 2018 - September 2020",
+        "responsibilities": [
+          "<p>Provided timely assessment and treatment for patients with acute illnesses and injuries</p>",
+          "<p>Managed high-volume patient flow in fast-paced urgent care setting</p>",
+          "<p>Implemented triage protocols that reduced average wait times by 18%</p>",
+          "<p>Collaborated with physicians and other healthcare professionals in complex cases</p>"
+        ]
+      },
+      {
+        "company": "Memorial Hospital",
+        "role": "Registered Nurse, Internal Medicine",
+        "period": "July 2015 - February 2018",
+        "responsibilities": [
+          "<p>Provided direct patient care to acutely ill medical patients</p>",
+          "<p>Administered medications and treatments according to established protocols</p>",
+          "<p>Educated patients and families on disease processes, treatments, and self-care techniques</p>",
+          "<p>Served as charge nurse, coordinating unit activities and supervising nursing staff</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "University of Pennsylvania",
+        "degree": "Master of Science in Nursing, Family Nurse Practitioner",
+        "period": "2013 - 2015",
+        "details": "<p>Clinical rotations in primary care, pediatrics, women's health, and geriatrics. Member of Sigma Theta Tau International Honor Society of Nursing.</p>"
+      },
+      {
+        "institution": "Johns Hopkins University",
+        "degree": "Bachelor of Science in Nursing",
+        "period": "2009 - 2013",
+        "details": "<p>Graduated cum laude. Clinical Excellence Award recipient.</p>"
+      }
+    ],
+    "skills": [
+      "Patient Assessment",
+      "Diagnostic Reasoning",
+      "Medication Management",
+      "Chronic Disease Management",
+      "Health Promotion",
+      "Patient Education",
+      "Electronic Medical Records (Epic)",
+      "Clinical Documentation",
+      "Care Coordination",
+      "Preventative Care",
+      "Minor Procedures",
+      "Telehealth",
+      "Cultural Competence",
+      "Critical Thinking"
+    ],
+    "theme": "professional",
+    "userId": "user1",
+    "createdAt": "2025-03-05T14:45:00.000Z",
+    "updatedAt": "2025-05-01T08:30:00.000Z"
+  },
+  {
+    "id": "resume108",
+    "name": "Robert Taylor",
+    "title": "High School Science Teacher",
+    "summary": "<p>Dedicated educator with 10+ years of experience teaching biology, chemistry, and environmental science at the high school level. Passionate about creating engaging, hands-on learning experiences that foster scientific inquiry and critical thinking. Recognized for developing innovative curriculum materials and using technology to enhance student learning outcomes.</p>",
+    "contact": {
+      "email": "robert.taylor@example.com",
+      "phone": "(555) 789-0123",
+      "linkedin": "https://linkedin.com/in/roberttaylor",
+      "github": "",
+      "website": "https://mrtaylorscience.edu"
+    },
+    "experience": [
+      {
+        "company": "Washington High School",
+        "role": "Science Department Chair & Biology Teacher",
+        "period": "August 2019 - Present",
+        "responsibilities": [
+          "<p>Lead department of 8 science teachers, coordinating curriculum development and assessment strategies</p>",
+          "<p>Teach AP Biology and general Biology courses to approximately 150 students annually</p>",
+          "<p>Developed project-based learning curriculum that increased AP Biology exam pass rates by 22%</p>",
+          "<p>Secured $30,000 grant to establish modern laboratory equipment and technology resources</p>"
+        ]
+      },
+      {
+        "company": "Oakridge Academy",
+        "role": "Science Teacher",
+        "period": "September 2015 - July 2019",
+        "responsibilities": [
+          "<p>Taught Biology, Chemistry, and Environmental Science courses to grades 9-12</p>",
+          "<p>Created and implemented differentiated instruction strategies to address diverse learning needs</p>",
+          "<p>Established after-school science club that regularly participated in regional competitions</p>",
+          "<p>Mentored new teachers through the school's induction program</p>"
+        ]
+      },
+      {
+        "company": "Riverside High School",
+        "role": "Biology Teacher",
+        "period": "August 2013 - August 2015",
+        "responsibilities": [
+          "<p>Taught general and honors Biology courses to grades 9-10</p>",
+          "<p>Incorporated technology and multimedia resources into daily lessons</p>",
+          "<p>Collaborated with colleagues to develop cross-curricular projects</p>"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "Columbia University",
+        "degree": "Master of Arts in Science Education",
+        "period": "2011 - 2013",
+        "details": "<p>Thesis: \"Enhancing Scientific Literacy Through Project-Based Learning in Secondary Education\"</p>"
+      },
+      {
+        "institution": "Cornell University",
+        "degree": "Bachelor of Science in Biology",
+        "period": "2007 - 2011",
+        "details": "<p>Minor in Education Studies. Research assistant in molecular biology laboratory.</p>"
+      }
+    ],
+    "skills": [
+      "Curriculum Development",
+      "Differentiated Instruction",
+      "Laboratory Techniques",
+      "Assessment Design",
+      "Project-Based Learning",
+      "Educational Technology",
+      "Classroom Management",
+      "Student Mentoring",
+      "STEM Education",
+      "Google Classroom",
+      "Learning Management Systems",
+      "Data-Driven Instruction",
+      "Parent Communication",
+      "AP Biology Instruction"
+    ],
+    "theme": "academic",
+    "userId": "user1",
+    "createdAt": "2025-01-25T09:15:00.000Z",
+    "updatedAt": "2025-04-05T16:20:00.000Z"
+  }
+]

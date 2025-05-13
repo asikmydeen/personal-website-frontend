@@ -147,7 +147,7 @@ const WalletDashboardPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="w-full p-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Digital Wallet</h1>
@@ -413,7 +413,7 @@ const WalletDashboardPage = () => {
             <AddEditCardComponent
               onSubmit={(formData) => handleAddEditCard(formData, false)}
               loading={loading}
-              onCancel={() => setIsAddDialogOpen(false)}
+              onClose={() => setIsAddDialogOpen(false)}
             />
         </div>
       </AnimatedModal>
@@ -432,7 +432,7 @@ const WalletDashboardPage = () => {
               loading={loading}
               initialData={cards.find(c => c.id === selectedCard)}
               isEdit={true}
-              onCancel={() => setIsEditDialogOpen(false)}
+              onClose={() => setIsEditDialogOpen(false)}
             />
         </div>
       </AnimatedModal>
