@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { exportResumeToPdf, updateResumeData } from '../../services/resumeService';
+import { exportResumeToPdf, updateResumeData } from '@core/services/resumeService';
 import ReactMarkdown from 'react-markdown';
-import useStore from '../../store/useStore';
+import useStore from '@core/store/useStore';
 import { Edit, FileDown } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import ResumeCollapsibleTags from '../../components/resume/ResumeCollapsibleTags';

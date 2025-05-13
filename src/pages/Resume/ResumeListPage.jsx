@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllResumes, deleteResume, createNewResume } from '../../services/resumeService';
+import { getAllResumes, deleteResume, createNewResume } from '@core/services/resumeService';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';

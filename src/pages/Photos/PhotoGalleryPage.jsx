@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { listAlbums, listPhotosInAlbum, searchPhotos } from '../../services/photoService'; // Adjust path as needed
+import { listAlbums, listPhotosInAlbum, searchPhotos } from '@core/services/photoService';
 import PhotoUploadComponent from '../../components/photos/PhotoUploadComponent'; // Adjust path as needed
 import CollapsibleTags from '../../components/ui/collapsible-tags';
 

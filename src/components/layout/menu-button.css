@@ -1,0 +1,80 @@
+/* Menu button enhancements for all platforms */
+.menu-toggle-button {
+  position: relative;
+  z-index: 10;
+}
+
+/* iOS-specific menu button enhancements */
+@supports (-webkit-touch-callout: none) {
+  /* iOS-specific styles */
+  .ios-menu-button,
+  button[aria-label="Open menu"],
+  button[aria-label="Expand sidebar"],
+  button[aria-label="Collapse sidebar"] {
+    /* Increase touch target size */
+    min-width: 44px;
+    min-height: 44px;
+
+    /* Add subtle visual feedback on touch */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: relative;
+  }
+
+  button[aria-label="Open menu"]::after,
+  button[aria-label="Expand sidebar"]::after,
+  button[aria-label="Collapse sidebar"]::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
+  }
+
+  /* Active state for iOS */
+  button[aria-label="Open menu"]:active,
+  button[aria-label="Expand sidebar"]:active,
+  button[aria-label="Collapse sidebar"]:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+
+  /* Special iOS-specific class */
+  .ios-menu-button {
+    /* Add a subtle background for better visual feedback */
+    background-color: rgba(255, 255, 255, 0.05) !important;
+
+    /* Add a subtle border for better visibility */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+
+    /* Increase the hit area even more */
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  /* Active state specifically for iOS devices */
+  .ios-menu-button:active {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: scale(0.95) !important;
+  }
+}
+
+/* General touch improvements for all devices */
+.menu-toggle-button,
+button[aria-label="Open menu"],
+button[aria-label="Expand sidebar"],
+button[aria-label="Collapse sidebar"] {
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+}
+
+/* Add a subtle animation on hover for desktop */
+@media (hover: hover) {
+  .menu-toggle-button:hover,
+  button[aria-label="Open menu"]:hover,
+  button[aria-label="Expand sidebar"]:hover,
+  button[aria-label="Collapse sidebar"]:hover {
+    transform: scale(1.05);
+  }
+}

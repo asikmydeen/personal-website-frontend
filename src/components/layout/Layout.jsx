@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip, Drawer } from 'antd';
+import { isIOS } from '@/core/platform';
+import './menu-button.css'; // We'll create this file next
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -14,7 +16,7 @@ import {
   SoundOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
-import useStore from '../../store/useStore';
+import useStore from '@core/store/useStore';
 import ThemeSwitcher from '../theme/ThemeSwitcher';
 import LogoSvg from './LogoSvg';
 
@@ -121,6 +123,7 @@ const LayoutComponent = ({ children }) => {
   const location = useLocation();
   const screens = useBreakpoint();
   const isMobile = !screens.md;
+  const isIOSDevice = isIOS();
 
   // Close mobile menu when location changes
   useEffect(() => {
@@ -308,15 +311,73 @@ const LayoutComponent = ({ children }) => {
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {isMobile ? (
-              <div onClick={() => setMobileMenuOpen(true)} style={{ fontSize: 20, marginRight: 16, cursor: 'pointer', color: 'hsl(var(--playful-header-text-color))' }}>
-                <MenuUnfoldOutlined />
-              </div>
+              <button
+                className={`menu-toggle-button ${isIOSDevice ? 'ios-menu-button' : ''}`}
+                onClick={() => setMobileMenuOpen(true)}
+                onTouchStart={() => setMobileMenuOpen(true)}
+                style={{
+                  fontSize: 20,
+                  marginRight: 16,
+                  cursor: 'pointer',
+                  color: 'hsl(var(--playful-header-text-color))',
+                  background: 'transparent',
+                  border: 'none',
+                  padding: isIOSDevice ? '16px' : '12px',  // Even larger touch target for iOS
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  WebkitTapHighlightColor: 'transparent', // Remove tap highlight on iOS
+                  outline: 'none', // Remove outline
+                  touchAction: 'manipulation', // Optimize for touch
+                  userSelect: 'none', // Prevent text selection
+                  marginLeft: isIOSDevice ? '-16px' : '-12px', // Offset the padding to maintain visual alignment
+                  // iOS-specific enhancements
+                  ...(isIOSDevice && {
+                    position: 'relative',
+                    zIndex: 100, // Ensure it's above other elements
+                    transform: 'translateZ(0)', // Force hardware acceleration
+                    borderRadius: '8px', // Rounded corners for visual feedback
+                  })
+                }}
+                aria-label="Open menu"
+              >
+                <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
+              </button>
             ) : (
-              React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-                style: { fontSize: 20, marginRight: 24, cursor: 'pointer', color: 'hsl(var(--playful-header-text-color))' },
-              })
+              <button
+                className={`menu-toggle-button trigger ${isIOSDevice ? 'ios-menu-button' : ''}`}
+                onClick={() => setCollapsed(!collapsed)}
+                onTouchStart={() => setCollapsed(!collapsed)}
+                style={{
+                  fontSize: 20,
+                  marginRight: 24,
+                  cursor: 'pointer',
+                  color: 'hsl(var(--playful-header-text-color))',
+                  background: 'transparent',
+                  border: 'none',
+                  padding: isIOSDevice ? '16px' : '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  WebkitTapHighlightColor: 'transparent',
+                  outline: 'none',
+                  touchAction: 'manipulation',
+                  userSelect: 'none',
+                  marginLeft: isIOSDevice ? '-16px' : '-12px',
+                  ...(isIOSDevice && {
+                    position: 'relative',
+                    zIndex: 100,
+                    transform: 'translateZ(0)',
+                    borderRadius: '8px',
+                  })
+                }}
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              >
+                {collapsed ?
+                  <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} /> :
+                  <MenuFoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
+                }
+              </button>
             )}
             <Title level={isMobile ? 5 : 4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {{

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom'; // If navigating to file details
-import { listDirectoryContents, downloadFile, deleteItem } from '../../services/fileService'; // Adjust path
+import { listDirectoryContents, downloadFile, deleteItem } from '@core/services/fileService';
 import FileUploadComponent from '../../components/files/FileUploadComponent'; // Adjust path
 
 // Helper to format file size

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useStore from '../../store/useStore';
+import useStore from '@core/store/useStore';
 import {
   Eye, EyeOff, Search, Plus, Copy, Trash2, Edit, Key, Lock,
   AlertTriangle, RefreshCcw, ChevronDown, ChevronUp, Filter
@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/ta
 import {
   getPasswordDetails, addPassword, updatePassword,
   deletePassword, generateStrongPassword
-} from '../../services/passwordService';
+} from '@core/services/passwordService';
 import PasswordGeneratorComponent from '../../components/passwords/PasswordGeneratorComponent';
 import AddEditPasswordComponent from '../../components/passwords/AddEditPasswordComponent';
 

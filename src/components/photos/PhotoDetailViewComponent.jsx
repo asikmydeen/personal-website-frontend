@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getPhotoDetails, updatePhotoDetails, deletePhoto, generateShareableLink } from '../../services/photoService'; // Adjust path as needed
+import { getPhotoDetails, updatePhotoDetails, deletePhoto, generateShareableLink } from '@core/services/photoService';
 
 // Mock: In a real app, user ID would come from auth context
 const MOCK_USER_ID = "user123";

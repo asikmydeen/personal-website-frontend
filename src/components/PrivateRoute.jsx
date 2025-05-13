@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import useStore from '../store/useStore';
+import useStore from '@core/store/useStore';
 
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = useStore(state => state.isAuthenticated);

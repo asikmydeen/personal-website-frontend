@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getNote, deleteNote } from '../../services/notesService';
+import { getNote, deleteNote } from '@core/services/notesService';
 import AnimatedModal from '../../components/animated/AnimatedModal';
 import AddEditNoteComponent from '../../components/notes/AddEditNoteComponent';
 

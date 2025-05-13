@@ -1,0 +1,11 @@
+import { Variants } from 'framer-motion';
+export declare const fadeIn: Variants;
+export declare const slideUp: Variants;
+export declare const slideInLeft: Variants;
+export declare const slideInRight: Variants;
+export declare const scaleUp: Variants;
+export declare const staggerContainer: Variants;
+export declare const logoHover: Variants;
+export declare const buttonHover: Variants;
+export declare const pageTransition: Variants;
+export declare const cardHover: Variants;

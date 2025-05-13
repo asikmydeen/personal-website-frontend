@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { uploadPhoto } from '../../services/photoService'; // Adjust path as needed
+import { uploadPhoto } from '../../core/services/photoService';
+import { isNativePlatform } from '../../core/platform';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
   const [files, setFiles] = useState([]);
@@ -18,6 +20,37 @@ const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
     ]);
     setError(''); // Clear previous errors on new drop
   }, []);
+
+  const takePicture = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Prompt // Allows user to choose between camera or gallery
+      });
+
+      // Convert the image URI to a file object
+      const response = await fetch(image.webPath);
+      const blob = await response.blob();
+
+      // Create a File object from the blob
+      const fileName = `photo_${new Date().getTime()}.${image.format || 'jpeg'}`;
+      const file = new File([blob], fileName, { type: `image/${image.format || 'jpeg'}` });
+
+      // Add preview URL
+      Object.assign(file, {
+        preview: image.webPath
+      });
+
+      // Add to files state
+      setFiles(prevFiles => [...prevFiles, file]);
+      setError(''); // Clear previous errors
+    } catch (error) {
+      console.error('Error taking picture:', error);
+      setError('Failed to capture image. Please try again.');
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -104,14 +137,23 @@ const PhotoUploadComponent = ({ albumId, onPhotoUploaded, onClose }) => {
       <h3 className="text-lg font-semibold mb-4">Upload Photos</h3>
       {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
-      <div {...getRootProps()} className={`p-6 border-2 border-dashed rounded-md cursor-pointer ${isDragActive ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p className="text-center text-indigo-600">Drop the files here ...</p>
-        ) : (
-          <p className="text-center text-gray-500">Drag 'n' drop some files here, or click to select files</p>
-        )}
-      </div>
+      {isNativePlatform() ? (
+        <button
+          onClick={takePicture}
+          className="w-full p-6 border-2 border-gray-300 rounded-md bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <p className="text-center text-indigo-600 font-medium">Take Photo or Choose from Gallery</p>
+        </button>
+      ) : (
+        <div {...getRootProps()} className={`p-6 border-2 border-dashed rounded-md cursor-pointer ${isDragActive ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p className="text-center text-indigo-600">Drop the files here ...</p>
+          ) : (
+            <p className="text-center text-gray-500">Drag 'n' drop some files here, or click to select files</p>
+          )}
+        </div>
+      )}
 
       {files.length > 0 && (
         <aside className="mt-4 max-h-48 overflow-y-auto">

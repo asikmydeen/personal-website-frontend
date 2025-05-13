@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getAlbumDetails, listPhotosInAlbum } from '../../services/photoService'; // Adjust path as needed
+import { getAlbumDetails, listPhotosInAlbum } from '@core/services/photoService';
 
 const AlbumViewComponent = () => {
   const { albumId } = useParams(); // Assuming route is /albums/:albumId
@@ -67,7 +67,7 @@ const AlbumViewComponent = () => {
           {photos.map(photo => (
             <Link key={photo.id} to={`/photos/${photo.id}`} className="group">
               <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <img 
+                <img
                   src={photo.url || `https://via.placeholder.com/300?text=${encodeURIComponent(photo.title)}`}
                   alt={photo.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -86,4 +86,3 @@ const AlbumViewComponent = () => {
 };
 
 export default AlbumViewComponent;
-

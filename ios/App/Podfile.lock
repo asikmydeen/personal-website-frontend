@@ -1,0 +1,63 @@
+PODS:
+  - Capacitor (5.7.8):
+    - CapacitorCordova
+  - CapacitorCamera (5.0.10):
+    - Capacitor
+  - CapacitorClipboard (5.0.8):
+    - Capacitor
+  - CapacitorCordova (5.7.8)
+  - CapacitorFilesystem (5.2.2):
+    - Capacitor
+  - CapacitorPreferences (5.0.8):
+    - Capacitor
+  - CapacitorShare (5.0.8):
+    - Capacitor
+  - CordovaPlugins (5.7.8):
+    - CapacitorCordova
+  - CordovaPluginsResources (0.0.105)
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorCamera (from `../../node_modules/@capacitor/camera`)"
+  - "CapacitorClipboard (from `../../node_modules/@capacitor/clipboard`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorFilesystem (from `../../node_modules/@capacitor/filesystem`)"
+  - "CapacitorPreferences (from `../../node_modules/@capacitor/preferences`)"
+  - "CapacitorShare (from `../../node_modules/@capacitor/share`)"
+  - CordovaPlugins (from `../capacitor-cordova-ios-plugins`)
+  - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorCamera:
+    :path: "../../node_modules/@capacitor/camera"
+  CapacitorClipboard:
+    :path: "../../node_modules/@capacitor/clipboard"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorFilesystem:
+    :path: "../../node_modules/@capacitor/filesystem"
+  CapacitorPreferences:
+    :path: "../../node_modules/@capacitor/preferences"
+  CapacitorShare:
+    :path: "../../node_modules/@capacitor/share"
+  CordovaPlugins:
+    :path: "../capacitor-cordova-ios-plugins"
+  CordovaPluginsResources:
+    :path: "../capacitor-cordova-ios-plugins"
+
+SPEC CHECKSUMS:
+  Capacitor: 9686e5711b48a1aa84671ede795d0175848abcba
+  CapacitorCamera: 916a67c6726fabcc623df79d3f934828f2520103
+  CapacitorClipboard: abbfdc04f29068f141375506a8f3e06650da9325
+  CapacitorCordova: 31ab98dca2ddcee051027a1afe7e8c85c82f7297
+  CapacitorFilesystem: afe2c055f1e379385c80eafdece32751926b2910
+  CapacitorPreferences: 5331d7a33044d252dcb2f7fee712f0322c04bae7
+  CapacitorShare: 0a43832a9e09fca9ada569ee1856de75d54c61bf
+  CordovaPlugins: 50763e4c3ea6c5f4fd38baff8490cc8ede144efd
+  CordovaPluginsResources: 0c211f770ed91763a179ebcd9b9346e120b70662
+
+PODFILE CHECKSUM: db4d9df9f42c6aab014be0fde68b919891f15b9b
+
+COCOAPODS: 1.16.2

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { listPhotos } from '../../services/photoService';
-import { listDirectoryContents } from '../../services/fileService';
-import { listNotes } from '../../services/notesService';
-import { listCards } from '../../services/digitalWalletService';
-import { listVoiceMemos } from '../../services/voiceMemoService';
-import { get } from '../../services/apiService';
-import useStore from '../../store/useStore';
+import { listPhotos } from '@core/services/photoService';
+import { listDirectoryContents } from '@core/services/fileService';
+import { listNotes } from '@core/services/notesService';
+import { listCards } from '@core/services/digitalWalletService';
+import { listVoiceMemos } from '@core/services/voiceMemoService';
+import { get } from '@core/services/apiService';
+import useStore from '@core/store/useStore';
 
 // Placeholder data structure for dashboard items
 const initialDashboardStats = {

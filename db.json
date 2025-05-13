@@ -65,6 +65,41 @@
       "email": "testuser@example.com",
       "password": "password123",
       "id": "DnNXDtE"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123",
+      "id": "Fj7he8Z"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123",
+      "id": "uHefDs5"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123",
+      "id": "r1Z0ivL"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123!",
+      "id": "fhUzZyz"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "Password123!",
+      "id": "X7IU6pM"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123",
+      "id": "puTO2jM"
+    },
+    {
+      "email": "testuser@example.com",
+      "password": "password123",
+      "id": "M4iesUO"
     }
   ],
   "passwordResetTokens": [

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { generateShareLink, listSharedLinksForItem, revokeShareLink } from "../../../services/sharingService"; // Adjust path
+import { isNativePlatform } from "../../core/platform";
+import { Clipboard } from '@capacitor/clipboard';
 
 const ShareModalComponent = ({ itemId, itemType, itemName, onClose }) => {
   const [existingLinks, setExistingLinks] = useState([]);
@@ -77,14 +79,24 @@ const ShareModalComponent = ({ itemId, itemType, itemName, onClose }) => {
       setLoading(false);
     }
   };
-  
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
+
+  const copyToClipboard = async (text) => {
+    try {
+      if (isNativePlatform()) {
+        // Use Capacitor Clipboard plugin on native platforms
+        await Clipboard.write({
+          string: text
+        });
         alert("Link copied to clipboard!");
-    }).catch(err => {
-        alert("Failed to copy link.");
-        console.error("Clipboard copy error:", err);
-    });
+      } else {
+        // Use Web API on browsers
+        await navigator.clipboard.writeText(text);
+        alert("Link copied to clipboard!");
+      }
+    } catch (err) {
+      alert("Failed to copy link.");
+      console.error("Clipboard copy error:", err);
+    }
   };
 
   return (
@@ -124,8 +136,8 @@ const ShareModalComponent = ({ itemId, itemType, itemName, onClose }) => {
             <label htmlFor="password" className="block text-xs font-medium text-gray-600">Password (Optional)</label>
             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 block w-full text-sm px-2 py-1.5 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Leave blank for no password" />
           </div>
-          <button 
-            onClick={handleGenerateLink} 
+          <button
+            onClick={handleGenerateLink}
             disabled={generating}
             className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
           >
@@ -170,9 +182,9 @@ const ShareModalComponent = ({ itemId, itemType, itemName, onClose }) => {
         </div>
 
         <div className="flex justify-end pt-3">
-          <button 
-            type="button" 
-            onClick={onClose} 
+          <button
+            type="button"
+            onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
           >
             Done
@@ -184,4 +196,3 @@ const ShareModalComponent = ({ itemId, itemType, itemName, onClose }) => {
 };
 
 export default ShareModalComponent;
-

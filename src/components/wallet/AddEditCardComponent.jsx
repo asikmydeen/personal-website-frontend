@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addCard, updateCard } from '../../services/digitalWalletService';
+import { addCard, updateCard } from '@core/services/digitalWalletService';
 
 const AddEditCardComponent = ({ cardData, onClose, onSaveSuccess, onSubmit, loading: externalLoading }) => {
   const [cardholderName, setCardholderName] = useState('');

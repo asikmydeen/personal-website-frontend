@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useStore from '../../store/useStore';
+import useStore from '@core/store/useStore';
 import { Search, Plus, ExternalLink, Star, Trash2, Edit, Filter } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../../components/ui/card';
@@ -7,7 +7,7 @@ import { Badge } from '../../components/ui/badge';
 import { Tooltip } from '../../components/ui/tooltip';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '../../components/ui/dropdown-menu';
 import AnimatedModal from '../../components/animated/AnimatedModal';
-import { deleteBookmark } from '../../services/bookmarkService';
+import { deleteBookmark } from '@core/services/bookmarkService';
 import AddEditBookmarkComponent from '../../components/bookmarks/AddEditBookmarkComponent';
 
 const BookmarkManagerPage = () => {

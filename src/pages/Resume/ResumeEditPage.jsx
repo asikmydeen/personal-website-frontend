@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getResumeData, updateResumeData, getResumeVersionHistory, revertToVersion } from '../../services/resumeService';
+import { getResumeData, updateResumeData, getResumeVersionHistory, revertToVersion } from '@core/services/resumeService';
 import RichTextEditor from '../../components/ui/rich-text-editor';
 
 const initialResumeState = {

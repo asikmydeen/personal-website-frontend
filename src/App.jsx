@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
+import { isNativePlatform } from './core/platform';
 import Layout from './components/layout/Layout';
 import PrivateRoute from './components/PrivateRoute';
 import ThemeProvider from './providers/ThemeProvider';
@@ -26,6 +27,9 @@ import PhotoDetailViewComponent from './components/photos/PhotoDetailViewCompone
 import AlbumViewComponent from './components/photos/AlbumViewComponent';
 
 function App() {
+  // Use HashRouter for native platforms and BrowserRouter for web
+  const Router = isNativePlatform() ? HashRouter : BrowserRouter;
+
   return (
     <ThemeProvider>
       <Router>

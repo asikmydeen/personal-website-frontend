@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createNote, updateNote } from '../../services/notesService';
+import { createNote, updateNote } from '@core/services/notesService';
 import { useEditor, EditorContent } from '@tiptap/react';
 import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useStore from '../../store/useStore';
+import useStore from '@core/store/useStore';
 import {
   CreditCard, Eye, EyeOff, Plus, Trash2, Edit, Copy, Key, Search
 } from 'lucide-react';
@@ -9,7 +9,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Badge } from '../../components/ui/badge';
 import AnimatedModal from '../../components/animated/AnimatedModal';
-import { addCard, deleteCard, getCardDetails, updateCard } from '../../services/digitalWalletService';
+import { addCard, deleteCard, getCardDetails, updateCard } from '@core/services/digitalWalletService';
 import AddEditCardComponent from '../../components/wallet/AddEditCardComponent';
 
 const WalletDashboardPage = () => {

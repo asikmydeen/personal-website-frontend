@@ -1,0 +1,1 @@
+{"root":["./src/core/platform.ts","./src/core/hooks/use-mobile.tsx","./src/core/hooks/use-toast.ts","./src/core/storage/storageInterface.ts"],"errors":true,"version":"5.6.3"}

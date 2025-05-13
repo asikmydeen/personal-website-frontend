@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useStore from '../../store/useStore';
+import useStore from '@core/store/useStore';
 import {
   Mic, Play, Pause, Trash2, Download, Edit, MoreHorizontal,
   AudioWaveform, Search, Plus, Tag, StopCircle, Clock
@@ -20,9 +20,9 @@ import {
 import {
   deleteVoiceMemo, listVoiceMemos, getVoiceMemoDetails,
   uploadVoiceMemo, updateVoiceMemoMetadata
-} from '../../services/voiceMemoService';
-import VoiceMemoRecordComponent from '../../components/voicememos/VoiceMemoRecordComponent';
-import VoiceMemoPlaybackComponent from '../../components/voicememos/VoiceMemoPlaybackComponent';
+} from '@core/services/voiceMemoService';
+import VoiceMemoRecordComponent from '../../components/VoiceMemos/VoiceMemoRecordComponent';
+// import VoiceMemoPlaybackComponent from '../../components/VoiceMemos/VoiceMemoPlaybackComponent';
 
 const VoiceMemoListPage = () => {
   const { voiceMemos, fetchVoiceMemos, setVoiceMemos } = useStore();

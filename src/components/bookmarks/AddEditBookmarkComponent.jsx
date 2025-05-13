@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addBookmark, updateBookmark } from '../../services/bookmarkService';
+import { addBookmark, updateBookmark } from '@core/services/bookmarkService';
 
 const AddEditBookmarkComponent = ({ bookmarkData, onClose, onSaveSuccess }) => {
   const [title, setTitle] = useState('');

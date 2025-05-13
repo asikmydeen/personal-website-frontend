@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addPassword, updatePassword } from '../../services/passwordService';
+import { addPassword, updatePassword } from '@core/services/passwordService';
 import PasswordGeneratorComponent from './PasswordGeneratorComponent';
 
 const AddEditPasswordComponent = ({ passwordData, onClose, onSaveSuccess, onSubmit, generatedPassword, loading: externalLoading }) => {
