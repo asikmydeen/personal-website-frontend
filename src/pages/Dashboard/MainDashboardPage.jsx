@@ -22,15 +22,15 @@ const initialDashboardStats = {
 
 const DashboardWidget = ({ title, count, linkTo, icon, recentItems }) => {
   return (
-    <Link to={linkTo} className="block bg-playful-card-background shadow-xl rounded-xl p-6 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 border border-playful-card-border-color hover:border-playful-focus-ring-color">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-xl font-semibold text-playful-content-text-color">{title}</h3>
-        {icon && <div className="text-2xl text-playful-link-text-color">{icon}</div>}
+    <Link to={linkTo} className="block bg-playful-card-background shadow-lg sm:shadow-xl rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 border border-playful-card-border-color hover:border-playful-focus-ring-color">
+      <div className="flex items-center justify-between mb-2 sm:mb-3">
+        <h3 className="text-base sm:text-lg md:text-xl font-semibold text-playful-content-text-color">{title}</h3>
+        {icon && <div className="text-xl sm:text-2xl text-playful-link-text-color">{icon}</div>}
       </div>
-      <p className="text-4xl font-bold text-playful-button-primary-background mb-2">{count}</p>
+      <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-playful-button-primary-background mb-1 sm:mb-2">{count}</p>
       {recentItems && recentItems.length > 0 && (
         <div>
-          <p className="text-xs text-playful-content-text-color/70 mb-1">Recently Added:</p>
+          <p className="text-xs text-playful-content-text-color/70 mb-0.5 sm:mb-1">Recently Added:</p>
           <ul className="text-xs text-playful-content-text-color/80 space-y-0.5">
             {recentItems.slice(0, 3).map((item, index) => (
               <li key={index} className="truncate">- {item.name || 'Untitled'}</li>
@@ -38,8 +38,8 @@ const DashboardWidget = ({ title, count, linkTo, icon, recentItems }) => {
           </ul>
         </div>
       )}
-      {!recentItems && <p className="text-sm text-playful-content-text-color/60">Manage your {title.toLowerCase()}.</p>}
-      {recentItems && recentItems.length === 0 && <p className="text-sm text-playful-content-text-color/60">No recent {title.toLowerCase()} yet.</p>}
+      {!recentItems && <p className="text-xs sm:text-sm text-playful-content-text-color/60">Manage your {title.toLowerCase()}.</p>}
+      {recentItems && recentItems.length === 0 && <p className="text-xs sm:text-sm text-playful-content-text-color/60">No recent {title.toLowerCase()} yet.</p>}
     </Link>
   );
 };
@@ -182,13 +182,13 @@ const MainDashboardPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8">
-      <h1 className="text-3xl md:text-4xl font-bold text-playful-content-text-color mb-2">Welcome back, {userName}!</h1>
-      <p className="text-md text-playful-content-text-color/80 mb-8">Here's an overview of your personal space.</p>
+    <div className="container mx-auto p-3 sm:p-4 md:p-8">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-playful-content-text-color mb-1 sm:mb-2">Welcome back, {userName}!</h1>
+      <p className="text-sm sm:text-md text-playful-content-text-color/80 mb-4 sm:mb-6 md:mb-8">Here's an overview of your personal space.</p>
 
-      {error && <div className="mb-6 p-4 bg-red-500/10 text-red-700/90 border border-red-500/30 rounded-lg shadow">Error: {error}</div>}
+      {error && <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-500/10 text-red-700/90 border border-red-500/30 rounded-lg shadow text-sm sm:text-base">Error: {error}</div>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         <DashboardWidget
           title="Photos"
           count={stats.photos.count}
@@ -246,11 +246,11 @@ const MainDashboardPage = () => {
         />
         {/* Add more widgets as needed */}
         {/* Example for a settings link or profile */}
-        <Link to="/profile" className="block bg-playful-card-background shadow-xl rounded-xl p-6 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 border border-playful-card-border-color hover:border-playful-focus-ring-color flex flex-col items-center justify-center text-center">
+        <Link to="/profile" className="block bg-playful-card-background shadow-lg sm:shadow-xl rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 border border-playful-card-border-color hover:border-playful-focus-ring-color flex flex-col items-center justify-center text-center">
 
-          <div className="text-3xl mb-2 text-playful-link-text-color">⚙️</div>
-          <h3 className="text-xl font-semibold text-playful-content-text-color">Settings</h3>
-          <p className="text-sm text-playful-content-text-color/70">Manage your profile & preferences</p>
+          <div className="text-2xl sm:text-3xl mb-1 sm:mb-2 text-playful-link-text-color">⚙️</div>
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-playful-content-text-color">Settings</h3>
+          <p className="text-xs sm:text-sm text-playful-content-text-color/70">Manage your profile & preferences</p>
         </Link>
       </div>
     </div> // Closing tag for the main container div

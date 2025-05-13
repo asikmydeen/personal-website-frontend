@@ -6,7 +6,7 @@ const LogoSvg = ({ height = '20px', className = '', collapsed = false }) => {
 
   return (
     <svg
-      width="auto"
+      width="100%"
       height={height}
       viewBox={`0 0 ${viewBoxWidth} 24`}
       xmlns="http://www.w3.org/2000/svg"

@@ -2,7 +2,7 @@
 
 /* Editor content styling */
 .tiptap-editor {
-  @apply prose prose-sm sm:prose dark:prose-invert max-w-none;
+  @apply prose prose-sm md:prose dark:prose-invert max-w-none text-sm sm:text-base;
 }
 
 .tiptap-editor:focus {
@@ -11,29 +11,29 @@
 
 /* Override default prose styling for the editor */
 .tiptap-editor h1 {
-  @apply text-2xl font-bold mb-4 mt-6;
+  @apply text-xl sm:text-2xl font-bold mb-2 sm:mb-4 mt-4 sm:mt-6;
 }
 .tiptap-editor h2 {
-  @apply text-xl font-bold mb-3 mt-5;
+  @apply text-lg sm:text-xl font-bold mb-2 sm:mb-3 mt-3 sm:mt-5;
 }
 .tiptap-editor h3 {
-  @apply text-lg font-bold mb-2 mt-4;
+  @apply text-base sm:text-lg font-bold mb-1 sm:mb-2 mt-3 sm:mt-4;
 }
 
 .tiptap-editor p {
-  @apply my-3;
+  @apply my-2 sm:my-3;
 }
 
 .tiptap-editor ul {
-  @apply list-disc pl-6 my-3;
+  @apply list-disc pl-4 sm:pl-6 my-2 sm:my-3;
 }
 
 .tiptap-editor ol {
-  @apply list-decimal pl-6 my-3;
+  @apply list-decimal pl-4 sm:pl-6 my-2 sm:my-3;
 }
 
 .tiptap-editor blockquote {
-  @apply border-l-4 border-gray-300 pl-4 italic my-4;
+  @apply border-l-4 border-gray-300 pl-3 sm:pl-4 italic my-3 sm:my-4;
 }
 
 .tiptap-editor a {
@@ -46,11 +46,11 @@
 
 /* Editor toolbar styling */
 .tiptap-toolbar {
-  @apply flex flex-wrap gap-1 p-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-t-md;
+  @apply flex flex-wrap gap-1 p-1 sm:p-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-t-md;
 }
 
 .tiptap-toolbar button {
-  @apply p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors;
+  @apply p-1 sm:p-2 rounded text-xs sm:text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors;
 }
 
 .tiptap-toolbar button.active {
@@ -63,10 +63,21 @@
 
 /* Editor content area styling */
 .tiptap-content {
-  @apply border border-gray-300 dark:border-gray-700 border-t-0 rounded-b-md p-4 min-h-[200px] bg-white dark:bg-gray-900;
+  @apply border border-gray-300 dark:border-gray-700 border-t-0 rounded-b-md p-2 sm:p-4 min-h-[150px] sm:min-h-[200px] bg-white dark:bg-gray-900;
 }
 
 /* ProseMirror specific styles */
 .ProseMirror {
-  @apply min-h-[200px] focus:outline-none;
+  @apply min-h-[150px] sm:min-h-[200px] focus:outline-none;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 640px) {
+  .tiptap-toolbar button {
+    @apply min-w-[28px] min-h-[28px] flex items-center justify-center;
+  }
+
+  .tiptap-editor {
+    @apply text-sm;
+  }
 }

@@ -12,6 +12,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Badge } from '../../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import CollapsibleTags from '../../components/ui/collapsible-tags';
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
   DropdownMenuItem, DropdownMenuSeparator
@@ -244,27 +245,42 @@ const VoiceMemoListPage = () => {
           </div>
 
           <div className="bg-gray-50 p-4 rounded-lg shadow">
-            <h2 className="font-semibold text-gray-700 mb-2">Tags</h2>
-            <div className="space-y-2">
-              <div
-                className={`cursor-pointer px-3 py-2 rounded-md ${!activeTag ? 'bg-indigo-100 text-indigo-800' : 'hover:bg-gray-100'}`}
-                onClick={() => setActiveTag(null)}
-              >
-                All Memos
-              </div>
-              {allTags.map(tag => (
-                <div
-                  key={tag}
-                  className={`cursor-pointer px-3 py-2 rounded-md ${activeTag === tag ? 'bg-indigo-100 text-indigo-800' : 'hover:bg-gray-100'}`}
-                  onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="font-semibold text-gray-700">Filter by Tags</h2>
+              {activeTag && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setActiveTag(null)}
+                  className="h-6 text-xs px-2 py-0 text-gray-500 hover:text-gray-700"
                 >
-                  {tag}
-                </div>
-              ))}
-              {allTags.length === 0 && (
-                <div className="text-gray-500 text-sm italic">No tags found</div>
+                  Clear
+                </Button>
               )}
             </div>
+
+            {allTags.length === 0 ? (
+              <div className="text-gray-500 text-xs italic">No tags found</div>
+            ) : (
+              <div className="space-y-1">
+                {activeTag ? (
+                  <div className="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full inline-block mb-2">
+                    {activeTag}
+                  </div>
+                ) : (
+                  <div className="text-xs text-gray-500 mb-2">Select a tag to filter</div>
+                )}
+
+                <CollapsibleTags
+                  tags={allTags}
+                  initialVisibleCount={5}
+                  onTagClick={(tag) => setActiveTag(tag === activeTag ? null : tag)}
+                  showFilter={false}
+                  getTagLabel={(tag) => tag}
+                  className="mt-1"
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -377,19 +393,19 @@ const VoiceMemoListPage = () => {
                   </CardContent>
 
                   <CardFooter className="pt-0 flex justify-between items-center">
-                    <div className="flex gap-2 flex-wrap">
-                      {memo.tags && memo.tags.map(tag => (
-                        <Badge
-                          key={tag}
-                          variant="outline"
-                          className="bg-indigo-50"
-                          onClick={() => setActiveTag(tag)}
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
+                    <div className="flex-grow">
+                      {memo.tags && memo.tags.length > 0 && (
+                        <CollapsibleTags
+                          tags={memo.tags}
+                          initialVisibleCount={2}
+                          onTagClick={(tag, e) => {
+                            e.stopPropagation();
+                            setActiveTag(tag);
+                          }}
+                        />
+                      )}
                     </div>
-                    <div className="text-xs text-gray-500 flex items-center gap-1">
+                    <div className="text-xs text-gray-500 flex items-center gap-1 ml-2 flex-shrink-0">
                       <Clock size={12} />
                       {new Date(memo.createdAt).toLocaleDateString()}
                     </div>

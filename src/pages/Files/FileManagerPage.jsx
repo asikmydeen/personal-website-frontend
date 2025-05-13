@@ -96,82 +96,112 @@ const FileManagerPage = () => {
       setLoading(false);
     }
   };
-  
+
   const handleFileUploaded = (newFile) => {
     // Refetch contents to show the new file
     fetchContents(currentPath);
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">File Manager</h1>
-        <button 
+    <div className="container mx-auto p-2 sm:p-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-2 sm:gap-0">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">File Manager</h1>
+        <button
           onClick={() => setShowUploadModal(true)}
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 sm:py-2 px-3 sm:px-4 rounded text-sm sm:text-base w-full sm:w-auto"
         >
           Upload File
         </button>
       </div>
 
-      {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">Error: {error}</div>}
+      {error && <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-red-100 text-red-700 rounded-md text-sm">Error: {error}</div>}
 
       {showUploadModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
-          <div className="bg-white p-5 rounded-lg shadow-xl w-full max-w-md">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Upload New File</h2>
-                <button onClick={() => setShowUploadModal(false)} className="text-gray-700 hover:text-gray-900 text-2xl">&times;</button>
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex justify-center items-center p-4">
+          <div className="bg-white p-4 sm:p-5 rounded-lg shadow-xl w-full max-w-md">
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+                <h2 className="text-lg sm:text-xl font-semibold">Upload New File</h2>
+                <button onClick={() => setShowUploadModal(false)} className="text-gray-700 hover:text-gray-900 text-xl sm:text-2xl">&times;</button>
             </div>
-            <FileUploadComponent 
-                currentPath={currentPath} 
-                onFileUploaded={handleFileUploaded} 
-                onClose={() => setShowUploadModal(false)} 
+            <FileUploadComponent
+                currentPath={currentPath}
+                onFileUploaded={handleFileUploaded}
+                onClose={() => setShowUploadModal(false)}
             />
           </div>
         </div>
       )}
 
-      <div className="mb-4 p-3 bg-gray-100 rounded-md flex items-center">
+      <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-gray-100 rounded-md flex flex-wrap items-center">
         {currentPath !== '/' && (
-          <button onClick={handleGoUp} className="mr-2 px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">
+          <button onClick={handleGoUp} className="mr-2 px-2 sm:px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-xs sm:text-sm">
             &uarr; Up
           </button>
         )}
-        <span className="text-gray-600">Current Path: {currentPath}</span>
+        <span className="text-gray-600 text-xs sm:text-sm truncate">Current Path: {currentPath}</span>
       </div>
 
       {loading ? (
-        <p className="text-center text-gray-500">Loading files...</p>
+        <p className="text-center text-gray-500 text-sm sm:text-base">Loading files...</p>
       ) : items.length > 0 ? (
         <div className="overflow-x-auto bg-white shadow rounded-lg">
-          <table className="min-w-full divide-y divide-gray-200">
+          {/* Mobile view - Card layout */}
+          <div className="sm:hidden">
+            {items.map(item => (
+              <div key={item.id} className="border-b border-gray-200 p-3">
+                <div className="flex justify-between items-start mb-2">
+                  <div className="font-medium">
+                    {item.type === 'folder' ? (
+                      <button onClick={() => handleNavigate(item)} className="text-indigo-600 hover:text-indigo-800 text-sm">
+                        📁 {item.name}
+                      </button>
+                    ) : (
+                      <span className="text-sm">📄 {item.name}</span>
+                    )}
+                  </div>
+                  <span className="text-xs bg-gray-100 px-2 py-1 rounded">{item.type}</span>
+                </div>
+                <div className="text-xs text-gray-500 mb-2">
+                  {item.type === 'file' && <div>Size: {formatFileSize(parseInt(item.size) * 1024 || 0)}</div>}
+                  <div>Modified: {item.lastModified ? new Date(item.lastModified).toLocaleDateString() : '—'}</div>
+                </div>
+                <div className="flex space-x-2">
+                  {item.type === 'file' && (
+                    <button onClick={() => handleDownload(item.id, item.name)} className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded">Download</button>
+                  )}
+                  <button onClick={() => handleDelete(item.id, item.type, item.name)} className="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop view - Table layout */}
+          <table className="hidden sm:table min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Modified</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th scope="col" className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th scope="col" className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                <th scope="col" className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+                <th scope="col" className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Modified</th>
+                <th scope="col" className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {items.map(item => (
                 <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className="px-4 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-gray-900">
                     {item.type === 'folder' ? (
                       <button onClick={() => handleNavigate(item)} className="text-indigo-600 hover:text-indigo-800">
                         📁 {item.name}
                       </button>
                     ) : (
-                      // Could be a link to a file detail page: <Link to={`/files/${item.id}`}>{item.name}</Link>
                       <span>📄 {item.name}</span>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.type}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.type === 'file' ? formatFileSize(parseInt(item.size) * 1024 || 0) : '—'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.lastModified ? new Date(item.lastModified).toLocaleDateString() : '—'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                  <td className="px-4 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">{item.type}</td>
+                  <td className="px-4 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">{item.type === 'file' ? formatFileSize(parseInt(item.size) * 1024 || 0) : '—'}</td>
+                  <td className="px-4 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">{item.lastModified ? new Date(item.lastModified).toLocaleDateString() : '—'}</td>
+                  <td className="px-4 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium space-x-2">
                     {item.type === 'file' && (
                       <button onClick={() => handleDownload(item.id, item.name)} className="text-blue-600 hover:text-blue-800">Download</button>
                     )}
@@ -183,11 +213,10 @@ const FileManagerPage = () => {
           </table>
         </div>
       ) : (
-        <p className="text-center text-gray-500 py-5">This folder is empty.</p>
+        <p className="text-center text-gray-500 text-sm sm:text-base py-4 sm:py-5">This folder is empty.</p>
       )}
     </div>
   );
 };
 
 export default FileManagerPage;
-

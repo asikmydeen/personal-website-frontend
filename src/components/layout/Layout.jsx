@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, Typography, Grid, Badge, Tooltip, Drawer } from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -116,17 +116,26 @@ const navigation = [
 
 const LayoutComponent = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isAuthenticated = useStore(state => state.isAuthenticated);
   const location = useLocation();
   const screens = useBreakpoint();
+  const isMobile = !screens.md;
+
+  // Close mobile menu when location changes
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  }, [location.pathname]);
 
   if (!isAuthenticated) {
     return (
       <div style={{ minHeight: '100vh', background: 'transparent' }}>
         <Content
           style={{
-            margin: '24px 16px',
-            padding: 24,
+            margin: isMobile ? '16px 8px' : '24px 16px',
+            padding: isMobile ? 16 : 24,
             background: 'transparent',
             color: 'hsl(var(--playful-content-text-color))',
             border: 'none',
@@ -152,70 +161,128 @@ const LayoutComponent = ({ children }) => {
     }
   ];
 
+  // Mobile drawer for navigation
+  const MobileDrawer = () => (
+    <Drawer
+      placement="left"
+      onClose={() => setMobileMenuOpen(false)}
+      open={mobileMenuOpen}
+      width={250}
+      bodyStyle={{ padding: 0, background: 'transparent' }}
+      headerStyle={{ display: 'none' }}
+      className="glass-sidebar"
+    >
+      <div
+        style={{
+          height: 80,
+          margin: 12,
+          marginBottom: '1rem',
+          backgroundColor: 'transparent',
+          borderRadius: 8,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'hsl(var(--playful-sider-logo-text-color))',
+          userSelect: 'none',
+        }}
+      >
+        <LogoSvg
+          height="100%"
+          className="sidebar-logo"
+          collapsed={false}
+          style={{
+            width: '100%',
+            objectFit: 'contain',
+          }}
+        />
+      </div>
+      <Menu
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        style={{
+          background: 'transparent'
+        }}
+        className="sidebar-menu mobile-sidebar-menu"
+        items={navigation.map(item => ({
+          key: item.key,
+          icon: <span role="img" aria-label={item.label}>{item.icon}</span>,
+          label: <Link to={item.to} className="sidebar-text-link" style={{ fontWeight: 'bold' }}>{item.label}</Link>
+        }))}
+      />
+    </Drawer>
+  );
+
   return (
     <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
-      <Sider
-        collapsible={false}
-        collapsed={collapsed}
-        breakpoint="lg"
-        collapsedWidth={screens.lg ? 100 : 0}
-        style={{
-          background: 'transparent',
-          minHeight: '100vh',
-          position: 'fixed',
-          left: 0,
-          zIndex: 10,
-        }}
-        className="playful-sider glass-sidebar"
-      >
-        <div
+      {/* Mobile Drawer */}
+      {isMobile && <MobileDrawer />}
+
+      {/* Desktop Sidebar - hidden on mobile */}
+      {!isMobile && (
+        <Sider
+          collapsible={false}
+          collapsed={collapsed}
+          breakpoint="lg"
+          collapsedWidth={screens.lg ? 100 : 0}
           style={{
-            height: 80,
-            margin: 12,
-            marginBottom: '1.5rem',
-            backgroundColor: 'transparent',
-            borderRadius: 8,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'hsl(var(--playful-sider-logo-text-color))',
-            userSelect: 'none',
+            background: 'transparent',
+            minHeight: '100vh',
+            position: 'fixed',
+            left: 0,
+            zIndex: 10,
+            display: isMobile ? 'none' : 'block',
           }}
+          className="playful-sider glass-sidebar"
         >
-          <LogoSvg
-            height="100%"
-            className="sidebar-logo"
-            collapsed={collapsed}
+          <div
             style={{
-              width: '100%',
-              objectFit: 'contain',
-              transition: 'width 0.4s, height 0.4s'
+              height: 80,
+              margin: 12,
+              marginBottom: '1.5rem',
+              backgroundColor: 'transparent',
+              borderRadius: 8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'hsl(var(--playful-sider-logo-text-color))',
+              userSelect: 'none',
             }}
-          />
-        </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          style={{
-            background: 'transparent'
-          }}
-          className="sidebar-menu"
-          items={navigation.map(item => ({
-            key: item.key,
-            icon: collapsed ? (
-              <Link to={item.to} className="sidebar-icon-link">
+          >
+            <LogoSvg
+              height="100%"
+              className="sidebar-logo"
+              collapsed={collapsed}
+              style={{
+                width: '100%',
+                objectFit: 'contain',
+                transition: 'width 0.4s, height 0.4s'
+              }}
+            />
+          </div>
+          <Menu
+            mode="inline"
+            selectedKeys={[location.pathname]}
+            style={{
+              background: 'transparent'
+            }}
+            className="sidebar-menu"
+            items={navigation.map(item => ({
+              key: item.key,
+              icon: collapsed ? (
+                <Link to={item.to} className="sidebar-icon-link">
+                  <span role="img" aria-label={item.label}>{item.icon}</span>
+                </Link>
+              ) : (
                 <span role="img" aria-label={item.label}>{item.icon}</span>
-              </Link>
-            ) : (
-              <span role="img" aria-label={item.label}>{item.icon}</span>
-            ),
-            label: <Link to={item.to} className="sidebar-text-link" style={{ fontWeight: 'bold' }}>{item.label}</Link>
-          }))}
-        />
-      </Sider>
+              ),
+              label: <Link to={item.to} className="sidebar-text-link" style={{ fontWeight: 'bold' }}>{item.label}</Link>
+            }))}
+          />
+        </Sider>
+      )}
       <Layout
         style={{
-          marginLeft: collapsed ? (screens.lg ? '100px' : '0px') : '200px',
+          marginLeft: isMobile ? 0 : (collapsed ? (screens.lg ? '100px' : '0px') : '200px'),
           transition: 'margin-left 0.2s',
           display: 'flex',
           flexDirection: 'column',
@@ -224,7 +291,7 @@ const LayoutComponent = ({ children }) => {
       >
         <Header
           style={{
-            padding: '0 24px',
+            padding: isMobile ? '0 16px' : '0 24px',
             background: 'transparent',
             color: 'hsl(var(--playful-header-text-color))',
             display: 'flex',
@@ -234,16 +301,23 @@ const LayoutComponent = ({ children }) => {
             top: 0,
             zIndex: 9,
             width: '100%',
+            height: isMobile ? '56px' : '64px',
           }}
           className="glass-header"
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-              className: 'trigger',
-              onClick: () => setCollapsed(!collapsed),
-              style: { fontSize: 20, marginRight: 24, cursor: 'pointer', color: 'hsl(var(--playful-header-text-color))' },
-            })}
-            <Title level={4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))' }}>
+            {isMobile ? (
+              <div onClick={() => setMobileMenuOpen(true)} style={{ fontSize: 20, marginRight: 16, cursor: 'pointer', color: 'hsl(var(--playful-header-text-color))' }}>
+                <MenuUnfoldOutlined />
+              </div>
+            ) : (
+              React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                className: 'trigger',
+                onClick: () => setCollapsed(!collapsed),
+                style: { fontSize: 20, marginRight: 24, cursor: 'pointer', color: 'hsl(var(--playful-header-text-color))' },
+              })
+            )}
+            <Title level={isMobile ? 5 : 4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {{
                 '/': 'Home',
                 '/photos': 'Photos',
@@ -258,19 +332,19 @@ const LayoutComponent = ({ children }) => {
               }[location.pathname] || 'Home'}
             </Title>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '8px' : '16px' }}>
             <ThemeSwitcher />
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
-              <Avatar size="large" style={{ cursor: 'pointer', backgroundColor: 'hsl(var(--playful-sider-logo-background))', color: 'hsl(var(--playful-sider-logo-text-color))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span role="img" aria-label="User Menu" style={{ fontSize: '24px' }}>👤</span>
+              <Avatar size={isMobile ? "default" : "large"} style={{ cursor: 'pointer', backgroundColor: 'hsl(var(--playful-sider-logo-background))', color: 'hsl(var(--playful-sider-logo-text-color))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span role="img" aria-label="User Menu" style={{ fontSize: isMobile ? '18px' : '24px' }}>👤</span>
               </Avatar>
             </Dropdown>
           </div>
         </Header>
         <Content
           style={{
-            margin: '24px 16px',
-            padding: 24,
+            margin: isMobile ? '16px 8px' : '24px 16px',
+            padding: isMobile ? 16 : 24,
             background: 'transparent',
             color: 'hsl(var(--playful-content-text-color))',
             minHeight: 280,
@@ -286,19 +360,19 @@ const LayoutComponent = ({ children }) => {
           textAlign: 'center',
           background: 'transparent',
           color: 'hsl(var(--playful-header-text-color))',
-          padding: '0 16px',
+          padding: isMobile ? '0 8px' : '0 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: '40px', /* Match the height of sidebar's collapse trigger */
+          height: isMobile ? '32px' : '40px',
           marginTop: 'auto',
           marginLeft: 0,
           marginRight: 0,
           marginBottom: 0,
           borderRadius: 0,
-          fontSize: '12px'
+          fontSize: isMobile ? '10px' : '12px'
         }}
-        className="glass-header"
+        className="glass-header responsive-footer"
         >
           <FooterStatus />
         </Footer>

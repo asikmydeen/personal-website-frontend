@@ -228,45 +228,49 @@ const PasswordListPage = () => {
   });
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <div className="container mx-auto p-2 sm:p-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 sm:mb-6 gap-2 sm:gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Password Manager</h1>
-          <p className="text-gray-600 mt-1">Securely store and manage your passwords</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Password Manager</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">Securely store and manage your passwords</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full md:w-auto">
           <Button
             variant="outline"
-            className="flex items-center gap-2"
+            className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3 flex-1 md:flex-auto"
             onClick={() => {
               setFormMode('generator');
               setIsAddDialogOpen(true);
             }}
           >
-            <RefreshCcw size={16} />
-            Generate Password
+            <RefreshCcw size={14} className="sm:hidden" />
+            <RefreshCcw size={16} className="hidden sm:block" />
+            <span className="sm:inline">Generate Password</span>
+            <span className="sm:hidden">Generate</span>
           </Button>
           <Button
-            className="bg-indigo-600 hover:bg-indigo-700 flex items-center gap-2"
+            className="bg-indigo-600 hover:bg-indigo-700 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3 flex-1 md:flex-auto"
             onClick={() => {
               setFormMode('add');
               setIsAddDialogOpen(true);
             }}
           >
-            <Plus size={16} />
-            Add Password
+            <Plus size={14} className="sm:hidden" />
+            <Plus size={16} className="hidden sm:block" />
+            <span className="sm:inline">Add Password</span>
+            <span className="sm:hidden">Add</span>
           </Button>
         </div>
       </div>
 
       {/* Search bar */}
-      <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+      <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm mb-4 sm:mb-6">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
           <input
             type="text"
-            placeholder="Search passwords by service or username..."
-            className="pl-10 pr-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            placeholder="Search passwords..."
+            className="pl-10 pr-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -275,20 +279,107 @@ const PasswordListPage = () => {
 
       {/* Error message */}
       {error && (
-        <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md">
+        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 text-red-700 rounded-md text-xs sm:text-sm">
           {error}
         </div>
       )}
 
-      {/* Password list table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden mb-6">
-        <div className="overflow-x-auto">
+      {/* Password list */}
+      <div className="bg-white rounded-lg shadow overflow-hidden mb-4 sm:mb-6">
+        {/* Mobile view - Card layout */}
+        <div className="sm:hidden">
+          {loading && passwords.length === 0 ? (
+            <div className="p-4 text-center text-sm text-gray-500">
+              <div className="flex justify-center items-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-indigo-500 mr-2"></div>
+                Loading passwords...
+              </div>
+            </div>
+          ) : sortedPasswords.length === 0 ? (
+            <div className="p-4 text-center text-sm text-gray-500">
+              {searchQuery ? 'No passwords match your search.' : 'No passwords yet.'}
+            </div>
+          ) : (
+            <div>
+              <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                <div className="text-xs font-medium text-gray-500 uppercase">
+                  Sort by:
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    className={`text-xs px-2 py-1 rounded ${sortField === 'serviceName' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100'}`}
+                    onClick={() => handleSort('serviceName')}
+                  >
+                    Service {sortField === 'serviceName' && (sortDirection === 'asc' ? '↑' : '↓')}
+                  </button>
+                  <button
+                    className={`text-xs px-2 py-1 rounded ${sortField === 'username' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100'}`}
+                    onClick={() => handleSort('username')}
+                  >
+                    Username {sortField === 'username' && (sortDirection === 'asc' ? '↑' : '↓')}
+                  </button>
+                </div>
+              </div>
+              {sortedPasswords.map(password => (
+                <div key={password.id} className="border-b border-gray-200 p-3">
+                  <div className="flex items-center mb-2">
+                    <div className="h-8 w-8 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mr-3">
+                      <Lock size={16} />
+                    </div>
+                    <div>
+                      <div className="font-medium text-sm">{password.serviceName}</div>
+                      <div className="text-xs text-gray-500">{password.username}</div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="text-xs text-gray-500">
+                      Updated: {new Date(password.lastUpdated).toLocaleDateString()}
+                    </div>
+                    <div className="flex space-x-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 text-indigo-600"
+                        onClick={() => handleViewPasswordDetails(password.id)}
+                      >
+                        <Eye size={14} />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 text-blue-600"
+                        onClick={() => {
+                          setFormMode('edit');
+                          setSelectedPassword(password.id);
+                          setIsEditDialogOpen(true);
+                        }}
+                      >
+                        <Edit size={14} />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 text-red-600"
+                        onClick={() => handleDeletePassword(password.id)}
+                      >
+                        <Trash2 size={14} />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop view - Table layout */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                   onClick={() => handleSort('serviceName')}
                 >
                   <div className="flex items-center space-x-1">
@@ -300,7 +391,7 @@ const PasswordListPage = () => {
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                   onClick={() => handleSort('username')}
                 >
                   <div className="flex items-center space-x-1">
@@ -312,7 +403,7 @@ const PasswordListPage = () => {
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  className="px-4 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                   onClick={() => handleSort('lastUpdated')}
                 >
                   <div className="flex items-center space-x-1">
@@ -322,7 +413,7 @@ const PasswordListPage = () => {
                     )}
                   </div>
                 </th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-4 sm:px-6 py-2 sm:py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -330,7 +421,7 @@ const PasswordListPage = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {loading && passwords.length === 0 ? (
                 <tr key="loading">
-                  <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td colSpan="4" className="px-4 sm:px-6 py-3 sm:py-4 text-center text-sm text-gray-500">
                     <div className="flex justify-center items-center">
                       <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-indigo-500 mr-2"></div>
                       Loading passwords...
@@ -339,60 +430,64 @@ const PasswordListPage = () => {
                 </tr>
               ) : sortedPasswords.length === 0 ? (
                 <tr key="empty">
-                  <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td colSpan="4" className="px-4 sm:px-6 py-3 sm:py-4 text-center text-sm text-gray-500">
                     {searchQuery ? 'No passwords match your search.' : 'No passwords yet.'}
                   </td>
                 </tr>
               ) : (
                 sortedPasswords.map(password => (
                   <tr key={password.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500">
-                          <Lock size={18} />
+                        <div className="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500">
+                          <Lock size={16} className="sm:hidden" />
+                          <Lock size={18} className="hidden sm:block" />
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{password.serviceName}</div>
+                        <div className="ml-3 sm:ml-4">
+                          <div className="text-xs sm:text-sm font-medium text-gray-900">{password.serviceName}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-700">{password.username}</div>
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <div className="text-xs sm:text-sm text-gray-700">{password.username}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <div className="text-xs sm:text-sm text-gray-500">
                         {new Date(password.lastUpdated).toLocaleDateString()}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex justify-end space-x-2">
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex justify-end space-x-1 sm:space-x-2">
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-indigo-600 hover:text-indigo-800"
+                          className="text-indigo-600 hover:text-indigo-800 h-7 w-7 sm:h-8 sm:w-8 p-0"
                           onClick={() => handleViewPasswordDetails(password.id)}
                         >
-                          <Eye size={16} />
+                          <Eye size={14} className="sm:hidden" />
+                          <Eye size={16} className="hidden sm:block" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-blue-600 hover:text-blue-800"
+                          className="text-blue-600 hover:text-blue-800 h-7 w-7 sm:h-8 sm:w-8 p-0"
                           onClick={() => {
                             setFormMode('edit');
                             setSelectedPassword(password.id);
                             setIsEditDialogOpen(true);
                           }}
                         >
-                          <Edit size={16} />
+                          <Edit size={14} className="sm:hidden" />
+                          <Edit size={16} className="hidden sm:block" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-red-600 hover:text-red-800"
+                          className="text-red-600 hover:text-red-800 h-7 w-7 sm:h-8 sm:w-8 p-0"
                           onClick={() => handleDeletePassword(password.id)}
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={14} className="sm:hidden" />
+                          <Trash2 size={16} className="hidden sm:block" />
                         </Button>
                       </div>
                     </td>
@@ -405,17 +500,17 @@ const PasswordListPage = () => {
       </div>
 
       {/* Password security tips */}
-      <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200 mb-6">
-        <div className="flex items-start space-x-3">
-          <AlertTriangle className="text-indigo-600 h-5 w-5 mt-0.5" />
+      <div className="bg-indigo-50 p-3 sm:p-4 rounded-lg border border-indigo-200 mb-4 sm:mb-6">
+        <div className="flex items-start space-x-2 sm:space-x-3">
+          <AlertTriangle className="text-indigo-600 h-4 w-4 sm:h-5 sm:w-5 mt-0.5 flex-shrink-0" />
           <div>
-            <h3 className="font-semibold text-indigo-800">Password Security Tips</h3>
-            <ul className="text-sm text-indigo-700 mt-2 list-disc pl-5">
+            <h3 className="font-semibold text-indigo-800 text-sm sm:text-base">Password Security Tips</h3>
+            <ul className="text-xs sm:text-sm text-indigo-700 mt-1 sm:mt-2 list-disc pl-4 sm:pl-5">
               <li>Use a unique password for each account</li>
               <li>Include uppercase, lowercase, numbers, and special characters</li>
-              <li>Make passwords at least 12 characters long</li>
-              <li>Avoid using personal information in your passwords</li>
-              <li>Change your passwords regularly</li>
+              <li className="hidden sm:list-item">Make passwords at least 12 characters long</li>
+              <li className="hidden sm:list-item">Avoid using personal information in your passwords</li>
+              <li className="hidden sm:list-item">Change your passwords regularly</li>
             </ul>
           </div>
         </div>
@@ -426,7 +521,7 @@ const PasswordListPage = () => {
         isOpen={isViewDialogOpen}
         onClose={() => setIsViewDialogOpen(false)}
         animationType="zoom"
-        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto mx-4 sm:mx-auto"
       >
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-4">View Password Details</h2>
@@ -528,7 +623,7 @@ const PasswordListPage = () => {
         isOpen={isAddDialogOpen}
         onClose={() => setIsAddDialogOpen(false)}
         animationType="zoom"
-        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto mx-4 sm:mx-auto"
       >
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-4">
@@ -585,7 +680,7 @@ const PasswordListPage = () => {
         isOpen={isEditDialogOpen}
         onClose={() => setIsEditDialogOpen(false)}
         animationType="zoom"
-        className="w-full max-w-md max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto mx-4 sm:mx-auto"
       >
         <div className="p-6">
           <h2 className="text-2xl font-bold mb-4">Edit Password</h2>

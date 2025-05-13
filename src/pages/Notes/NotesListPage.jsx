@@ -7,6 +7,7 @@ import { Badge } from '../../components/ui/badge';
 import { Search, Plus } from 'lucide-react';
 import AnimatedModal from '../../components/animated/AnimatedModal';
 import AddEditNoteComponent from '../../components/notes/AddEditNoteComponent';
+import CollapsibleTags from '../../components/ui/collapsible-tags';
 
 const NotesListPage = () => {
   const { notes, fetchNotes } = useStore();
@@ -116,27 +117,42 @@ const NotesListPage = () => {
           </div>
 
           <div className="bg-gray-50 p-4 rounded-lg shadow">
-            <h2 className="font-semibold text-gray-700 mb-2">Tags</h2>
-            <div className="space-y-2">
-              <div
-                className={`cursor-pointer px-3 py-2 rounded-md ${!activeTag ? 'bg-indigo-100 text-indigo-800' : 'hover:bg-gray-100'}`}
-                onClick={() => setActiveTag(null)}
-              >
-                All Notes
-              </div>
-              {allTags.map(tag => (
-                <div
-                  key={tag}
-                  className={`cursor-pointer px-3 py-2 rounded-md ${activeTag === tag ? 'bg-indigo-100 text-indigo-800' : 'hover:bg-gray-100'}`}
-                  onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="font-semibold text-gray-700">Filter by Tags</h2>
+              {activeTag && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setActiveTag(null)}
+                  className="h-6 text-xs px-2 py-0 text-gray-500 hover:text-gray-700"
                 >
-                  {tag}
-                </div>
-              ))}
-              {allTags.length === 0 && (
-                <div className="text-gray-500 text-sm italic">No tags found</div>
+                  Clear
+                </Button>
               )}
             </div>
+
+            {allTags.length === 0 ? (
+              <div className="text-gray-500 text-xs italic">No tags found</div>
+            ) : (
+              <div className="space-y-1">
+                {activeTag ? (
+                  <div className="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full inline-block mb-2">
+                    {activeTag}
+                  </div>
+                ) : (
+                  <div className="text-xs text-gray-500 mb-2">Select a tag to filter</div>
+                )}
+
+                <CollapsibleTags
+                  tags={allTags}
+                  initialVisibleCount={5}
+                  onTagClick={(tag) => setActiveTag(tag === activeTag ? null : tag)}
+                  showFilter={false}
+                  getTagLabel={(tag) => tag}
+                  className="mt-1"
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -176,10 +192,18 @@ const NotesListPage = () => {
                         {note.content ? note.content.substring(0, 120) + (note.content.length > 120 ? '...' : '') : 'No content'}
                       </p>
                     </CardContent>
-                    <CardFooter className="flex flex-wrap gap-2">
-                      {note.tags && note.tags.map(tag => (
-                        <Badge key={tag} variant="outline" className="bg-gray-100">{tag}</Badge>
-                      ))}
+                    <CardFooter>
+                      {note.tags && note.tags.length > 0 && (
+                        <CollapsibleTags
+                          tags={note.tags}
+                          initialVisibleCount={2}
+                          onTagClick={(tag, e) => {
+                            e.stopPropagation();
+                            setActiveTag(tag);
+                          }}
+                          className="w-full"
+                        />
+                      )}
                     </CardFooter>
                   </Card>
                 </div>
