@@ -7,6 +7,7 @@ import { listCards } from '@core/services/digitalWalletService';
 import { listVoiceMemos } from '@core/services/voiceMemoService';
 import { get } from '@core/services/apiService';
 import useStore from '@core/store/useStore';
+import ThemeSwitcher from '../../components/theme/ThemeSwitcher';
 
 // Placeholder data structure for dashboard items
 const initialDashboardStats = {
@@ -245,13 +246,32 @@ const MainDashboardPage = () => {
           recentItems={stats.resume ? stats.resume.recent : []}
         />
         {/* Add more widgets as needed */}
-        {/* Example for a settings link or profile */}
+        {/* Settings link */}
         <Link to="/profile" className="block bg-playful-card-background shadow-lg sm:shadow-xl rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 border border-playful-card-border-color hover:border-playful-focus-ring-color flex flex-col items-center justify-center text-center">
-
           <div className="text-2xl sm:text-3xl mb-1 sm:mb-2 text-playful-link-text-color">⚙️</div>
           <h3 className="text-base sm:text-lg md:text-xl font-semibold text-playful-content-text-color">Settings</h3>
           <p className="text-xs sm:text-sm text-playful-content-text-color/70">Manage your profile & preferences</p>
         </Link>
+
+        {/* Theme Switcher */}
+        <div className="block bg-playful-card-background shadow-lg sm:shadow-xl rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 border border-playful-card-border-color hover:border-playful-focus-ring-color flex flex-col items-center justify-center text-center">
+          <div className="text-2xl sm:text-3xl mb-1 sm:mb-2 text-playful-link-text-color">🎨</div>
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-playful-content-text-color">Theme</h3>
+          <p className="text-xs sm:text-sm text-playful-content-text-color/70 mb-2">Change appearance</p>
+          <div className="mt-2">
+            <ThemeSwitcher />
+          </div>
+        </div>
+
+        {/* Logout Button */}
+        <div
+          onClick={() => useStore.getState().logout()}
+          className="block bg-playful-card-background shadow-lg sm:shadow-xl rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 border border-playful-card-border-color hover:border-playful-focus-ring-color flex flex-col items-center justify-center text-center cursor-pointer"
+        >
+          <div className="text-2xl sm:text-3xl mb-1 sm:mb-2 text-playful-link-text-color">🚪</div>
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-playful-content-text-color">Logout</h3>
+          <p className="text-xs sm:text-sm text-playful-content-text-color/70">Sign out of your account</p>
+        </div>
       </div>
     </div> // Closing tag for the main container div
   );

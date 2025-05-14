@@ -1,107 +1,156 @@
-/* Fix for SLHighlightDisambiguationPillViewAccessibility issue on iOS */
-@supports (-webkit-touch-callout: none) {
-  /* This empty rule helps prevent the SLHighlightDisambiguationPillViewAccessibility error */
-  :root {
-    --sl-highlight-disambiguation: none;
-  }
-}
-
-/* Menu button enhancements for all platforms */
-.menu-toggle-button {
-  position: relative;
-  z-index: 10;
-  /* Ensure proper accessibility focus styles */
+/* Menu button styles with better visibility */
+.menu-button {
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
   outline: none;
+  position: relative;
+  z-index: 100; /* Ensure it's above other elements */
+  background-color: rgba(255, 255, 255, 0.1); /* Slight background for visibility */
+  border-radius: 4px; /* Rounded corners */
 }
 
-/* Accessibility focus styles */
-.menu-toggle-button:focus-visible {
-  box-shadow: 0 0 0 2px hsl(var(--playful-header-text-color));
-  outline: 2px solid transparent;
+/* iOS-specific menu button */
+.ios-menu-button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  position: relative;
+  z-index: 2000; /* Ensure it's above everything */
+
+  /* Make it very visible */
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8px !important;
+
+  /* Large touch target */
+  min-width: 50px !important;
+  min-height: 50px !important;
+
+  /* Visual feedback on touch */
+  transition: transform 0.1s, background-color 0.1s;
 }
 
-/* iOS-specific menu button enhancements */
-@supports (-webkit-touch-callout: none) {
-  /* iOS-specific styles */
-  .ios-menu-button,
-  button[aria-label="Open menu"],
-  button[aria-label="Expand sidebar"],
-  button[aria-label="Collapse sidebar"] {
-    /* Increase touch target size */
-    min-width: 44px;
-    min-height: 44px;
+.ios-menu-button:active {
+  transform: scale(0.95);
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
 
-    /* Add subtle visual feedback on touch */
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    position: relative;
+/* iOS floating action button */
+.ios-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.2s ease-out;
+}
+
+.ios-fab:active {
+  transform: scale(0.95);
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Fan menu overlay */
+.ios-fan-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Fan menu item */
+.ios-fan-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fan-item-appear 0.3s ease-out forwards;
+}
+
+.ios-fan-item-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ios-fan-item-label {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Close button */
+.ios-fan-close {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background-color: #a5d6a7;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: white;
+  margin-top: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fan-item-appear 0.3s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fan-item-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  button[aria-label="Open menu"]::after,
-  button[aria-label="Expand sidebar"]::after,
-  button[aria-label="Collapse sidebar"]::after {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    z-index: -1;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  /* Active state for iOS */
-  button[aria-label="Open menu"]:active,
-  button[aria-label="Expand sidebar"]:active,
-  button[aria-label="Collapse sidebar"]:active {
-    opacity: 0.7;
-    transform: scale(0.98);
-  }
-
-  /* Special iOS-specific class */
-  .ios-menu-button {
-    /* Add a subtle background for better visual feedback */
-    background-color: rgba(255, 255, 255, 0.05) !important;
-
-    /* Add a subtle border for better visibility */
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-
-    /* Increase the hit area even more */
+/* Make sure the button is visible and has a large touch target on iOS */
+@media (pointer: coarse) {
+  .menu-button {
+    padding: 16px;
     min-width: 48px;
     min-height: 48px;
-
-    /* iOS accessibility enhancements */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-
-    /* Fix for SLHighlightDisambiguationPillViewAccessibility issue */
-    isolation: isolate;
-
-    /* Ensure proper accessibility focus indication */
-    outline-offset: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Add border for visibility */
   }
 
-  /* Active state specifically for iOS devices */
-  .ios-menu-button:active {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    transform: scale(0.95) !important;
-  }
-}
-
-/* General touch improvements for all devices */
-.menu-toggle-button,
-button[aria-label="Open menu"],
-button[aria-label="Expand sidebar"],
-button[aria-label="Collapse sidebar"] {
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
-}
-
-/* Add a subtle animation on hover for desktop */
-@media (hover: hover) {
-  .menu-toggle-button:hover,
-  button[aria-label="Open menu"]:hover,
-  button[aria-label="Expand sidebar"]:hover,
-  button[aria-label="Collapse sidebar"]:hover {
-    transform: scale(1.05);
+  /* Active state for touch devices */
+  .menu-button:active {
+    background-color: rgba(255, 255, 255, 0.2);
   }
 }

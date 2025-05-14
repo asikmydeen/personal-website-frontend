@@ -29,7 +29,16 @@ export const getNativePlatform = () => {
  * @returns {boolean} true if running on iOS, false otherwise
  */
 export const isIOS = () => {
-    return getNativePlatform() === 'ios';
+    // First check if we're on native iOS via Capacitor
+    if (getNativePlatform() === 'ios') {
+        return true;
+    }
+    // Simple fallback for iOS detection in browser testing
+    if (typeof navigator !== 'undefined') {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+    return false;
 };
 /**
  * Checks if the app is running on Android

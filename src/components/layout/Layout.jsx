@@ -20,19 +20,6 @@ import ThemeSwitcher from '../theme/ThemeSwitcher';
 import LogoSvg from './LogoSvg';
 import './menu-button.css';
 
-// iOS accessibility fix for SLHighlightDisambiguationPillViewAccessibility issue
-if (typeof document !== 'undefined' && isIOS()) {
-  // Add meta tag to help with iOS accessibility
-  const meta = document.createElement('meta');
-  meta.name = 'viewport';
-  meta.content = 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no';
-  document.getElementsByTagName('head')[0].appendChild(meta);
-
-  // Add accessibility role to body for iOS
-  document.body.setAttribute('role', 'application');
-  document.body.setAttribute('aria-label', 'Personal Pod Application');
-}
-
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
 const { useBreakpoint } = Grid;
@@ -231,11 +218,11 @@ const LayoutComponent = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
-      {/* Mobile Drawer */}
-      {isMobile && <MobileDrawer />}
+      {/* Mobile Drawer - only for non-iOS mobile */}
+      {isMobile && !isIOSDevice && <MobileDrawer />}
 
       {/* Desktop Sidebar - hidden on mobile */}
-      {!isMobile && (
+      {(!isMobile || !isIOSDevice) && (
         <Sider
           collapsible={false}
           collapsed={collapsed}
@@ -314,98 +301,36 @@ const LayoutComponent = ({ children }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            position: 'sticky',
+            position: 'relative',
             top: 0,
-            zIndex: 9,
+            zIndex: 1000,
             width: '100%',
             height: isMobile ? '56px' : '64px',
+            display: isIOSDevice && isMobile ? 'none' : 'flex'
           }}
           className="glass-header"
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {isMobile ? (
+            {/* Standard menu button for non-iOS */}
+            {!isIOSDevice && !isMobile && (
               <button
-                className={`menu-toggle-button ${isIOSDevice ? 'ios-menu-button' : ''}`}
-                onClick={() => setMobileMenuOpen(true)}
-                onTouchStart={() => setMobileMenuOpen(true)}
-                style={{
-                  fontSize: 20,
-                  marginRight: 16,
-                  cursor: 'pointer',
-                  color: 'hsl(var(--playful-header-text-color))',
-                  background: 'transparent',
-                  border: 'none',
-                  padding: isIOSDevice ? '16px' : '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  WebkitTapHighlightColor: 'transparent',
-                  outline: 'none',
-                  touchAction: 'manipulation',
-                  userSelect: 'none',
-                  marginLeft: isIOSDevice ? '-16px' : '-12px',
-                  // iOS-specific enhancements
-                  ...(isIOSDevice && {
-                    position: 'relative',
-                    zIndex: 100,
-                    transform: 'translateZ(0)',
-                    borderRadius: '8px',
-                  })
-                }}
-                aria-label="Open menu"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded={mobileMenuOpen}
-                accessibilityRole="button"
-                accessibilityLabel="Open navigation menu"
-                accessibilityHint="Opens the application navigation menu"
-              >
-                <span aria-hidden="true">
-                  <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
-                </span>
-              </button>
-            ) : (
-              <button
-                className={`menu-toggle-button trigger ${isIOSDevice ? 'ios-menu-button' : ''}`}
+                className="menu-button"
                 onClick={() => setCollapsed(!collapsed)}
-                onTouchStart={() => setCollapsed(!collapsed)}
                 style={{
                   fontSize: 20,
                   marginRight: 24,
                   cursor: 'pointer',
                   color: 'hsl(var(--playful-header-text-color))',
-                  background: 'transparent',
-                  border: 'none',
-                  padding: isIOSDevice ? '16px' : '12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '4px',
+                  padding: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  WebkitTapHighlightColor: 'transparent',
-                  outline: 'none',
-                  touchAction: 'manipulation',
-                  userSelect: 'none',
-                  marginLeft: isIOSDevice ? '-16px' : '-12px',
-                  ...(isIOSDevice && {
-                    position: 'relative',
-                    zIndex: 100,
-                    transform: 'translateZ(0)',
-                    borderRadius: '8px',
-                  })
                 }}
-                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                role="button"
-                aria-expanded={!collapsed}
-                aria-controls="sidebar-navigation"
-                accessibilityRole="button"
-                accessibilityLabel={collapsed ? "Expand sidebar navigation" : "Collapse sidebar navigation"}
-                accessibilityHint={collapsed ? "Expands the sidebar navigation menu" : "Collapses the sidebar navigation menu"}
               >
-                <span aria-hidden="true">
-                  {collapsed ?
-                    <MenuUnfoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} /> :
-                    <MenuFoldOutlined style={isIOSDevice ? { pointerEvents: 'none' } : {}} />
-                  }
-                </span>
+                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               </button>
             )}
             <Title level={isMobile ? 5 : 4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -463,12 +388,361 @@ const LayoutComponent = ({ children }) => {
           marginRight: 0,
           marginBottom: 0,
           borderRadius: 0,
-          fontSize: isMobile ? '10px' : '12px'
+          fontSize: isMobile ? '10px' : '12px',
+          display: isIOSDevice && isMobile ? 'none' : 'flex'
         }}
         className="glass-header responsive-footer"
         >
           <FooterStatus />
         </Footer>
+
+        {/* iOS Floating Action Button and Menu */}
+        {isIOSDevice && isMobile && (
+          <>
+            {/* Floating Action Button - only shown when menu is closed */}
+            {!mobileMenuOpen && (
+              <button
+                className="ios-fab"
+                onClick={() => setMobileMenuOpen(true)}
+                style={{
+                  position: 'fixed',
+                  bottom: '30px',
+                  right: '30px',
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '30px',
+                  backgroundColor: '#4CAF50',
+                  border: 'none',
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '24px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                  zIndex: 2000
+                }}
+              >
+                ≡
+              </button>
+            )}
+
+            {/* Fan-out Menu */}
+            {mobileMenuOpen && (
+              <div
+                className="ios-fan-overlay"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.7)'
+                }}
+              >
+                {/* Close Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileMenuOpen(false);
+                  }}
+                  style={{
+                    position: 'fixed',
+                    bottom: '30px',
+                    right: '30px',
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '30px',
+                    backgroundColor: '#4CAF50',
+                    border: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '24px',
+                    color: 'white',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                    zIndex: 2001
+                  }}
+                >
+                  ≡
+                </button>
+                <div style={{
+                  position: 'fixed',
+                  right: 0,
+                  bottom: 0,
+                  top: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                  alignItems: 'flex-end',
+                  paddingRight: '20px',
+                  paddingBottom: '100px',
+                }}>
+                  {/* Home */}
+                  <Link
+                    to="/"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      textDecoration: 'none',
+                      padding: '10px 0'
+                    }}
+                  >
+                    <div style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginRight: '10px'
+                    }}>
+                      Home
+                    </div>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '30px',
+                      backgroundColor: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      🏠
+                    </div>
+                  </Link>
+
+                  {/* Notes */}
+                  <Link
+                    to="/notes"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      textDecoration: 'none',
+                      padding: '10px 0'
+                    }}
+                  >
+                    <div style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginRight: '10px'
+                    }}>
+                      Notes
+                    </div>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '30px',
+                      backgroundColor: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      📝
+                    </div>
+                  </Link>
+
+                  {/* Bookmarks */}
+                  <Link
+                    to="/bookmarks"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      textDecoration: 'none',
+                      padding: '10px 0'
+                    }}
+                  >
+                    <div style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginRight: '10px'
+                    }}>
+                      Bookmarks
+                    </div>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '30px',
+                      backgroundColor: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      🔖
+                    </div>
+                  </Link>
+
+                  {/* Passwords */}
+                  <Link
+                    to="/passwords"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      textDecoration: 'none',
+                      padding: '10px 0'
+                    }}
+                  >
+                    <div style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginRight: '10px'
+                    }}>
+                      Passwords
+                    </div>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '30px',
+                      backgroundColor: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      🔑
+                    </div>
+                  </Link>
+
+                  {/* Wallet */}
+                  <Link
+                    to="/wallet"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      textDecoration: 'none',
+                      padding: '10px 0'
+                    }}
+                  >
+                    <div style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginRight: '10px'
+                    }}>
+                      Wallet
+                    </div>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '30px',
+                      backgroundColor: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      💳
+                    </div>
+                  </Link>
+
+                  {/* Voice Memos */}
+                  <Link
+                    to="/voice-memos"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      textDecoration: 'none',
+                      padding: '10px 0'
+                    }}
+                  >
+                    <div style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginRight: '10px'
+                    }}>
+                      Voice Memos
+                    </div>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '30px',
+                      backgroundColor: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      🎤
+                    </div>
+                  </Link>
+
+                  {/* Resume */}
+                  <Link
+                    to="/resume"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      textDecoration: 'none',
+                      padding: '10px 0'
+                    }}
+                  >
+                    <div style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginRight: '10px'
+                    }}>
+                      Resume
+                    </div>
+                    <div style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '30px',
+                      backgroundColor: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                      📄
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </Layout>
     </Layout>
   );
