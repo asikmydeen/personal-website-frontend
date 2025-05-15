@@ -114,14 +114,24 @@ const navigation = [
 
 const AnimatedLayoutComponent = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isAuthenticated = useStore(state => state.isAuthenticated);
   const location = useLocation();
   const screens = useBreakpoint();
+  const isMobile = !screens.md;
+  const isSmallScreen = !screens.sm;
 
   // Animated sidebar toggle
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
+
+  // Close mobile menu when location changes
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  }, [location.pathname]);
 
   if (!isAuthenticated) {
     return (
@@ -154,6 +164,8 @@ const AnimatedLayoutComponent = ({ children }) => {
     </Menu>
   );
 
+  // No Mobile drawer - using only the floating action button for mobile
+
   // Animation variants for the layout
   const siderVariants = {
     expanded: {
@@ -161,18 +173,18 @@ const AnimatedLayoutComponent = ({ children }) => {
       transition: { duration: 0.3, ease: 'easeInOut' }
     },
     collapsed: {
-      width: screens.lg ? '100px' : '0px',
+      width: screens.lg ? '100px' : '80px',
       transition: { duration: 0.3, ease: 'easeInOut' }
     }
   };
 
   const contentVariants = {
     expanded: {
-      marginLeft: '200px',
+      marginLeft: isMobile ? '0px' : '200px',
       transition: { duration: 0.3, ease: 'easeInOut' }
     },
     collapsed: {
-      marginLeft: screens.lg ? '100px' : '0px',
+      marginLeft: isMobile ? '0px' : (screens.lg ? '100px' : '80px'),
       transition: { duration: 0.3, ease: 'easeInOut' }
     }
   };
@@ -189,20 +201,24 @@ const AnimatedLayoutComponent = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
-      <motion.div
-        className="playful-sider glass-sidebar"
-        style={{
-          background: 'transparent',
-          minHeight: '100vh',
-          position: 'fixed',
-          left: 0,
-          zIndex: 10,
-          overflowX: 'hidden',
-        }}
-        variants={siderVariants}
-        animate={collapsed ? 'collapsed' : 'expanded'}
-        initial={false}
-      >
+      {/* No Mobile Drawer - using only the floating action button for mobile */}
+
+      {/* Desktop Sidebar - only visible on non-mobile */}
+      {!isMobile && (
+        <motion.div
+          className="playful-sider glass-sidebar"
+          style={{
+            background: 'transparent',
+            minHeight: '100vh',
+            position: 'fixed',
+            left: 0,
+            zIndex: 10,
+            overflowX: 'hidden',
+          }}
+          variants={siderVariants}
+          animate={collapsed ? 'collapsed' : 'expanded'}
+          initial={false}
+        >
         <motion.div
           style={{
             height: 80,
@@ -242,7 +258,8 @@ const AnimatedLayoutComponent = ({ children }) => {
             />
           ))}
         </div>
-      </motion.div>
+        </motion.div>
+      )}
 
       <motion.div
         style={{
@@ -259,7 +276,7 @@ const AnimatedLayoutComponent = ({ children }) => {
             padding: '0 24px',
             background: 'transparent',
             color: 'hsl(var(--playful-header-text-color))',
-            display: 'flex',
+            display: isMobile ? 'none' : 'flex', /* Hide header on mobile to avoid duplicate menu buttons */
             alignItems: 'center',
             justifyContent: 'space-between',
             position: 'sticky',
@@ -270,21 +287,34 @@ const AnimatedLayoutComponent = ({ children }) => {
           className="glass-header"
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <motion.div
-              onClick={toggleSidebar}
-              style={{
-                fontSize: 20,
-                marginRight: 24,
-                cursor: 'pointer',
-                color: 'hsl(var(--playful-header-text-color))'
-              }}
-              variants={triggerVariants}
-              animate={collapsed ? 'collapsed' : 'expanded'}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </motion.div>
+            {/* Desktop menu toggle */}
+            {!isMobile && (
+              <motion.div
+                onClick={toggleSidebar}
+                className="menu-button"
+                style={{
+                  fontSize: 20,
+                  marginRight: 24,
+                  cursor: 'pointer',
+                  color: 'hsl(var(--playful-header-text-color))',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '4px',
+                }}
+                variants={triggerVariants}
+                animate={collapsed ? 'collapsed' : 'expanded'}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              </motion.div>
+            )}
+            
+            {/* No mobile menu button in header - using floating action button instead */}
 
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -335,14 +365,16 @@ const AnimatedLayoutComponent = ({ children }) => {
 
         <motion.div
           style={{
-            margin: '24px 16px',
-            padding: 24,
+            margin: isMobile ? '16px 0' : '24px 16px',
+            padding: isMobile ? '16px 0' : 24,
             background: 'transparent',
             color: 'hsl(var(--playful-content-text-color))',
             minHeight: 280,
             overflow: 'auto',
             borderRadius: 'var(--radius)',
-            border: 'none'
+            border: 'none',
+            width: '100%',
+            maxWidth: '100%'
           }}
           className="glass-effect"
           initial={{ opacity: 0, y: 20 }}
@@ -384,6 +416,143 @@ const AnimatedLayoutComponent = ({ children }) => {
           <FooterStatus />
         </Footer>
       </motion.div>
+
+      {/* iOS Floating Action Button and Menu for mobile */}
+      {isMobile && (
+        <>
+          {/* Floating Action Button - only shown when menu is closed */}
+          {!mobileMenuOpen && (
+            <motion.button
+              className="ios-fab"
+              onClick={() => setMobileMenuOpen(true)}
+              style={{
+                position: 'fixed',
+                bottom: '30px',
+                right: '30px',
+                width: '60px',
+                height: '60px',
+                borderRadius: '30px',
+                backgroundColor: '#4CAF50',
+                border: 'none',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '24px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                zIndex: 2000
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              ≡
+            </motion.button>
+          )}
+
+          {/* Fan-out Menu */}
+          {mobileMenuOpen && (
+            <div
+              className="ios-fan-overlay"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+              }}
+            >
+              {/* Close Button */}
+              <motion.button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMobileMenuOpen(false);
+                }}
+                style={{
+                  position: 'fixed',
+                  bottom: '30px',
+                  right: '30px',
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '30px',
+                  backgroundColor: '#4CAF50',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '24px',
+                  color: 'white',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                  zIndex: 2001
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ≡
+              </motion.button>
+              <div style={{
+                position: 'fixed',
+                right: 0,
+                bottom: 0,
+                top: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+                paddingRight: '20px',
+                paddingBottom: '100px',
+              }}>
+                {/* Menu Items */}
+                {navigation.map(item => (
+                  <motion.div
+                    key={item.key}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: navigation.indexOf(item) * 0.05 }}
+                  >
+                    <Link
+                      to={item.to}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMobileMenuOpen(false);
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        textDecoration: 'none',
+                        padding: '10px 0'
+                      }}
+                    >
+                      <div style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: '16px',
+                        marginRight: '10px'
+                      }}>
+                        {item.label}
+                      </div>
+                      <motion.div
+                        style={{
+                          width: '60px',
+                          height: '60px',
+                          borderRadius: '30px',
+                          backgroundColor: 'white',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '24px',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                        }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        {item.icon}
+                      </motion.div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </Layout>
   );
 };

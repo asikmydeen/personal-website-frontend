@@ -9,6 +9,13 @@
   z-index: 100; /* Ensure it's above other elements */
   background-color: rgba(255, 255, 255, 0.1); /* Slight background for visibility */
   border-radius: 4px; /* Rounded corners */
+  transition: transform 0.1s, background-color 0.1s;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.menu-button:active {
+  transform: scale(0.95);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* iOS-specific menu button */
@@ -140,17 +147,49 @@
   }
 }
 
-/* Make sure the button is visible and has a large touch target on iOS */
+/* Mobile drawer styling improvements */
+.mobile-sidebar-menu {
+  margin-top: 10px;
+}
+
+.mobile-sidebar-menu .ant-menu-item {
+  height: 50px;
+  line-height: 50px;
+  margin: 4px 0;
+}
+
+/* Ensure the drawer has proper z-index */
+.ant-drawer.glass-sidebar {
+  z-index: 2000;
+}
+
+.ant-drawer.glass-sidebar .ant-drawer-content-wrapper {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Make sure the button is visible and has a large touch target on all touch devices */
 @media (pointer: coarse) {
   .menu-button {
     padding: 16px;
     min-width: 48px;
     min-height: 48px;
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Add border for visibility */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Enhanced border for visibility */
   }
 
   /* Active state for touch devices */
   .menu-button:active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Small screen adjustments */
+@media (max-width: 576px) {
+  .menu-button {
+    margin-right: 16px !important;
+    padding: 10px;
+  }
+  
+  .ant-drawer.glass-sidebar .ant-drawer-content-wrapper {
+    width: 80% !important; /* Make drawer wider on very small screens */
   }
 }

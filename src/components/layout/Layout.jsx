@@ -122,7 +122,9 @@ const LayoutComponent = ({ children }) => {
   const isAuthenticated = useStore(state => state.isAuthenticated);
   const location = useLocation();
   const screens = useBreakpoint();
+  // Define breakpoints more precisely to avoid overlap
   const isMobile = !screens.md;
+  const isSmallScreen = !screens.sm;
   const isIOSDevice = isIOS();
 
   // Close mobile menu when location changes
@@ -165,76 +167,26 @@ const LayoutComponent = ({ children }) => {
     }
   ];
 
-  // Mobile drawer for navigation
-  const MobileDrawer = () => (
-    <Drawer
-      placement="left"
-      onClose={() => setMobileMenuOpen(false)}
-      open={mobileMenuOpen}
-      width={250}
-      bodyStyle={{ padding: 0, background: 'transparent' }}
-      headerStyle={{ display: 'none' }}
-      className="glass-sidebar"
-    >
-      <div
-        style={{
-          height: 80,
-          margin: 12,
-          marginBottom: '1rem',
-          backgroundColor: 'transparent',
-          borderRadius: 8,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'hsl(var(--playful-sider-logo-text-color))',
-          userSelect: 'none',
-        }}
-      >
-        <LogoSvg
-          height="100%"
-          className="sidebar-logo"
-          collapsed={false}
-          style={{
-            width: '100%',
-            objectFit: 'contain',
-          }}
-        />
-      </div>
-      <Menu
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        style={{
-          background: 'transparent'
-        }}
-        className="sidebar-menu mobile-sidebar-menu"
-        items={navigation.map(item => ({
-          key: item.key,
-          icon: <span role="img" aria-label={item.label}>{item.icon}</span>,
-          label: <Link to={item.to} className="sidebar-text-link" style={{ fontWeight: 'bold' }}>{item.label}</Link>
-        }))}
-      />
-    </Drawer>
-  );
+  // No Mobile drawer - using only the floating action button for mobile
 
   return (
     <Layout style={{ minHeight: '100vh', background: 'transparent' }}>
-      {/* Mobile Drawer - only for non-iOS mobile */}
-      {isMobile && !isIOSDevice && <MobileDrawer />}
+      {/* No Mobile Drawer - using only the floating action button for mobile */}
 
-      {/* Desktop Sidebar - hidden on mobile */}
-      {(!isMobile || !isIOSDevice) && (
+      {/* Desktop Sidebar - only visible on non-mobile */}
+      {!isMobile && (
         <Sider
           collapsible={false}
           collapsed={collapsed}
           breakpoint="lg"
-          collapsedWidth={screens.lg ? 100 : 0}
+          collapsedWidth={screens.lg ? 100 : 80}
           style={{
             background: 'transparent',
             minHeight: '100vh',
             position: 'fixed',
             left: 0,
             zIndex: 10,
-            display: isMobile ? 'none' : 'block',
+            display: 'block',
           }}
           className="playful-sider glass-sidebar"
         >
@@ -306,13 +258,13 @@ const LayoutComponent = ({ children }) => {
             zIndex: 1000,
             width: '100%',
             height: isMobile ? '56px' : '64px',
-            display: isIOSDevice && isMobile ? 'none' : 'flex'
+            display: isMobile ? 'none' : 'flex' /* Hide header on mobile to avoid duplicate menu buttons */
           }}
           className="glass-header"
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {/* Standard menu button for non-iOS */}
-            {!isIOSDevice && !isMobile && (
+            {/* Standard menu button for desktop only */}
+            {!isMobile && (
               <button
                 className="menu-button"
                 onClick={() => setCollapsed(!collapsed)}
@@ -333,6 +285,7 @@ const LayoutComponent = ({ children }) => {
                 {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               </button>
             )}
+            {/* No mobile menu button in header - using floating action button instead */}
             <Title level={isMobile ? 5 : 4} style={{ margin: 0, color: 'hsl(var(--playful-header-text-color))', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {{
                 '/': 'Home',
@@ -389,15 +342,15 @@ const LayoutComponent = ({ children }) => {
           marginBottom: 0,
           borderRadius: 0,
           fontSize: isMobile ? '10px' : '12px',
-          display: isIOSDevice && isMobile ? 'none' : 'flex'
+          display: 'flex'
         }}
         className="glass-header responsive-footer"
         >
           <FooterStatus />
         </Footer>
 
-        {/* iOS Floating Action Button and Menu */}
-        {isIOSDevice && isMobile && (
+        {/* iOS Floating Action Button and Menu - restored as per user preference */}
+        {isMobile && (
           <>
             {/* Floating Action Button - only shown when menu is closed */}
             {!mobileMenuOpen && (
@@ -473,276 +426,52 @@ const LayoutComponent = ({ children }) => {
                   paddingRight: '20px',
                   paddingBottom: '100px',
                 }}>
-                  {/* Home */}
-                  <Link
-                    to="/"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      padding: '10px 0'
-                    }}
-                  >
-                    <div style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginRight: '10px'
-                    }}>
-                      Home
-                    </div>
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '30px',
-                      backgroundColor: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }}>
-                      🏠
-                    </div>
-                  </Link>
-
-                  {/* Notes */}
-                  <Link
-                    to="/notes"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      padding: '10px 0'
-                    }}
-                  >
-                    <div style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginRight: '10px'
-                    }}>
-                      Notes
-                    </div>
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '30px',
-                      backgroundColor: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }}>
-                      📝
-                    </div>
-                  </Link>
-
-                  {/* Bookmarks */}
-                  <Link
-                    to="/bookmarks"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      padding: '10px 0'
-                    }}
-                  >
-                    <div style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginRight: '10px'
-                    }}>
-                      Bookmarks
-                    </div>
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '30px',
-                      backgroundColor: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }}>
-                      🔖
-                    </div>
-                  </Link>
-
-                  {/* Passwords */}
-                  <Link
-                    to="/passwords"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      padding: '10px 0'
-                    }}
-                  >
-                    <div style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginRight: '10px'
-                    }}>
-                      Passwords
-                    </div>
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '30px',
-                      backgroundColor: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }}>
-                      🔑
-                    </div>
-                  </Link>
-
-                  {/* Wallet */}
-                  <Link
-                    to="/wallet"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      padding: '10px 0'
-                    }}
-                  >
-                    <div style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginRight: '10px'
-                    }}>
-                      Wallet
-                    </div>
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '30px',
-                      backgroundColor: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }}>
-                      💳
-                    </div>
-                  </Link>
-
-                  {/* Voice Memos */}
-                  <Link
-                    to="/voice-memos"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      padding: '10px 0'
-                    }}
-                  >
-                    <div style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginRight: '10px'
-                    }}>
-                      Voice Memos
-                    </div>
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '30px',
-                      backgroundColor: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }}>
-                      🎤
-                    </div>
-                  </Link>
-
-                  {/* Resume */}
-                  <Link
-                    to="/resume"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      textDecoration: 'none',
-                      padding: '10px 0'
-                    }}
-                  >
-                    <div style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '16px',
-                      marginRight: '10px'
-                    }}>
-                      Resume
-                    </div>
-                    <div style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '30px',
-                      backgroundColor: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }}>
-                      📄
-                    </div>
-                  </Link>
+                  {/* Menu Items */}
+                  {navigation.map(item => (
+                    <Link
+                      key={item.key}
+                      to={item.to}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMobileMenuOpen(false);
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        textDecoration: 'none',
+                        padding: '10px 0'
+                      }}
+                    >
+                      <div style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: '16px',
+                        marginRight: '10px'
+                      }}>
+                        {item.label}
+                      </div>
+                      <div style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '30px',
+                        backgroundColor: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                      }}>
+                        {item.icon}
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}
           </>
         )}
+        {/* End of content section */}
       </Layout>
     </Layout>
   );
