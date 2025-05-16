@@ -1,0 +1,781 @@
+service: personal-website-backend
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    # For development, use a local value
+    # For production, uncomment the SSM line and comment out the local value
+    JWT_SECRET: ${env:JWT_SECRET, 'your_jwt_secret_for_development_only'}
+    # JWT_SECRET: ${ssm:/personal-website/${self:provider.stage}/JWT_SECRET}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+      Resource:
+        - !GetAtt PasswordResetTokensTable.Arn
+        - !Sub "${PasswordResetTokensTable.Arn}/index/*"
+        - !GetAtt AuthTokensTable.Arn
+        - !Sub "${AuthTokensTable.Arn}/index/*"
+        - !GetAtt UsersTable.Arn
+        - !Sub "${UsersTable.Arn}/index/*"
+        - !GetAtt NotesTable.Arn
+        - !Sub "${NotesTable.Arn}/index/*"
+        - !GetAtt BookmarksTable.Arn
+        - !Sub "${BookmarksTable.Arn}/index/*"
+        - !GetAtt BookmarkFoldersTable.Arn
+        - !Sub "${BookmarkFoldersTable.Arn}/index/*"
+        - !GetAtt PasswordsTable.Arn
+        - !Sub "${PasswordsTable.Arn}/index/*"
+        - !GetAtt WalletCardsTable.Arn
+        - !Sub "${WalletCardsTable.Arn}/index/*"
+        - !GetAtt VoiceMemosTable.Arn
+        - !Sub "${VoiceMemosTable.Arn}/index/*"
+        - !GetAtt FilesTable.Arn
+        - !Sub "${FilesTable.Arn}/index/*"
+        - !GetAtt FoldersTable.Arn
+        - !Sub "${FoldersTable.Arn}/index/*"
+        - !GetAtt PhotosTable.Arn
+        - !Sub "${PhotosTable.Arn}/index/*"
+        - !GetAtt AlbumsTable.Arn
+        - !Sub "${AlbumsTable.Arn}/index/*"
+        - !GetAtt ResumeTable.Arn
+        - !Sub "${ResumeTable.Arn}/index/*"
+        - !GetAtt SharingLinksTable.Arn
+        - !Sub "${SharingLinksTable.Arn}/index/*"
+        - !GetAtt UserPermissionsTable.Arn
+        - !Sub "${UserPermissionsTable.Arn}/index/*"
+        - !GetAtt CommentsTable.Arn
+        - !Sub "${CommentsTable.Arn}/index/*"
+        - !GetAtt NotificationsTable.Arn
+        - !Sub "${NotificationsTable.Arn}/index/*"
+        - !GetAtt TagsTable.Arn
+        - !Sub "${TagsTable.Arn}/index/*"
+        - !GetAtt ActivitiesTable.Arn
+        - !Sub "${ActivitiesTable.Arn}/index/*"
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:GetObject
+        - s3:DeleteObject
+      Resource: !Join ['', ['arn:aws:s3:::', !Ref FilesBucket, '/*']]
+
+plugins:
+  - serverless-offline
+
+package:
+  individually: false
+  exclude:
+    - .git/**
+    - .gitignore
+    - .env
+    - README.md
+    - package-lock.json
+
+functions:
+  # Health check
+  health:
+    handler: health.handler
+    events:
+      - http:
+          path: /health
+          method: get
+          cors: true
+
+  # Auth functions
+  login:
+    handler: login.handler
+    events:
+      - http:
+          path: /api/v1/auth/login
+          method: post
+          cors: true
+  
+  register:
+    handler: register.handler
+    events:
+      - http:
+          path: /api/v1/auth/register
+          method: post
+          cors: true
+  
+  logout:
+    handler: logout.handler
+    events:
+      - http:
+          path: /api/v1/auth/logout
+          method: post
+          cors: true
+  
+  passwordReset:
+    handler: passwordReset.handler
+    events:
+      - http:
+          path: /api/v1/auth/password-reset
+          method: post
+          cors: true
+  
+  passwordResetConfirm:
+    handler: passwordResetConfirm.handler
+    events:
+      - http:
+          path: /api/v1/auth/password-reset/{token}
+          method: post
+          cors: true
+  
+  verifyToken:
+    handler: verifyToken.handler
+    events:
+      - http:
+          path: /api/v1/auth/verify-token
+          method: post
+          cors: true
+  
+  # User functions
+  getUserProfile:
+    handler: src/handlers/users/getUserProfile.handler.handler
+    events:
+      - http:
+          path: /api/v1/users/profile
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  updateUserProfile:
+    handler: src/handlers/users/updateUserProfile.handler.handler
+    events:
+      - http:
+          path: /api/v1/users/profile
+          method: put
+          cors: true
+          authorizer: verifyToken
+  
+  getUserSettings:
+    handler: src/handlers/users/getUserSettings.handler.handler
+    events:
+      - http:
+          path: /api/v1/users/settings
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  updateUserSettings:
+    handler: src/handlers/users/updateUserSettings.handler.handler
+    events:
+      - http:
+          path: /api/v1/users/settings
+          method: put
+          cors: true
+          authorizer: verifyToken
+  
+  # Notes functions
+  createNote:
+    handler: src/handlers/notes/createNote.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes
+          method: post
+          cors: true
+          authorizer: verifyToken
+  
+  getNotes:
+    handler: src/handlers/notes/getNotes.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  getNote:
+    handler: src/handlers/notes/getNote.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  updateNote:
+    handler: src/handlers/notes/updateNote.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+  
+  deleteNote:
+    handler: src/handlers/notes/deleteNote.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+  
+  searchNotes:
+    handler: src/handlers/notes/searchNotes.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes/search
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  getNotesByTag:
+    handler: src/handlers/notes/getNotesByTag.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes/tags
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  # Bookmarks functions
+  # Similar patterns for other resources...
+
+resources:
+  Resources:
+    # DynamoDB Tables
+    PasswordResetTokensTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-passwordResetTokens
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: token
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: token-index
+            KeySchema:
+              - AttributeName: token
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+    
+    AuthTokensTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-authTokens
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: token
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: token-index
+            KeySchema:
+              - AttributeName: token
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+    
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-users
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: email-index
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    NotesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-notes
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    BookmarksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-bookmarks
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    BookmarkFoldersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-bookmark-folders
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    PasswordsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-passwords
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    WalletCardsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-wallet-cards
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    VoiceMemosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-voice-memos
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    FilesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-files
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: folderId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: folderId-index
+            KeySchema:
+              - AttributeName: folderId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    FoldersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-folders
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: parentFolderId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: parentFolderId-index
+            KeySchema:
+              - AttributeName: parentFolderId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    PhotosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-photos
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: albumId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: albumId-index
+            KeySchema:
+              - AttributeName: albumId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    AlbumsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-albums
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    ResumeTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-resume
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    SharingLinksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-sharing-links
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: token
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: token-index
+            KeySchema:
+              - AttributeName: token
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    UserPermissionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-user-permissions
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: resourceOwnerId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: resourceOwnerId-index
+            KeySchema:
+              - AttributeName: resourceOwnerId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    CommentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-comments
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: resourceId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: resourceId-index
+            KeySchema:
+              - AttributeName: resourceId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    NotificationsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-notifications
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    TagsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-tags
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    ActivitiesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-activities
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    # S3 Buckets
+    FilesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.stage}-personal-website-files
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              AllowedOrigins:
+                - '*'
+              MaxAge: 3000
+
+    # Cognito User Pool
+    UserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: ${self:provider.stage}-personal-website-users
+        AutoVerifiedAttributes:
+          - email
+        UsernameAttributes:
+          - email
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 8
+            RequireLowercase: true
+            RequireNumbers: true
+            RequireSymbols: true
+            RequireUppercase: true
+        Schema:
+          - Name: name
+            AttributeDataType: String
+            Mutable: true
+            Required: true
+          - Name: email
+            AttributeDataType: String
+            Mutable: false
+            Required: true
+
+    UserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${self:provider.stage}-personal-website-client
+        UserPoolId: !Ref UserPool
+        ExplicitAuthFlows:
+          - ALLOW_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
+        GenerateSecret: false

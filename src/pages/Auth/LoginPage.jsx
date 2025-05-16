@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useStore from '@core/store/useStore';
 
 const LoginPage = () => {
@@ -8,7 +8,18 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const login = useStore(state => state.login);
+  const isAuthenticated = useStore(state => state.isAuthenticated);
+  const user = useStore(state => state.user);
+  
+  // If user is already authenticated, redirect to home or the page they were trying to access
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const from = location.state?.from?.pathname || '/';
+      navigate(from);
+    }
+  }, [isAuthenticated, user, navigate, location]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,10 +27,16 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const response = await login({ email, password });
-      if (response.success) {
-        navigate('/'); // Redirect to dashboard or home page
+      console.log('Login response:', response);
+      
+      // Check if the response has the expected structure
+      if (response && response.success && response.data && response.data.user) {
+        // Redirect to the page they were trying to access or home
+        const from = location.state?.from?.pathname || '/';
+        navigate(from);
       } else {
-        setError(response.error || 'Login failed');
+        console.error('Unexpected response structure:', response);
+        setError(response?.error || 'Login failed: Unexpected response structure');
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');

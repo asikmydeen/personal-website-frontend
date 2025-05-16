@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../../services/authService'; // Assuming authService is in src/services
+import useStore from '@core/store/useStore';
 
 const RegistrationPage = () => {
   const [name, setName] = useState('');
@@ -8,8 +8,10 @@ const RegistrationPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const register = useStore(state => state.register);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,12 +23,19 @@ const RegistrationPage = () => {
     setLoading(true);
     try {
       const response = await register({ name, email, password });
-      if (response.success) {
+      console.log('Registration response:', response);
+      
+      // Check if the response has the expected structure
+      if (response && response.success && response.data && response.data.user) {
         console.log('Registration successful', response.data);
-        // Optionally, log the user in directly or navigate to login page
-        navigate('/login'); // Redirect to login page after registration
+        // Show success message and redirect to login page
+        setMessage('Registration successful! Redirecting to login...');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
       } else {
-        setError(response.error || 'Registration failed');
+        console.error('Unexpected registration response structure:', response);
+        setError(response?.error || 'Registration failed: Unexpected response structure');
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
@@ -39,6 +48,8 @@ const RegistrationPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create Account</h2>
+        {message && <p className="text-green-600 text-sm mb-4 text-center">{message}</p>}
+        {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -89,7 +100,6 @@ const RegistrationPage = () => {
               placeholder="••••••••"
             />
           </div>
-          {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
           <button
             type="submit"
             disabled={loading}

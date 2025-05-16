@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { requestPasswordReset } from '../../services/authService'; // Assuming authService is in src/services
+import authService from '@core/services/authService';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +13,7 @@ const ForgotPasswordPage = () => {
     setMessage('');
     setLoading(true);
     try {
-      const response = await requestPasswordReset(email);
+      const response = await authService.requestPasswordReset(email);
       if (response.success) {
         setMessage(response.message || 'If an account exists for this email, a password reset link has been sent.');
       } else {

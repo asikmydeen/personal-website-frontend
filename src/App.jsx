@@ -4,6 +4,7 @@ import { isNativePlatform } from './core/platform';
 import Layout from './components/layout/Layout';
 import PrivateRoute from './components/PrivateRoute';
 import ThemeProvider from './providers/ThemeProvider';
+import AuthProvider from './providers/AuthProvider';
 
 import MainDashboardPage from './pages/Dashboard/MainDashboardPage';
 import PhotoGalleryPage from './pages/Photos/PhotoGalleryPage';
@@ -12,6 +13,8 @@ import ResumeViewPage from './pages/Resume/ResumeViewPage';
 import ResumeEditPage from './pages/Resume/ResumeEditPage';
 import ResumeListPage from './pages/Resume/ResumeListPage';
 import LoginPage from './pages/Auth/LoginPage';
+import RegistrationPage from './pages/Auth/RegistrationPage';
+import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage';
 import NotesListPage from './pages/Notes/NotesListPage';
 import TextNoteViewPage from './pages/Notes/TextNoteViewPage';
 import BookmarkManagerPage from './pages/Bookmarks/BookmarkManagerPage';
@@ -33,135 +36,167 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <Layout>
+        <AuthProvider>
           <Routes>
-            <Route
-              path="/login"
-              element={<LoginPage />}
-            />
+            {/* Public routes */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegistrationPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            
+            {/* Protected routes with Layout */}
             <Route
               path="/"
               element={
                 <PrivateRoute>
-                  <MainDashboardPage />
+                  <Layout>
+                    <MainDashboardPage />
+                  </Layout>
                 </PrivateRoute>
               }
             />
-          <Route
-            path="/photos"
-            element={
-              <PrivateRoute>
-                <PhotoGalleryPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/photos/album/:albumId"
-            element={
-              <PrivateRoute>
-                <AlbumViewComponent />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/photos/:photoId"
-            element={
-              <PrivateRoute>
-                <PhotoDetailViewComponent />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/files"
-            element={
-              <PrivateRoute>
-                <FileManagerPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/resume"
-            element={
-              <PrivateRoute>
-                <ResumeListPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/resume/:resumeId"
-            element={
-              <PrivateRoute>
-                <ResumeViewPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/resume/edit/:resumeId"
-            element={
-              <PrivateRoute>
-                <ResumeEditPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/notes"
-            element={
-              <PrivateRoute>
-                <NotesListPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/notes/:noteId"
-            element={
-              <PrivateRoute>
-                <TextNoteViewPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/bookmarks"
-            element={
-              <PrivateRoute>
-                <BookmarkManagerPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/passwords"
-            element={
-              <PrivateRoute>
-                <PasswordListPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/wallet"
-            element={
-              <PrivateRoute>
-                <WalletDashboardPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/voice-memos"
-            element={
-              <PrivateRoute>
-                <VoiceMemoListPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <UserProfilePage />
-              </PrivateRoute>
-            }
-          />
-          {/* Add more routes here for other features */}
-        </Routes>
-        </Layout>
+            <Route
+              path="/photos"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <PhotoGalleryPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/photos/album/:albumId"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <AlbumViewComponent />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/photos/:photoId"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <PhotoDetailViewComponent />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/files"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <FileManagerPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/resume"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <ResumeListPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/resume/:resumeId"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <ResumeViewPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/resume/edit/:resumeId"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <ResumeEditPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notes"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <NotesListPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notes/:noteId"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <TextNoteViewPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/bookmarks"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <BookmarkManagerPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/passwords"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <PasswordListPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/wallet"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <WalletDashboardPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/voice-memos"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <VoiceMemoListPage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <UserProfilePage />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            {/* Add more routes here for other features */}
+          </Routes>
+        </AuthProvider>
       </Router>
     </ThemeProvider>
   );

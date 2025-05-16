@@ -197,14 +197,47 @@ export const useStore = create(
       },
       // TODO: Add voice memo actions
 
+      register: async (userData) => {
+        try {
+          const response = await authService.register(userData);
+          console.log('Auth service register response:', response);
+          
+          // Check if the response has the expected structure
+          if (response && response.success && response.data && response.data.user) {
+            // Don't set the user here - we want them to log in explicitly
+            // set({ user: response.data.user });
+            return response;
+          } else {
+            console.error('Unexpected register response structure:', response);
+            return {
+              success: false,
+              error: 'Registration failed: Invalid response structure',
+              originalResponse: response
+            };
+          }
+        } catch (error) {
+          console.error('Store register action error:', error);
+          return { success: false, error: error.message || 'An unexpected error occurred during registration.' };
+        }
+      },
+
       login: async (credentials) => {
         try {
           const response = await authService.login(credentials);
+          console.log('Auth service login response:', response);
+          
+          // Check if the response has the expected structure
           if (response && response.success && response.data && response.data.user) {
             set({ user: response.data.user });
+            return response;
+          } else {
+            console.error('Unexpected login response structure:', response);
+            return {
+              success: false,
+              error: 'Login failed: Invalid response structure',
+              originalResponse: response
+            };
           }
-          // Ensure the full response is returned for LoginPage to handle
-          return response || { success: false, error: 'Login failed, no response from server.' };
         } catch (error) {
           console.error('Store login action error:', error);
           return { success: false, error: error.message || 'An unexpected error occurred during login.' };
@@ -214,6 +247,8 @@ export const useStore = create(
       logout: async () => {
         await authService.logout();
         set({ user: null });
+        // Force page reload to ensure all state is cleared and redirected to login
+        window.location.href = '/login';
       },
 
       isAuthenticated: () => !!get().user, // Derived state: true if user exists, false otherwise
