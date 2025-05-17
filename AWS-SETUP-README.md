@@ -7,7 +7,7 @@ This guide explains how to set up the AWS backend and integrate it with the fron
 The backend has been successfully deployed to AWS using the Serverless Framework. The API is available at:
 
 ```
-https://lp8whfim49.execute-api.us-east-1.amazonaws.com/dev
+https://1lhwq5uq57.execute-api.us-east-1.amazonaws.com/dev
 ```
 
 This guide will help you:
@@ -64,17 +64,17 @@ You can also use Postman or curl to create test data:
 
 ```bash
 # Register a user
-curl -X POST https://lp8whfim49.execute-api.us-east-1.amazonaws.com/dev/api/v1/auth/register \
+curl -X POST https://1lhwq5uq57.execute-api.us-east-1.amazonaws.com/dev/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Password123!","name":"Test User"}'
 
 # Login to get a token
-curl -X POST https://lp8whfim49.execute-api.us-east-1.amazonaws.com/dev/api/v1/auth/login \
+curl -X POST https://1lhwq5uq57.execute-api.us-east-1.amazonaws.com/dev/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Password123!"}'
 
 # Create a note (replace TOKEN with the token from login response)
-curl -X POST https://lp8whfim49.execute-api.us-east-1.amazonaws.com/dev/api/v1/notes \
+curl -X POST https://1lhwq5uq57.execute-api.us-east-1.amazonaws.com/dev/api/v1/notes \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer TOKEN" \
   -d '{"title":"Test Note","content":"This is a test note","tags":["test"]}'

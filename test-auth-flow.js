@@ -10,7 +10,7 @@
 const axios = require('axios');
 
 // API URL - Replace with your actual API Gateway URL
-const API_URL = 'https://lp8whfim49.execute-api.us-east-1.amazonaws.com/dev';
+const API_URL = 'https://1lhwq5uq57.execute-api.us-east-1.amazonaws.com/dev';
 
 // Test user credentials
 const TEST_USER = {

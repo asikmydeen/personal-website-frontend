@@ -8,7 +8,7 @@
 // Configuration
 const USE_REAL_BACKEND = true // Always use real backend;
 const MOCK_API_BASE_URL = 'http://localhost:3000';
-const REAL_API_BASE_URL = 'https://lp8whfim49.execute-api.us-east-1.amazonaws.com/dev';
+const REAL_API_BASE_URL = 'https://1lhwq5uq57.execute-api.us-east-1.amazonaws.com/dev';
 
 /**
  * Get the base URL for API requests
