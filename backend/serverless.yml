@@ -82,11 +82,15 @@ package:
     - .env
     - README.md
     - package-lock.json
+  include:
+    - src/handlers/**
+    - src/controllers/**
+    - src/services/**
 
 functions:
   # Health check
   health:
-    handler: health.handler
+    handler: src/handlers/health.handler
     events:
       - http:
           path: /health
@@ -95,7 +99,7 @@ functions:
 
   # Auth functions
   login:
-    handler: login.handler
+    handler: src/handlers/auth/login.handler
     events:
       - http:
           path: /api/v1/auth/login
@@ -103,7 +107,7 @@ functions:
           cors: true
   
   register:
-    handler: register.handler
+    handler: src/handlers/auth/register.handler
     events:
       - http:
           path: /api/v1/auth/register
@@ -111,7 +115,7 @@ functions:
           cors: true
   
   logout:
-    handler: logout.handler
+    handler: src/handlers/auth/logout.handler
     events:
       - http:
           path: /api/v1/auth/logout
@@ -119,7 +123,7 @@ functions:
           cors: true
   
   passwordReset:
-    handler: passwordReset.handler
+    handler: src/handlers/auth/passwordReset.handler
     events:
       - http:
           path: /api/v1/auth/password-reset
@@ -127,7 +131,7 @@ functions:
           cors: true
   
   passwordResetConfirm:
-    handler: passwordResetConfirm.handler
+    handler: src/handlers/auth/passwordResetConfirm.handler
     events:
       - http:
           path: /api/v1/auth/password-reset/{token}
@@ -135,7 +139,7 @@ functions:
           cors: true
   
   verifyToken:
-    handler: verifyToken.handler
+    handler: src/handlers/auth/verifyToken.handler
     events:
       - http:
           path: /api/v1/auth/verify-token

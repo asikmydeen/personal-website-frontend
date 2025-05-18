@@ -2,115 +2,147 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Development Commands
+## Project Overview
+
+This repository contains a personal website frontend built with React, Vite, and TypeScript. The application has both web and mobile support using Capacitor. It provides various personal productivity features including notes, bookmarks, passwords, photos, files, voice memos, and resume management.
+
+## Commands
+
+### Development
 
 ```bash
 # Start development server
 npm run dev
 
-# Start mock API server (in a separate terminal)
-npm run mock-api
+# Build for web
+npm run build 
+# or
+npm run build:web
 
-# Build the project
-npm run build
-
-# Run linter
-npm run lint
-
-# Preview the production build
+# Preview the build
 npm run preview
 
-# Mobile development commands
-npm run sync:mobile  # Sync web code to mobile platforms
-npm run open:ios     # Open iOS project in Xcode
-npm run open:android # Open Android project in Android Studio
+# Lint code
+npm run lint
 ```
 
-## Project Architecture
+### Mobile Development
 
-### Overview
+```bash
+# Sync changes to mobile projects
+npm run sync:mobile
 
-This is a personal website/productivity app frontend built with React, Vite, and TypeScript. It supports both web and mobile platforms using Capacitor. The application includes features like notes, bookmarks, file management, photos, passwords, wallet cards, voice memos, and resume management.
+# Open iOS project
+npm run open:ios
 
-### Tech Stack
-
-- **Framework**: React with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS + some custom CSS
-- **UI Components**: Radix UI components + custom components
-- **Routing**: React Router v7
-- **State Management**: Zustand
-- **Mobile Integration**: Capacitor (iOS/Android)
-- **API Communication**: Custom fetch wrapper
-- **Form Handling**: React Hook Form with Zod validation
-- **Rich Text Editing**: TipTap
-- **Animation**: Framer Motion
-
-### Core Architecture Components
-
-1. **Platform Detection**: The `platform.ts` module provides utilities to detect if the app is running in a native environment (iOS/Android) or web browser, allowing for platform-specific code.
-
-2. **API Integration**: The app can switch between a mock API (json-server) and a real AWS backend API through `backendIntegration.js`.
-
-3. **Authentication**: Uses JWT tokens with the `AuthProvider.jsx` provider that wraps the application.
-
-4. **Theming**: Supports light/dark mode through the `ThemeProvider.jsx`.
-
-5. **Service Modules**: Features are organized into service modules (e.g., `notesService.js`, `bookmarkService.js`) that handle API calls.
-
-6. **State Management**: Uses Zustand for global state management through `useStore.js`.
-
-## File Structure
-
-```
-src/
-├── App.jsx                # Main application component with routes
-├── components/            # Reusable UI components
-│   ├── animated/          # Animation components
-│   ├── layout/            # Layout components
-│   ├── ui/                # UI component library (based on Radix)
-│   └── [feature]/         # Feature-specific components
-├── core/
-│   ├── hooks/             # Custom hooks
-│   ├── platform.ts        # Platform detection utilities
-│   ├── services/          # API services
-│   ├── storage/           # Storage interfaces
-│   └── store/             # Zustand store
-├── pages/                 # Page components
-│   └── [feature]/         # Feature-specific pages
-├── providers/             # Context providers
-├── styles/                # Global styles
-└── lib/                   # Utility functions
+# Open Android project
+npm run open:android
 ```
 
-## Backend Integration
+### Deployment
 
-The application can work with two backends:
+```bash
+# Deploy to AWS (S3, CloudFront, Route53)
+./deploy.sh
+```
 
-1. **Mock API**: Uses json-server to simulate API calls during development
-2. **AWS Backend**: Real serverless backend with AWS Lambda, API Gateway, DynamoDB, etc.
+## Architecture
 
-The backend integration is handled through `src/core/services/backendIntegration.js` which provides a common interface for making API requests to either backend.
+### Frontend
 
-## Mobile Development
+The frontend is a React SPA built with:
+- React Router for navigation
+- Zustand for state management
+- Radix UI and Tailwind CSS for styling
+- Framer Motion for animations
+- Capacitor for mobile (iOS/Android) support
+- TypeScript for type safety
 
-The project uses Capacitor to target iOS and Android platforms:
+#### Key Directories:
 
-1. Web code is built using Vite
-2. Capacitor syncs the web code to mobile platforms
-3. Platform-specific code in `platform.ts` helps detect and adapt to different environments
+- `/src/components` - Reusable UI components
+- `/src/pages` - Page components
+- `/src/core/services` - API services
+- `/src/core/store` - Zustand state management
+- `/src/core/hooks` - Custom React hooks
+- `/src/styles` - Global CSS styles
+- `/src/lib` - Utility functions
+- `/src/providers` - Context providers (Auth, Theme)
+
+### Backend
+
+The backend is deployed to AWS using the Serverless Framework:
+- API Gateway for handling HTTP requests
+- Lambda functions for serverless execution
+- DynamoDB for data storage
+- S3 for file storage
+- CloudFront for content delivery
+- Cognito for authentication
+
+#### API Structure
+
+The API follows RESTful conventions with endpoints organized by resource:
+- `/api/v1/auth/*` - Authentication
+- `/api/v1/users/*` - User management
+- `/api/v1/notes/*` - Notes management
+- `/api/v1/bookmarks/*` - Bookmarks management
+- `/api/v1/photos/*` - Photos management
+- `/api/v1/files/*` - Files management
+- `/api/v1/voice-memos/*` - Voice memos management
+- `/api/v1/resume/*` - Resume management
+- `/api/v1/sharing/*` - Sharing functionality
+
+## API Integration
+
+The application can work with both a real AWS backend and a mock API (json-server). The backend integration is configured in `src/core/services/backendIntegration.js`.
+
+Current configuration:
+- `USE_REAL_BACKEND = true`
+- Real API base URL: `https://1lhwq5uq57.execute-api.us-east-1.amazonaws.com/dev`
+
+## Authentication Flow
+
+1. User registers or logs in
+2. Backend returns JWT token
+3. Token is stored in localStorage
+4. Token is included in API request headers
+5. Token is verified on protected routes
+6. On logout, token is invalidated on server and removed from localStorage
+
+## Mobile Support
+
+The application supports both web and mobile platforms using Capacitor:
+- iOS and Android configurations
+- Platform-specific functionality detection
+- Responsive UI designed for mobile
+- Native features access through Capacitor plugins
 
 ## Deployment
 
-Deployment to AWS is handled through the `deploy.sh` script which:
+The frontend is deployed to AWS S3 with CloudFront distribution using the `deploy.sh` script. The backend is deployed using the Serverless Framework from the `backend` directory.
 
-1. Builds the project
-2. Creates/updates necessary AWS resources (S3, CloudFront, etc.)
-3. Deploys the application with proper configuration
+### Frontend Deployment
 
-## Important Notes
+The `deploy.sh` script handles:
+1. Building the project
+2. Creating/using an S3 bucket
+3. Setting up CloudFront distribution
+4. Configuring SSL certificate
+5. Setting up DNS with Route53
 
-- Local development uses port 5173 for the Vite dev server and port 3001 for the mock API server
-- Authentication is handled via JWT tokens stored in localStorage
-- The app is designed to work offline with appropriate storage strategies
-- Mobile builds require proper setup of the iOS and Android environments
+### Backend Deployment
+
+From the backend directory:
+```bash
+cd backend
+./deploy.sh [env]  # where env is dev or prod
+```
+
+## Reference Documentation
+
+For more details, refer to:
+- `DEPLOY-README.md` - Frontend deployment instructions
+- `AWS-SETUP-README.md` - Backend integration guide
+- `backend/ARCHITECTURE.md` - Backend architecture documentation
+- `backend/AWS-DEPLOYMENT-GUIDE.md` - Backend deployment guide
+- `MOBILE-PARITY-REPORT.md` - Mobile feature parity status
