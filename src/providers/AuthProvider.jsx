@@ -11,61 +11,22 @@ const AuthProvider = ({ children }) => {
   const location = useLocation();
   
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        // Check if there's a token
-        const token = await authService.getToken();
-        
-        if (token) {
-          try {
-            // Verify the token and get user data
-            const response = await authService.verifyToken();
-            if (response && response.success && response.data && response.data.user) {
-              // Set the user in the store
-              setUser(response.data.user);
-            } else {
-              // Token verification failed, clear the token
-              await authService.logout();
-              removeUser();
-              // Redirect to login if not already there
-              if (location.pathname !== '/login' &&
-                  location.pathname !== '/register' &&
-                  location.pathname !== '/forgot-password') {
-                navigate('/login');
-              }
-            }
-          } catch (error) {
-            console.error('Token verification failed:', error);
-            // Clear the token on error
-            await authService.logout();
-            removeUser();
-            // Redirect to login if not already there
-            if (location.pathname !== '/login' &&
-                location.pathname !== '/register' &&
-                location.pathname !== '/forgot-password') {
-              navigate('/login');
-            }
-          }
-        } else {
-          // No token found, ensure user is removed from store
+    async function checkAuthStatus() {
+      const token = await authService.getToken();
+      if (token) {
+        try {
+          const { data } = await authService.verifyToken();
+          setUser(data.user);
+        } catch {
           removeUser();
-          // Redirect to login if not already there
-          if (location.pathname !== '/login' &&
-              location.pathname !== '/register' &&
-              location.pathname !== '/forgot-password') {
-            navigate('/login');
-          }
         }
-      } catch (error) {
-        console.error('Auth check error:', error);
+      } else {
         removeUser();
-      } finally {
-        setIsLoading(false);
       }
-    };
-
+      setIsLoading(false);
+    }
     checkAuthStatus();
-  }, [setUser, removeUser, navigate, location.pathname]);
+  }, []);
 
   if (isLoading) {
     // You could show a loading spinner here
