@@ -19,11 +19,17 @@ npm run build
 # or
 npm run build:web
 
+# Build for TypeScript with type checking
+tsc -b
+
 # Preview the build
 npm run preview
 
 # Lint code
 npm run lint
+
+# Run the mock API server
+npm run mock-api
 ```
 
 ### Mobile Development
@@ -42,6 +48,9 @@ npm run open:android
 ### Deployment
 
 ```bash
+# Install dependencies (required before deployment)
+npm ci
+
 # Deploy to AWS (S3, CloudFront, Route53)
 ./deploy.sh
 ```
@@ -57,10 +66,13 @@ The frontend is a React SPA built with:
 - Framer Motion for animations
 - Capacitor for mobile (iOS/Android) support
 - TypeScript for type safety
+- React Hook Form with Zod validation for forms
 
 #### Key Directories:
 
 - `/src/components` - Reusable UI components
+- `/src/components/animated` - Animation components using Framer Motion
+- `/src/components/ui` - UI component library based on Radix UI
 - `/src/pages` - Page components
 - `/src/core/services` - API services
 - `/src/core/store` - Zustand state management
@@ -68,6 +80,7 @@ The frontend is a React SPA built with:
 - `/src/styles` - Global CSS styles
 - `/src/lib` - Utility functions
 - `/src/providers` - Context providers (Auth, Theme)
+- `/src/animations` - Animation utilities
 
 ### Backend
 
@@ -113,9 +126,21 @@ Current configuration:
 
 The application supports both web and mobile platforms using Capacitor:
 - iOS and Android configurations
-- Platform-specific functionality detection
+- Platform-specific functionality detection (using `src/core/platform.ts`)
 - Responsive UI designed for mobile
-- Native features access through Capacitor plugins
+- Native features access through Capacitor plugins:
+  - Camera for photo capture
+  - Filesystem for file management
+  - Share for content sharing
+  - Clipboard for copy/paste
+  - Preferences for persistent storage
+
+## TypeScript Configuration
+
+The project uses TypeScript with a composite project setup:
+- `tsconfig.json` - Root configuration referencing app and node configs
+- `tsconfig.app.json` - Main app configuration
+- `tsconfig.node.json` - Node-specific configuration (for Vite)
 
 ## Deployment
 
@@ -137,6 +162,23 @@ From the backend directory:
 cd backend
 ./deploy.sh [env]  # where env is dev or prod
 ```
+
+## Common Development Tasks
+
+### Adding a New Feature
+
+1. Create the necessary components in `/src/components`
+2. Create the service layer in `/src/core/services`
+3. Add the feature to the appropriate page in `/src/pages`
+4. Update routes if needed in `App.jsx`
+5. Add any required state management in `/src/core/store`
+
+### Mobile Testing
+
+1. Make changes to the codebase
+2. Sync the changes to the mobile projects: `npm run sync:mobile`
+3. Open the iOS project: `npm run open:ios`
+4. Build and run the project in Xcode
 
 ## Reference Documentation
 
