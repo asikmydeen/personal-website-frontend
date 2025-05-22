@@ -229,6 +229,24 @@ functions:
           cors: true
           authorizer: verifyToken
   
+  permanentlyDeleteNote:
+    handler: src/handlers/notes/permanentlyDeleteNote.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes/{id}/permanent
+          method: delete
+          cors: true
+          authorizer: verifyToken
+  
+  restoreNote:
+    handler: src/handlers/notes/restoreNote.handler.handler
+    events:
+      - http:
+          path: /api/v1/notes/{id}/restore
+          method: put
+          cors: true
+          authorizer: verifyToken
+  
   searchNotes:
     handler: src/handlers/notes/searchNotes.handler.handler
     events:
@@ -431,6 +449,390 @@ functions:
       - http:
           path: /api/v1/bookmark-folders/{id}
           method: delete
+          cors: true
+          authorizer: verifyToken
+
+  # Password functions
+  createPassword:
+    handler: src/handlers/password/passwordHandlers.handleCreatePassword
+    events:
+      - http:
+          path: /api/v1/passwords
+          method: post
+          cors: true
+          authorizer: verifyToken
+  
+  getPasswords:
+    handler: src/handlers/password/passwordHandlers.handleGetPasswords
+    events:
+      - http:
+          path: /api/v1/passwords
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  getPasswordById:
+    handler: src/handlers/password/passwordHandlers.handleGetPasswordById
+    events:
+      - http:
+          path: /api/v1/passwords/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  updatePassword:
+    handler: src/handlers/password/passwordHandlers.handleUpdatePassword
+    events:
+      - http:
+          path: /api/v1/passwords/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+          
+  deletePassword:
+    handler: src/handlers/password/passwordHandlers.handleDeletePassword
+    events:
+      - http:
+          path: /api/v1/passwords/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+          
+  searchPasswords:
+    handler: src/handlers/password/passwordHandlers.handleSearchPasswords
+    events:
+      - http:
+          path: /api/v1/passwords/search
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  getPasswordsByCategory:
+    handler: src/handlers/password/passwordHandlers.handleGetPasswordsByCategory
+    events:
+      - http:
+          path: /api/v1/passwords/category/{category}
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  # Wallet Card functions
+  createWalletCard:
+    handler: src/handlers/wallet/walletCardHandlers.handleCreateWalletCard
+    events:
+      - http:
+          path: /api/v1/wallet/cards
+          method: post
+          cors: true
+          authorizer: verifyToken
+  
+  getWalletCards:
+    handler: src/handlers/wallet/walletCardHandlers.handleGetWalletCards
+    events:
+      - http:
+          path: /api/v1/wallet/cards
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  getWalletCardById:
+    handler: src/handlers/wallet/walletCardHandlers.handleGetWalletCardById
+    events:
+      - http:
+          path: /api/v1/wallet/cards/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  updateWalletCard:
+    handler: src/handlers/wallet/walletCardHandlers.handleUpdateWalletCard
+    events:
+      - http:
+          path: /api/v1/wallet/cards/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+          
+  deleteWalletCard:
+    handler: src/handlers/wallet/walletCardHandlers.handleDeleteWalletCard
+    events:
+      - http:
+          path: /api/v1/wallet/cards/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+
+  # Voice Memo functions
+  initiateVoiceMemoUpload:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleInitiateVoiceMemoUpload
+    events:
+      - http:
+          path: /api/v1/voice-memos/initiate-upload
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  finalizeVoiceMemoUpload:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleFinalizeVoiceMemoUpload
+    events:
+      - http:
+          path: /api/v1/voice-memos/{id}/finalize-upload
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  getVoiceMemos:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleGetVoiceMemos
+    events:
+      - http:
+          path: /api/v1/voice-memos
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  getVoiceMemoById:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleGetVoiceMemoById
+    events:
+      - http:
+          path: /api/v1/voice-memos/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  updateVoiceMemo:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleUpdateVoiceMemo
+    events:
+      - http:
+          path: /api/v1/voice-memos/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+          
+  deleteVoiceMemo:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleDeleteVoiceMemo
+    events:
+      - http:
+          path: /api/v1/voice-memos/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+          
+  searchVoiceMemos:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleSearchVoiceMemos
+    events:
+      - http:
+          path: /api/v1/voice-memos/search
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  getVoiceMemosByTag:
+    handler: src/handlers/voicememo/voiceMemoHandlers.handleGetVoiceMemosByTag
+    events:
+      - http:
+          path: /api/v1/voice-memos/tags
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  # Folder functions
+  createFolder:
+    handler: src/handlers/folder/folderHandlers.handleCreateFolder
+    events:
+      - http:
+          path: /api/v1/folders
+          method: post
+          cors: true
+          authorizer: verifyToken
+  
+  getFolders:
+    handler: src/handlers/folder/folderHandlers.handleGetFolders
+    events:
+      - http:
+          path: /api/v1/folders
+          method: get
+          cors: true
+          authorizer: verifyToken
+  
+  getFolderById:
+    handler: src/handlers/folder/folderHandlers.handleGetFolderById
+    events:
+      - http:
+          path: /api/v1/folders/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  updateFolder:
+    handler: src/handlers/folder/folderHandlers.handleUpdateFolder
+    events:
+      - http:
+          path: /api/v1/folders/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+          
+  deleteFolder:
+    handler: src/handlers/folder/folderHandlers.handleDeleteFolder
+    events:
+      - http:
+          path: /api/v1/folders/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+          
+  getFilesInFolder:
+    handler: src/handlers/folder/folderHandlers.handleGetFilesInFolder
+    events:
+      - http:
+          path: /api/v1/folders/{id}/files
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  # File functions
+  initiateFileUpload:
+    handler: src/handlers/file/fileHandlers.handleInitiateFileUpload
+    events:
+      - http:
+          path: /api/v1/files/initiate-upload
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  finalizeFileUpload:
+    handler: src/handlers/file/fileHandlers.handleFinalizeFileUpload
+    events:
+      - http:
+          path: /api/v1/files/{id}/finalize-upload
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  getFiles:
+    handler: src/handlers/file/fileHandlers.handleGetFiles
+    events:
+      - http:
+          path: /api/v1/files
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  getFileById:
+    handler: src/handlers/file/fileHandlers.handleGetFileById
+    events:
+      - http:
+          path: /api/v1/files/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  updateFile:
+    handler: src/handlers/file/fileHandlers.handleUpdateFile
+    events:
+      - http:
+          path: /api/v1/files/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+          
+  deleteFile:
+    handler: src/handlers/file/fileHandlers.handleDeleteFile
+    events:
+      - http:
+          path: /api/v1/files/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+          
+  searchFiles:
+    handler: src/handlers/file/fileHandlers.handleSearchFiles
+    events:
+      - http:
+          path: /api/v1/files/search
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  getFilesByTag:
+    handler: src/handlers/file/fileHandlers.handleGetFilesByTag
+    events:
+      - http:
+          path: /api/v1/files/tags
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  # Photo functions
+  initiatePhotoUpload:
+    handler: src/handlers/photo/photoHandlers.handleInitiatePhotoUpload
+    events:
+      - http:
+          path: /api/v1/photos/initiate-upload
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  finalizePhotoUpload:
+    handler: src/handlers/photo/photoHandlers.handleFinalizePhotoUpload
+    events:
+      - http:
+          path: /api/v1/photos/{id}/finalize-upload
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  getPhotos:
+    handler: src/handlers/photo/photoHandlers.handleGetPhotos
+    events:
+      - http:
+          path: /api/v1/photos
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  getPhotoById:
+    handler: src/handlers/photo/photoHandlers.handleGetPhotoById
+    events:
+      - http:
+          path: /api/v1/photos/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  updatePhoto:
+    handler: src/handlers/photo/photoHandlers.handleUpdatePhoto
+    events:
+      - http:
+          path: /api/v1/photos/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+          
+  deletePhoto:
+    handler: src/handlers/photo/photoHandlers.handleDeletePhoto
+    events:
+      - http:
+          path: /api/v1/photos/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+          
+  searchPhotos:
+    handler: src/handlers/photo/photoHandlers.handleSearchPhotos
+    events:
+      - http:
+          path: /api/v1/photos/search
+          method: get
+          cors: true
+          authorizer: verifyToken
+          
+  getPhotosByTag:
+    handler: src/handlers/photo/photoHandlers.handleGetPhotosByTag
+    events:
+      - http:
+          path: /api/v1/photos/tags
+          method: get
           cors: true
           authorizer: verifyToken
 
