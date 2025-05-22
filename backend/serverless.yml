@@ -250,6 +250,236 @@ functions:
   # Bookmarks functions
   # Similar patterns for other resources...
 
+  # Activity functions
+  getActivities:
+    handler: src/handlers/activity/activityHandlers.handleGetActivities
+    events:
+      - http:
+          path: /api/v1/activities
+          method: get
+          cors: true
+          authorizer: verifyToken # Assuming activities are protected
+
+  getActivityById:
+    handler: src/handlers/activity/activityHandlers.handleGetActivityById
+    events:
+      - http:
+          path: /api/v1/activities/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken # Assuming activities are protected
+
+  createActivity:
+    handler: src/handlers/activity/activityHandlers.handleCreateActivity
+    events:
+      - http:
+          path: /api/v1/activities
+          method: post
+          cors: true
+          authorizer: verifyToken # Assuming activities are protected
+
+  updateActivity:
+    handler: src/handlers/activity/activityHandlers.handleUpdateActivity
+    events:
+      - http:
+          path: /api/v1/activities/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken # Assuming activities are protected
+
+  deleteActivity:
+    handler: src/handlers/activity/activityHandlers.handleDeleteActivity
+    events:
+      - http:
+          path: /api/v1/activities/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken # Assuming activities are protected
+
+  # Album functions
+  getAlbums:
+    handler: src/handlers/album/albumHandlers.handleGetAlbums
+    events:
+      - http:
+          path: /api/v1/albums
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  getAlbumById:
+    handler: src/handlers/album/albumHandlers.handleGetAlbumById
+    events:
+      - http:
+          path: /api/v1/albums/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  createAlbum:
+    handler: src/handlers/album/albumHandlers.handleCreateAlbum
+    events:
+      - http:
+          path: /api/v1/albums
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  updateAlbum:
+    handler: src/handlers/album/albumHandlers.handleUpdateAlbum
+    events:
+      - http:
+          path: /api/v1/albums/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+
+  deleteAlbum:
+    handler: src/handlers/album/albumHandlers.handleDeleteAlbum
+    events:
+      - http:
+          path: /api/v1/albums/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+
+  # Bookmark functions
+  getBookmarks:
+    handler: src/handlers/bookmark/bookmarkHandlers.handleGetBookmarks
+    events:
+      - http:
+          path: /api/v1/bookmarks
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  getBookmarkById:
+    handler: src/handlers/bookmark/bookmarkHandlers.handleGetBookmarkById
+    events:
+      - http:
+          path: /api/v1/bookmarks/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  createBookmark:
+    handler: src/handlers/bookmark/bookmarkHandlers.handleCreateBookmark
+    events:
+      - http:
+          path: /api/v1/bookmarks
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  updateBookmark:
+    handler: src/handlers/bookmark/bookmarkHandlers.handleUpdateBookmark
+    events:
+      - http:
+          path: /api/v1/bookmarks/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+
+  deleteBookmark:
+    handler: src/handlers/bookmark/bookmarkHandlers.handleDeleteBookmark
+    events:
+      - http:
+          path: /api/v1/bookmarks/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+
+  # Bookmark Folder functions
+  getBookmarkFolders:
+    handler: src/handlers/bookmarkFolder/bookmarkFolderHandlers.handleGetBookmarkFolders
+    events:
+      - http:
+          path: /api/v1/bookmark-folders
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  getBookmarkFolderById:
+    handler: src/handlers/bookmarkFolder/bookmarkFolderHandlers.handleGetBookmarkFolderById
+    events:
+      - http:
+          path: /api/v1/bookmark-folders/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  createBookmarkFolder:
+    handler: src/handlers/bookmarkFolder/bookmarkFolderHandlers.handleCreateBookmarkFolder
+    events:
+      - http:
+          path: /api/v1/bookmark-folders
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  updateBookmarkFolder:
+    handler: src/handlers/bookmarkFolder/bookmarkFolderHandlers.handleUpdateBookmarkFolder
+    events:
+      - http:
+          path: /api/v1/bookmark-folders/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+
+  deleteBookmarkFolder:
+    handler: src/handlers/bookmarkFolder/bookmarkFolderHandlers.handleDeleteBookmarkFolder
+    events:
+      - http:
+          path: /api/v1/bookmark-folders/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+
+  # Comment functions
+  getComments:
+    handler: src/handlers/comment/commentHandlers.handleGetComments
+    events:
+      - http:
+          path: /api/v1/comments
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  getCommentById:
+    handler: src/handlers/comment/commentHandlers.handleGetCommentById
+    events:
+      - http:
+          path: /api/v1/comments/{id}
+          method: get
+          cors: true
+          authorizer: verifyToken
+
+  createComment:
+    handler: src/handlers/comment/commentHandlers.handleCreateComment
+    events:
+      - http:
+          path: /api/v1/comments
+          method: post
+          cors: true
+          authorizer: verifyToken
+
+  updateComment:
+    handler: src/handlers/comment/commentHandlers.handleUpdateComment
+    events:
+      - http:
+          path: /api/v1/comments/{id}
+          method: put
+          cors: true
+          authorizer: verifyToken
+
+  deleteComment:
+    handler: src/handlers/comment/commentHandlers.handleDeleteComment
+    events:
+      - http:
+          path: /api/v1/comments/{id}
+          method: delete
+          cors: true
+          authorizer: verifyToken
+
 resources:
   Resources:
     # DynamoDB Tables

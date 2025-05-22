@@ -1,59 +1,21 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
+const commentController = require('../controllers/commentController');
 
 const router = express.Router();
 
 // All routes are protected
 router.use(protect);
 
-// Placeholder for comment routes
-// These will be implemented with actual controllers later
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Comment routes not yet implemented',
-    data: []
-  });
-});
+// Setup routes to use controller functions
+router.get('/', commentController.getComments); // Can filter by req.query.resourceId
+router.get('/:id', commentController.getCommentById);
+router.post('/', commentController.createComment);
+router.put('/:id', commentController.updateComment);
+router.delete('/:id', commentController.deleteComment);
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Comment routes not yet implemented',
-    data: {}
-  });
-});
-
-router.post('/', (req, res) => {
-  res.status(201).json({
-    success: true,
-    message: 'Comment routes not yet implemented',
-    data: {}
-  });
-});
-
-router.put('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Comment routes not yet implemented',
-    data: {}
-  });
-});
-
-router.delete('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Comment routes not yet implemented',
-    data: {}
-  });
-});
-
-router.get('/resource/:type/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Resource comments not yet implemented',
-    data: []
-  });
-});
+// The route GET /resource/:type/:id was removed.
+// Filtering comments by resource can be done via query parameters on GET /
+// e.g., GET /comments?resourceId=someResourceId
 
 module.exports = router;
