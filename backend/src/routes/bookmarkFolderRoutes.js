@@ -1,59 +1,20 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
+const bookmarkFolderController = require('../controllers/bookmarkFolderController');
 
 const router = express.Router();
 
 // All routes are protected
 router.use(protect);
 
-// Placeholder for bookmark folder routes
-// These will be implemented with actual controllers later
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark folder routes not yet implemented',
-    data: []
-  });
-});
+// Setup routes to use controller functions
+router.get('/', bookmarkFolderController.getBookmarkFolders);
+router.get('/:id', bookmarkFolderController.getBookmarkFolderById);
+router.post('/', bookmarkFolderController.createBookmarkFolder);
+router.put('/:id', bookmarkFolderController.updateBookmarkFolder);
+router.delete('/:id', bookmarkFolderController.deleteBookmarkFolder);
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark folder routes not yet implemented',
-    data: {}
-  });
-});
-
-router.post('/', (req, res) => {
-  res.status(201).json({
-    success: true,
-    message: 'Bookmark folder routes not yet implemented',
-    data: {}
-  });
-});
-
-router.put('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark folder routes not yet implemented',
-    data: {}
-  });
-});
-
-router.delete('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark folder routes not yet implemented',
-    data: {}
-  });
-});
-
-router.get('/:id/bookmarks', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark folder items not yet implemented',
-    data: []
-  });
-});
+// The route GET /:id/bookmarks was removed as it's not part of the current scope.
+// It can be added later if listing bookmarks within a folder is implemented.
 
 module.exports = router;

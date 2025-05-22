@@ -1,67 +1,20 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
+const bookmarkController = require('../controllers/bookmarkController');
 
 const router = express.Router();
 
 // All routes are protected
 router.use(protect);
 
-// Placeholder for bookmark routes
-// These will be implemented with actual controllers later
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark routes not yet implemented',
-    data: []
-  });
-});
+// Setup routes to use controller functions
+router.get('/', bookmarkController.getBookmarks);
+router.get('/:id', bookmarkController.getBookmarkById);
+router.post('/', bookmarkController.createBookmark);
+router.put('/:id', bookmarkController.updateBookmark);
+router.delete('/:id', bookmarkController.deleteBookmark);
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark routes not yet implemented',
-    data: {}
-  });
-});
-
-router.post('/', (req, res) => {
-  res.status(201).json({
-    success: true,
-    message: 'Bookmark routes not yet implemented',
-    data: {}
-  });
-});
-
-router.put('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark routes not yet implemented',
-    data: {}
-  });
-});
-
-router.delete('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark routes not yet implemented',
-    data: {}
-  });
-});
-
-router.get('/search', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark search not yet implemented',
-    data: []
-  });
-});
-
-router.get('/tags', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Bookmark tags not yet implemented',
-    data: []
-  });
-});
+// The routes /search and /tags were removed as they are not part of the current scope.
+// They can be added later if search and tag functionalities are implemented.
 
 module.exports = router;

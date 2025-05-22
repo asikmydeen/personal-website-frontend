@@ -1,59 +1,20 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
+const albumController = require('../controllers/albumController');
 
 const router = express.Router();
 
 // All routes are protected
 router.use(protect);
 
-// Placeholder for album routes
-// These will be implemented with actual controllers later
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Album routes not yet implemented',
-    data: []
-  });
-});
+// Setup routes to use controller functions
+router.get('/', albumController.getAlbums);
+router.get('/:id', albumController.getAlbumById);
+router.post('/', albumController.createAlbum);
+router.put('/:id', albumController.updateAlbum);
+router.delete('/:id', albumController.deleteAlbum);
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Album routes not yet implemented',
-    data: {}
-  });
-});
-
-router.post('/', (req, res) => {
-  res.status(201).json({
-    success: true,
-    message: 'Album routes not yet implemented',
-    data: {}
-  });
-});
-
-router.put('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Album routes not yet implemented',
-    data: {}
-  });
-});
-
-router.delete('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Album routes not yet implemented',
-    data: {}
-  });
-});
-
-router.get('/:id/photos', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Album photos not yet implemented',
-    data: []
-  });
-});
+// The route GET /:id/photos was removed as it's not part of the current scope.
+// It can be added later if photo management within albums is implemented.
 
 module.exports = router;
