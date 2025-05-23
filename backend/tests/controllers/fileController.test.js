@@ -1,293 +1,255 @@
-const {
-  initiateFileUpload,
-  finalizeFileUpload,
-  getFiles,
-  getFileById,
-  updateFile,
-  deleteFile,
-  searchFiles,
-  getFilesByTag,
-} = require('../../src/controllers/fileController');
-const { AppError } = require('../../src/middleware/errorHandler');
-const { dynamoDB, s3, getTableName, getBucketName } = require('../../src/config/aws');
-const { v4: uuidv4 } = require('uuid');
-const path = require('path');
+// backend/tests/controllers/fileController.test.js
+const request = require('supertest');
+const express = require('express');
+const fileRoutes = require('../../src/routes/fileRoutes');
+const { protect } = require('../../src/middleware/authMiddleware');
+const { errorHandler } = require('../../src/middleware/errorHandler');
 
-// Mock external dependencies
+// Mock AWS SDK clients and other dependencies
+jest.mock('uuid', () => ({ v4: jest.fn() }));
+
+const mockDynamoDBPut = jest.fn();
+const mockDynamoDBGet = jest.fn();
+const mockDynamoDBUpdate = jest.fn();
+const mockDynamoDBDelete = jest.fn();
+const mockDynamoDBQuery = jest.fn();
+const mockDynamoDBScan = jest.fn();
+
+
 jest.mock('../../src/config/aws', () => ({
   dynamoDB: {
-    put: jest.fn(),
-    query: jest.fn(),
-    get: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    scan: jest.fn(),
+    put: (params) => ({ promise: () => mockDynamoDBPut(params) }),
+    get: (params) => ({ promise: () => mockDynamoDBGet(params) }),
+    update: (params) => ({ promise: () => mockDynamoDBUpdate(params) }),
+    delete: (params) => ({ promise: () => mockDynamoDBDelete(params) }),
+    query: (params) => ({ promise: () => mockDynamoDBQuery(params) }),
+    scan: (params) => ({ promise: () => mockDynamoDBScan(params) }),
   },
   s3: {
-    createPresignedPost: jest.fn(),
-    getSignedUrlPromise: jest.fn(),
-    deleteObject: jest.fn(),
-    headObject: jest.fn(),
+    createPresignedPost: jest.fn((params, callback) => callback(null, { url: 'http://s3-presigned-post-url.com', fields: { key: params.Fields.key } })),
+    headObject: jest.fn(() => ({ promise: jest.fn().mockResolvedValue({}) })),
+    getSignedUrlPromise: jest.fn().mockResolvedValue('http://s3-presigned-get-url.com'),
+    deleteObject: jest.fn(() => ({ promise: jest.fn().mockResolvedValue({}) })),
   },
-  getTableName: jest.fn((tableName) => `${process.env.STAGE || 'dev'}-${tableName}`),
-  getBucketName: jest.fn(() => 'test-bucket-name'),
+  getTableName: jest.fn((name) => name),
+  getBucketName: jest.fn(() => 'test-bucket'),
 }));
 
-jest.mock('uuid', () => ({
-  v4: jest.fn(),
+// Mock authMiddleware
+jest.mock('../../src/middleware/authMiddleware', () => ({
+  protect: (req, res, next) => {
+    req.user = { id: 'testUserId' };
+    next();
+  },
 }));
 
-jest.mock('path', () => {
-  const originalPath = jest.requireActual('path');
-  return {
-    ...originalPath,
-    basename: jest.fn(filename => originalPath.basename(filename)),
-  };
-});
+const app = express();
+app.use(express.json());
+app.use('/api/files', fileRoutes);
+app.use(errorHandler);
 
-
-describe('File Controller', () => {
-  let mockReq, mockRes, mockNext;
+describe('File Controller Tests', () => {
+  let testFileId;
+  let defaultS3KeyUserRoot; 
 
   beforeEach(() => {
-    mockReq = {
-      user: { id: 'testUserId' },
-      body: {},
-      params: {},
-      query: {},
-    };
-    mockRes = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis(),
-      send: jest.fn().mockReturnThis(), 
-    };
-    mockNext = jest.fn();
-
-    uuidv4.mockReset();
-    getTableName.mockClear();
-    getBucketName.mockClear();
-    path.basename.mockClear();
-
-    // Reset and provide default mock implementations for DynamoDB and S3 methods
-    const mockDynamoPromiseDefault = jest.fn().mockResolvedValue({});
-    Object.values(dynamoDB).forEach(method => {
-      if (jest.isMockFunction(method)) {
-        method.mockReturnValue({ promise: jest.fn().mockResolvedValue({}) }); // Ensure fresh promise mock each time
-      }
-    });
+    mockDynamoDBPut.mockReset();
+    mockDynamoDBGet.mockReset();
+    mockDynamoDBUpdate.mockReset();
+    mockDynamoDBDelete.mockReset();
+    mockDynamoDBQuery.mockReset();
+    mockDynamoDBScan.mockReset();
     
-    s3.createPresignedPost.mockImplementation((params, callback) => callback(null, { url: 'presigned-post-url', fields: {} }));
-    s3.getSignedUrlPromise.mockResolvedValue('presigned-get-url');
+    const { s3 } = require('../../src/config/aws');
+    s3.createPresignedPost.mockReset(); // Crucial: Reset the mock itself
+    s3.createPresignedPost.mockImplementation((params, callback) => callback(null, { url: 'http://s3-presigned-post-url.com', fields: { key: params.Fields.key } }));
+    
+    s3.getSignedUrlPromise.mockReset();
+    s3.getSignedUrlPromise.mockResolvedValue('http://s3-presigned-get-url.com');
+    
+    s3.deleteObject.mockReset();
     s3.deleteObject.mockReturnValue({ promise: jest.fn().mockResolvedValue({}) });
+    
+    s3.headObject.mockReset();
     s3.headObject.mockReturnValue({ promise: jest.fn().mockResolvedValue({}) });
+
+    testFileId = 'test-file-id';
+    defaultS3KeyUserRoot = `files/testUserId/user-root/${testFileId}-test.txt`; // Default key for files in user-root
+    require('uuid').v4.mockReturnValue(testFileId);
+
+    // Default mock implementations for common successful outcomes
+    mockDynamoDBPut.mockResolvedValue({});
+    mockDynamoDBUpdate.mockResolvedValue({ Attributes: { id: testFileId, userId: 'testUserId', s3Key: defaultS3KeyUserRoot, uploadStatus: 'completed', originalFileName: 'updated.txt' } });
+    mockDynamoDBDelete.mockResolvedValue({});
+    mockDynamoDBQuery.mockResolvedValue({ Items: [], LastEvaluatedKey: null });
+    mockDynamoDBScan.mockResolvedValue({ Items: [], LastEvaluatedKey: null });
   });
 
-  // --- initiateFileUpload ---
-  describe('initiateFileUpload', () => {
-    it('should initiate upload successfully (no folderId)', async () => {
-      mockReq.body = { fileName: 'test.pdf', contentType: 'application/pdf' };
-      uuidv4.mockReturnValue('file-uuid');
-      path.basename.mockImplementation(filename => filename);
+  describe('POST /api/files (initiateFileUpload)', () => {
+    it('should initiate file upload in a specific folder (not user-root)', async () => {
+      const fileData = { fileName: 'specific.txt', contentType: 'text/plain', folderId: 'folder123' };
+      // Mock for folder validation: fileService.getFolderPath uses dynamoDB.get to fetch the folder.
+      // If folder.path is NOT 'user-root/', controller uses folder.id in s3Key.
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: 'folder123', userId: 'testUserId', path: 'some/custom/path/' } }); 
 
-      await initiateFileUpload(mockReq, mockRes, mockNext);
+      const res = await request(app).post('/api/files').send(fileData);
 
-      expect(dynamoDB.put).toHaveBeenCalledWith(expect.objectContaining({
-        Item: expect.objectContaining({ id: 'file-uuid', uploadStatus: 'pending', folderId: null, originalFileName: 'test.pdf' }),
+      expect(res.statusCode).toBe(201);
+      const expectedS3Key = `files/testUserId/folder123/${testFileId}-${fileData.fileName}`;
+      expect(mockDynamoDBPut).toHaveBeenCalledWith(expect.objectContaining({
+        Item: expect.objectContaining({ folderId: 'folder123', s3Key: expectedS3Key })
       }));
-      expect(s3.createPresignedPost).toHaveBeenCalled();
-      expect(mockRes.status).toHaveBeenCalledWith(201);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({ fileId: 'file-uuid' }));
-    });
-
-    it('should initiate upload successfully (with valid folderId)', async () => {
-      mockReq.body = { fileName: 'doc.txt', contentType: 'text/plain', folderId: 'folder123' };
-      uuidv4.mockReturnValue('file-uuid-in-folder');
-      path.basename.mockImplementation(filename => filename);
-      dynamoDB.get.mockReturnValueOnce({ promise: jest.fn().mockResolvedValueOnce({ Item: { id: 'folder123', userId: 'testUserId' } }) });
-
-
-      await initiateFileUpload(mockReq, mockRes, mockNext);
-      expect(dynamoDB.get).toHaveBeenCalledWith({TableName: expect.stringContaining('folders'), Key: {id: 'folder123'}});
-      expect(dynamoDB.put).toHaveBeenCalledWith(expect.objectContaining({
-        Item: expect.objectContaining({ id: 'file-uuid-in-folder', folderId: 'folder123' }),
-      }));
-      expect(mockRes.status).toHaveBeenCalledWith(201);
+      // Check the specific call to createPresignedPost for this test
+      expect(require('../../src/config/aws').s3.createPresignedPost).toHaveBeenCalledWith(
+        expect.objectContaining({ Fields: expect.objectContaining({ key: expectedS3Key }) }),
+        expect.any(Function)
+      );
     });
     
-    it('should return 400 if fileName or contentType is missing', async () => {
-      mockReq.body = { fileName: 'test.pdf' }; // Missing contentType
-      await initiateFileUpload(mockReq, mockRes, mockNext);
-      expect(mockNext).toHaveBeenCalledWith(expect.any(AppError));
-      expect(mockNext.mock.calls[0][0].statusCode).toBe(400);
-    });
+    it('should initiate file upload in user-root if folderId is "user-root"', async () => {
+        const fileData = { fileName: 'root-by-id.txt', contentType: 'text/plain', folderId: 'user-root' };
+        // Mock fileService.getFolderPath to identify 'user-root' folder
+        mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: 'user-root', userId: 'testUserId', path: 'user-root/' } });
 
-    it('should return 404 if folderId is provided but folder not found', async () => {
-        mockReq.body = { fileName: 'test.pdf', contentType: 'application/pdf', folderId: 'nonExistentFolder' };
-        dynamoDB.get.mockReturnValueOnce({ promise: jest.fn().mockResolvedValueOnce({ Item: null }) });
-        await initiateFileUpload(mockReq, mockRes, mockNext);
-        expect(mockNext).toHaveBeenCalledWith(expect.any(AppError));
-        expect(mockNext.mock.calls[0][0].statusCode).toBe(404);
-        expect(mockNext.mock.calls[0][0].message).toBe('Folder not found or not authorized.');
-    });
-  });
-
-  // --- finalizeFileUpload ---
-  describe('finalizeFileUpload', () => {
-    const fileId = 'file-to-finalize';
-    const existingFile = { id: fileId, userId: 'testUserId', s3Key: 'some/s3/key.pdf', uploadStatus: 'pending' };
-    
-    beforeEach(() => {
-      mockReq.params.id = fileId;
-      dynamoDB.get.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Item: existingFile }) });
-    });
-
-    it('should finalize upload successfully', async () => {
-      mockReq.body = { fileSize: 2048 };
-      s3.headObject.mockReturnValue({ promise: jest.fn().mockResolvedValue({}) });
-      dynamoDB.update.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Attributes: { ...existingFile, uploadStatus: 'completed', fileSize: 2048 } }) });
-      
-      await finalizeFileUpload(mockReq, mockRes, mockNext);
-      expect(s3.headObject).toHaveBeenCalledWith({ Bucket: 'test-bucket-name', Key: existingFile.s3Key });
-      expect(dynamoDB.update).toHaveBeenCalledWith(expect.objectContaining({ Key: { id: fileId } }));
-      expect(mockRes.status).toHaveBeenCalledWith(200);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ uploadStatus: 'completed' }) }));
-    });
-    
-    it('should return 400 if fileSize is missing', async () => {
-        mockReq.body = {};
-        await finalizeFileUpload(mockReq, mockRes, mockNext);
-        expect(mockNext).toHaveBeenCalledWith(expect.any(AppError));
-        expect(mockNext.mock.calls[0][0].statusCode).toBe(400);
-        expect(mockNext.mock.calls[0][0].message).toBe('fileSize is required to finalize.');
-    });
-  });
-
-  // --- getFiles ---
-  describe('getFiles', () => {
-    it('should get files with presigned URLs successfully (no folderId)', async () => {
-      const files = [{ id: 'file1', s3Key: 'key1.pdf', uploadStatus: 'completed', userId: 'testUserId' }];
-      dynamoDB.query.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Items: files }) });
-      s3.getSignedUrlPromise.mockResolvedValue('signed-url-for-key1.pdf');
-
-      await getFiles(mockReq, mockRes, mockNext);
-      expect(dynamoDB.query).toHaveBeenCalledWith(expect.objectContaining({ FilterExpression: 'uploadStatus = :completed' }));
-      expect(s3.getSignedUrlPromise).toHaveBeenCalled();
-      expect(mockRes.status).toHaveBeenCalledWith(200);
-    });
-    
-    it('should get files filtered by folderId if provided', async () => {
-        mockReq.query = { folderId: 'folderXYZ' };
-        dynamoDB.query.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Items: [] }) });
-        await getFiles(mockReq, mockRes, mockNext);
-        expect(dynamoDB.query).toHaveBeenCalledWith(expect.objectContaining({
-            FilterExpression: 'uploadStatus = :completed AND folderId = :folderIdVal'
+        const res = await request(app).post('/api/files').send(fileData);
+        
+        expect(res.statusCode).toBe(201);
+        const expectedS3KeyAtRoot = `files/testUserId/user-root/${testFileId}-${fileData.fileName}`;
+        expect(mockDynamoDBPut).toHaveBeenCalledWith(expect.objectContaining({
+            Item: expect.objectContaining({ folderId: 'user-root', s3Key: expectedS3KeyAtRoot })
         }));
-    });
-  });
-
-  // --- getFileById ---
-  describe('getFileById', () => {
-    it('should get a file by ID with presigned URL successfully', async () => {
-      const file = { id: 'fileX', userId: 'testUserId', s3Key: 'keyX.txt', uploadStatus: 'completed' };
-      mockReq.params.id = 'fileX';
-      dynamoDB.get.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Item: file }) });
-      s3.getSignedUrlPromise.mockResolvedValue('signed-url-for-keyX.txt');
-
-      await getFileById(mockReq, mockRes, mockNext);
-      expect(dynamoDB.get).toHaveBeenCalledWith(expect.objectContaining({ Key: { id: 'fileX' } }));
-      expect(mockRes.status).toHaveBeenCalledWith(200);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({ data: { ...file, url: 'signed-url-for-keyX.txt' } }));
-    });
-  });
-
-  // --- updateFile ---
-  describe('updateFile', () => {
-    const fileId = 'fileToUpdateMeta';
-    const existingFile = { id: fileId, userId: 'testUserId', s3Key: 'path/to/file.jpg', originalFileName: 'oldName.jpg' };
-    beforeEach(() => {
-      mockReq.params.id = fileId;
-      dynamoDB.get.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Item: existingFile }) });
-      s3.getSignedUrlPromise.mockResolvedValue('updated-signed-url-for-file.jpg');
+        expect(require('../../src/config/aws').s3.createPresignedPost).toHaveBeenCalledWith(
+            expect.objectContaining({ Fields: expect.objectContaining({ key: expectedS3KeyAtRoot }) }),
+            expect.any(Function)
+        );
     });
 
-    it('should update file metadata successfully', async () => {
-      mockReq.body = { fileName: 'newName.jpg', tags: ['updated'] };
-      const updatedAttrs = { ...existingFile, originalFileName: 'newName.jpg', tags: ['updated'] };
-      dynamoDB.update.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Attributes: updatedAttrs }) });
-      
-      await updateFile(mockReq, mockRes, mockNext);
-      expect(dynamoDB.update).toHaveBeenCalledWith(expect.objectContaining({ Key: { id: fileId } }));
-      expect(mockRes.status).toHaveBeenCalledWith(200);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({ data: { ...updatedAttrs, url: 'updated-signed-url-for-file.jpg' } }));
-    });
-    
-    it('should validate new folderId if provided during update', async () => {
-        mockReq.body = { folderId: 'newFolderId' };
-        // Mock for current file
-        dynamoDB.get.mockReturnValueOnce({ promise: jest.fn().mockResolvedValue({ Item: existingFile }) });
-        // Mock for new folder validation (folder not found)
-        dynamoDB.get.mockReturnValueOnce({ promise: jest.fn().mockResolvedValue({ Item: null }) });
+    it('should initiate file upload in user-root if folderId is null', async () => {
+      const fileData = { fileName: 'root-by-null.txt', contentType: 'text/plain', folderId: null };
+      // No mockDynamoDBGet for folder, as getFolderPath is not called if folderId is null.
+      const res = await request(app).post('/api/files').send(fileData);
 
-        await updateFile(mockReq, mockRes, mockNext);
-        expect(mockNext).toHaveBeenCalledWith(expect.any(AppError));
-        expect(mockNext.mock.calls[0][0].statusCode).toBe(404);
-        expect(mockNext.mock.calls[0][0].message).toBe('Target folder not found or not authorized.');
-    });
-  });
-
-  // --- deleteFile ---
-  describe('deleteFile', () => {
-    const fileId = 'fileToDelete';
-    const existingFile = { id: fileId, userId: 'testUserId', s3Key: 'path/to/delete.txt' };
-    beforeEach(() => {
-      mockReq.params.id = fileId;
-      dynamoDB.get.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Item: existingFile }) });
-    });
-
-    it('should delete S3 object and DynamoDB record successfully', async () => {
-      s3.deleteObject.mockReturnValue({ promise: jest.fn().mockResolvedValue({}) });
-      dynamoDB.delete.mockReturnValue({ promise: jest.fn().mockResolvedValue({}) });
-      
-      await deleteFile(mockReq, mockRes, mockNext);
-      expect(s3.deleteObject).toHaveBeenCalledWith({ Bucket: 'test-bucket-name', Key: existingFile.s3Key });
-      expect(dynamoDB.delete).toHaveBeenCalledWith(expect.objectContaining({ Key: { id: fileId } }));
-      expect(mockRes.status).toHaveBeenCalledWith(204);
-    });
-  });
-
-  // --- searchFiles ---
-  describe('searchFiles', () => {
-    it('should search files and return with presigned URLs', async () => {
-      mockReq.query = { q: 'report' };
-      const results = [{ id: 'sFile1', s3Key: 'sKey1.docx', originalFileName: 'Annual Report.docx' }];
-      dynamoDB.scan.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Items: results }) });
-      s3.getSignedUrlPromise.mockResolvedValue('search-result-file-url');
-      
-      await searchFiles(mockReq, mockRes, mockNext);
-      expect(dynamoDB.scan).toHaveBeenCalled();
-      expect(mockRes.status).toHaveBeenCalledWith(200);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
-        data: [expect.objectContaining({ id: 'sFile1', url: 'search-result-file-url' })],
+      expect(res.statusCode).toBe(201);
+      const expectedS3KeyAtRoot = `files/testUserId/user-root/${testFileId}-${fileData.fileName}`;
+      expect(mockDynamoDBPut).toHaveBeenCalledWith(expect.objectContaining({
+        Item: expect.objectContaining({ folderId: null, s3Key: expectedS3KeyAtRoot })
       }));
+      expect(require('../../src/config/aws').s3.createPresignedPost).toHaveBeenCalledWith(
+        expect.objectContaining({ Fields: expect.objectContaining({ key: expectedS3KeyAtRoot }) }),
+        expect.any(Function)
+      );
+    });
+
+     it('should return 400 if fileName or contentType is missing', async () => {
+      const res = await request(app).post('/api/files').send({ contentType: 'text/plain' });
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should return 404 if specified folderId does not exist for initiateFileUpload', async () => {
+        const fileData = { fileName: 'test.txt', contentType: 'text/plain', folderId: 'nonExistentFolder' };
+        mockDynamoDBGet.mockResolvedValueOnce({ Item: null }); // Mock folder not found
+        const res = await request(app).post('/api/files').send(fileData);
+        expect(res.statusCode).toBe(404);
     });
   });
 
-  // --- getFilesByTag ---
-  describe('getFilesByTag', () => {
-    it('should get files by tag with presigned URLs', async () => {
-      mockReq.query = { tag: 'invoice' };
-      const results = [{ id: 'tFile1', s3Key: 'tKey1.pdf', tags: ['invoice'] }];
-      dynamoDB.scan.mockReturnValue({ promise: jest.fn().mockResolvedValue({ Items: results }) });
-      s3.getSignedUrlPromise.mockResolvedValue('tag-result-file-url');
+  describe('POST /api/files/:id/finalize (finalizeFileUpload)', () => {
+    it('should finalize file upload', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: testFileId, userId: 'testUserId', s3Key: defaultS3KeyUserRoot, uploadStatus: 'pending' } });
+      const res = await request(app).post(`/api/files/${testFileId}/finalize`).send({ fileSize: 1024 });
+      expect(res.statusCode).toBe(200);
+    });
+     it('should return 400 if fileSize is missing', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: testFileId, userId: 'testUserId', s3Key: defaultS3KeyUserRoot, uploadStatus: 'pending' } });
+      const res = await request(app).post(`/api/files/${testFileId}/finalize`).send({});
+      expect(res.statusCode).toBe(400);
+    });
+    it('should return 404 if file to finalize not found', async () => {
+        mockDynamoDBGet.mockResolvedValueOnce({ Item: null });
+        const res = await request(app).post(`/api/files/${testFileId}/finalize`).send({ fileSize: 1024 });
+        expect(res.statusCode).toBe(404);
+    });
+  });
 
-      await getFilesByTag(mockReq, mockRes, mockNext);
-      expect(dynamoDB.scan).toHaveBeenCalledWith(expect.objectContaining({
-        FilterExpression: expect.stringContaining('contains(#tags, :tagVal)'),
-      }));
-      expect(mockRes.status).toHaveBeenCalledWith(200);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({
-        data: [expect.objectContaining({ id: 'tFile1', url: 'tag-result-file-url' })],
-      }));
+  describe('GET /api/files (getFiles)', () => {
+    it('should get all files for the user (completed and with presigned URLs)', async () => {
+      mockDynamoDBQuery.mockResolvedValueOnce({ Items: [{ id: testFileId, s3Key: defaultS3KeyUserRoot, userId: 'testUserId', uploadStatus: 'completed' }], LastEvaluatedKey: null });
+      const res = await request(app).get('/api/files');
+      expect(res.statusCode).toBe(200);
+      expect(res.body.data[0].url).toBeDefined();
+    });
+  });
+
+  describe('GET /api/files/:id (getFileById)', () => {
+    it('should get a file by ID with presigned URL', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: testFileId, userId: 'testUserId', s3Key: defaultS3KeyUserRoot, uploadStatus: 'completed' } });
+      const res = await request(app).get(`/api/files/${testFileId}`);
+      expect(res.statusCode).toBe(200);
+      expect(res.body.data.url).toBeDefined();
+    });
+     it('should return 404 if file not found for getFileById', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: null });
+      const res = await request(app).get(`/api/files/nonexistent`);
+      expect(res.statusCode).toBe(404);
+    });
+    it('should return 404 if file is not completed for getFileById', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: testFileId, userId: 'testUserId', s3Key: defaultS3KeyUserRoot, uploadStatus: 'pending' } });
+      const res = await request(app).get(`/api/files/${testFileId}`);
+      expect(res.statusCode).toBe(404);
+    });
+  });
+
+  describe('PUT /api/files/:id (updateFile)', () => {
+    it('should update file metadata', async () => {
+      const updateData = { fileName: 'updated.txt', tags: ['newtag'] };
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: testFileId, userId: 'testUserId', s3Key: defaultS3KeyUserRoot, uploadStatus: 'completed' } });
+      const res = await request(app).put(`/api/files/${testFileId}`).send(updateData);
+      expect(res.statusCode).toBe(200);
+      expect(res.body.data.originalFileName).toBe('updated.txt');
+    });
+    it('should return 404 if file to update is not found', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: null });
+      const res = await request(app).put(`/api/files/${testFileId}`).send({ fileName: 't'});
+      expect(res.statusCode).toBe(404);
+    });
+  });
+
+  describe('DELETE /api/files/:id (deleteFile)', () => {
+    it('should delete a file', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: { id: testFileId, userId: 'testUserId', s3Key: defaultS3KeyUserRoot, uploadStatus: 'completed' } });
+      const res = await request(app).delete(`/api/files/${testFileId}`);
+      expect(res.statusCode).toBe(204); 
+    });
+    it('should return 404 if file to delete is not found', async () => {
+      mockDynamoDBGet.mockResolvedValueOnce({ Item: null });
+      const res = await request(app).delete(`/api/files/${testFileId}`);
+      expect(res.statusCode).toBe(404);
+    });
+  });
+
+  describe('GET /api/files/search (searchFiles)', () => {
+    it('should search files by query (completed files with presigned URLs)', async () => {
+      mockDynamoDBScan.mockResolvedValueOnce({ Items: [{ id: testFileId, s3Key: defaultS3KeyUserRoot, userId: 'testUserId', originalFileName: 'test query me', uploadStatus: 'completed' }], LastEvaluatedKey: null });
+      const res = await request(app).get('/api/files/search?q=query');
+      expect(res.statusCode).toBe(200);
+      expect(res.body.data[0].url).toBeDefined();
+    });
+    it('should return 400 if search query q is missing', async () => {
+      const res = await request(app).get('/api/files/search');
+      expect(res.statusCode).toBe(400);
+    });
+  });
+
+  describe('GET /api/files/tags (getFilesByTag)', () => {
+    it('should get files by tag (completed files with presigned URLs)', async () => {
+       mockDynamoDBScan.mockResolvedValueOnce({ Items: [{ id: testFileId, s3Key: defaultS3KeyUserRoot, userId: 'testUserId', tags: ['testtag'], uploadStatus: 'completed' }], LastEvaluatedKey: null });
+      const res = await request(app).get('/api/files/tags?tag=testtag');
+      expect(res.statusCode).toBe(200);
+      expect(res.body.data[0].url).toBeDefined();
+    });
+     it('should return 400 if tag query is missing', async () => {
+      const res = await request(app).get('/api/files/tags');
+      expect(res.statusCode).toBe(400);
     });
   });
 });

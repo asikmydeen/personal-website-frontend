@@ -1,59 +1,28 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
+const {
+  createFolder,
+  getFolders,
+  getFolderById,
+  updateFolder,
+  deleteFolder,
+  getFilesInFolder,
+} = require('../controllers/folderController');
 
 const router = express.Router();
 
 // All routes are protected
 router.use(protect);
 
-// Placeholder for folder routes
-// These will be implemented with actual controllers later
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Folder routes not yet implemented',
-    data: []
-  });
-});
+router.route('/')
+  .get(getFolders)
+  .post(createFolder);
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Folder routes not yet implemented',
-    data: {}
-  });
-});
+router.route('/:id')
+  .get(getFolderById)
+  .put(updateFolder)
+  .delete(deleteFolder);
 
-router.post('/', (req, res) => {
-  res.status(201).json({
-    success: true,
-    message: 'Folder routes not yet implemented',
-    data: {}
-  });
-});
-
-router.put('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Folder routes not yet implemented',
-    data: {}
-  });
-});
-
-router.delete('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Folder routes not yet implemented',
-    data: {}
-  });
-});
-
-router.get('/:id/files', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Folder files not yet implemented',
-    data: []
-  });
-});
+router.get('/:id/files', getFilesInFolder); // Get files within a folder
 
 module.exports = router;

@@ -1,51 +1,28 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
 
+const {
+  getNotifications,
+  getNotificationById,
+  markNotificationAsRead,
+  deleteNotification,
+  getUnreadNotifications,
+} = require('../controllers/notificationController');
+
 const router = express.Router();
 
 // All routes are protected
 router.use(protect);
 
-// Placeholder for notification routes
-// These will be implemented with actual controllers later
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Notification routes not yet implemented',
-    data: []
-  });
-});
+router.route('/')
+  .get(getNotifications);
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Notification routes not yet implemented',
-    data: {}
-  });
-});
+router.route('/unread')
+  .get(getUnreadNotifications);
 
-router.put('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Notification routes not yet implemented',
-    data: {}
-  });
-});
-
-router.delete('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Notification routes not yet implemented',
-    data: {}
-  });
-});
-
-router.get('/unread', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Unread notifications not yet implemented',
-    data: []
-  });
-});
+router.route('/:id')
+  .get(getNotificationById)
+  .put(markNotificationAsRead)
+  .delete(deleteNotification);
 
 module.exports = router;

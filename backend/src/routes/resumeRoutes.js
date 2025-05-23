@@ -1,51 +1,26 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
 
+const {
+  getResumes,
+  getResumeById,
+  createResume,
+  updateResume,
+  deleteResume,
+} = require('../controllers/resumeController');
+
 const router = express.Router();
 
 // All routes are protected
 router.use(protect);
 
-// Placeholder for resume routes
-// These will be implemented with actual controllers later
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Resume routes not yet implemented',
-    data: []
-  });
-});
+router.route('/')
+  .get(getResumes)
+  .post(createResume);
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Resume routes not yet implemented',
-    data: {}
-  });
-});
-
-router.post('/', (req, res) => {
-  res.status(201).json({
-    success: true,
-    message: 'Resume routes not yet implemented',
-    data: {}
-  });
-});
-
-router.put('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Resume routes not yet implemented',
-    data: {}
-  });
-});
-
-router.delete('/:id', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Resume routes not yet implemented',
-    data: {}
-  });
-});
+router.route('/:id')
+  .get(getResumeById)
+  .put(updateResume)
+  .delete(deleteResume);
 
 module.exports = router;
